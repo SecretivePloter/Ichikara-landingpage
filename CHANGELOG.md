@@ -8,6 +8,12 @@ Log perubahan project. Format entri: **tanggal — ringkasan perubahan — file/
 
 ---
 
+## 2026-09-07 — Mini story "Kisah Sukses Terbaru" di beranda kini murni admin-controlled
+- **Masalah:** `#kisah-sukses` di `beranda.html` punya 3 kartu cerita HARDCODED di HTML statis (judul/foto fiktif — `images/story-otomotif.jpg`, `story-negosiasi.jpg`, `story-aichi.jpg` — yang tidak pernah ada di folder `images/`, jadi tampil sebagai gambar patah). Kartu ini tidak terhubung ke sistem admin sama sekali, jadi tetap muncul terus walau admin belum mengatur apa-apa.
+- **Fix:** 3 kartu statis dihapus dari `beranda.html`; `<section id="kisah-sukses">` sekarang mulai dengan class `hidden` dan HANYA dimunculkan oleh `applyStories()` kalau memang ada cerita untuk ditampilkan (dari `featuredIds` admin, atau fallback 3 cerita terbaru). Kalau admin belum punya cerita sama sekali, section otomatis tetap tersembunyi — tidak lagi menampilkan apa pun.
+- Slot upload usang `story-otomotif.jpg` / `story-negosiasi.jpg` / `story-aichi.jpg` dihapus dari manifest `admin/index.html` (tidak relevan lagi — foto+teks+pemilihan cerita sekarang 100% lewat tab Cerita di admin, sudah mendukung upload foto, rich-text excerpt, dan toggle "featured" per cerita).
+- Terdampak: `beranda.html`, `admin/index.html`.
+
 ## 2026-09-07 — Sederhanakan menu, logo klien jadi marquee 2 baris, banner foto untuk sub-halaman penerjemah
 - **Menu Layanan disederhanakan:** dropdown desktop & mobile di `js/header-loader.js` sebelumnya berisi 5 link penerjemahan (Jasa Penerjemah, Dokumen, E-Learning, Video, Website) — kini hanya "Jasa Penerjemah" (4 sub-halaman tetap bisa diakses lewat kartu di `jasa-penerjemah.html`, tidak dihapus).
 - **Logo klien di beranda** (`#klien` di `beranda.html`): dari strip statis 56px jadi marquee 2 baris (baris atas geser kiri, baris bawah geser kanan, auto-loop, pause saat hover, edge-fade mask). Ukuran logo naik ke `h-20` (80px). CSS baru: bagian "11. Client logo marquee" di `css/style.css`. Fungsi `applyClients()` di `beranda.html` ditulis ulang agar tetap generate markup marquee dari jumlah slot admin (Supabase), bukan cuma strip datar.
