@@ -8,6 +8,13 @@ Log perubahan project. Format entri: **tanggal — ringkasan perubahan — file/
 
 ---
 
+## 2026-09-07 — Konten Kursus Bahasa Jepang diganti data asli dari brosur
+- **Sebelumnya:** `kursus-bahasa.html` isinya 100% fiktif — kartu "Program JLPT" generik, 3 kartu "Jenis Kelas" tanpa harga, dan tabel jadwal reguler karangan (hari/jam/status "Tersedia"/"Hampir Penuh" tidak nyata).
+- **Diganti dengan data brosur asli:** deskripsi "Program Bimbel" + 4 poin "Kelebihan Metode Bimbel"; tabel "Level of Learning" (Level 1–12 → Bab); "Courses Fee" (Registration/Guidebook/Deposit + tabel biaya per level JLPT N5–N3); tabel "Kelas Kecil" (Private/Semi Private/Grup Kecil + biaya buku); tabel "Kelas Reguler" 6–7 orang (Reguler 1–4, Minna no Nihongo 1); dua tabel "Kelas Perusahaan" 8–10 orang (jalur Reguler s.d N5 termasuk Paket Kelas N5 hemat + biaya transportasi per area, dan jalur Intensif Beginner1/Beginner2/Intermediate dengan rincian kosakata/kanji/jam belajar); section baru "Pencapaian Kursus Bahasa" (14 program in-house/expatriat nyata untuk Toyota, Showa, OMRON, Kyoraku, Sumco, Sugity, YKK Zipco, DMC Technology, Trimitra Indrahasta, Gonze, Aisan Nasmoco, Shiroki).
+- Section "Alur Pembelajaran" (7 tahap) dan "Tim Pengajar" (5 foto) TIDAK diubah — brosur tidak memuat data ini, jadi dibiarkan seperti semula (di luar scope permintaan).
+- Meta description & subjudul hero disesuaikan agar mencerminkan penawaran nyata (privat/semi privat/grup/reguler/perusahaan, N5–N3) alih-alih klaim generik "N5 hingga N1".
+- Terdampak: `kursus-bahasa.html`.
+
 ## 2026-09-07 — Mini story "Kisah Sukses Terbaru" di beranda kini murni admin-controlled
 - **Masalah:** `#kisah-sukses` di `beranda.html` punya 3 kartu cerita HARDCODED di HTML statis (judul/foto fiktif — `images/story-otomotif.jpg`, `story-negosiasi.jpg`, `story-aichi.jpg` — yang tidak pernah ada di folder `images/`, jadi tampil sebagai gambar patah). Kartu ini tidak terhubung ke sistem admin sama sekali, jadi tetap muncul terus walau admin belum mengatur apa-apa.
 - **Fix:** 3 kartu statis dihapus dari `beranda.html`; `<section id="kisah-sukses">` sekarang mulai dengan class `hidden` dan HANYA dimunculkan oleh `applyStories()` kalau memang ada cerita untuk ditampilkan (dari `featuredIds` admin, atau fallback 3 cerita terbaru). Kalau admin belum punya cerita sama sekali, section otomatis tetap tersembunyi — tidak lagi menampilkan apa pun.
