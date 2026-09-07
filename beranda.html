@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PT. Ichikara | Solusi Bahasa Jepang Terpercaya</title>
+  <meta name="description" content="Solusi terpercaya untuk layanan penerjemahan, interpretasi, dan edukasi bahasa Jepang di Indonesia.">
+
+  <!-- Fonts (loaded once — Material Symbols + Inter + Noto Serif JP) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Serif+JP:wght@600;700;900&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CDN — config loaded from js/tailwind-config.js -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script src="js/tailwind-config.js"></script>
+  <!-- Konten dinamis: Supabase + loader bersama (lihat js/site-data.js) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="js/site-data.js"></script>
+
+  <!-- Site-wide custom styles -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="bg-background text-on-background font-inter" data-site-root="">
+
+  <!-- ===== HEADER — injected by header-loader.js ===== -->
+  <div id="site-header"></div>
+
+  <main>
+
+    <!-- =========================================================
+         HERO SECTION
+         Full-bleed background image, dark gradient overlay, centered
+         text, large kanji 語 watermark behind. Header sits transparent
+         over the top of this section.
+         Image: images/hero-beranda.jpg
+         ========================================================= -->
+    <section class="relative min-h-screen flex items-center justify-center overflow-hidden bg-primary" aria-label="Hero">
+
+      <!-- Full-bleed background image -->
+      <img src="images/hero-beranda.jpg"
+           alt=""
+           aria-hidden="true"
+           class="absolute inset-0 w-full h-full object-cover">
+
+      <!-- Dark gradient overlay (top → bottom) -->
+      <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/85"></div>
+
+      <!-- Decorative kanji watermark -->
+      <div class="absolute inset-0 flex items-center justify-center" aria-hidden="true">
+        <span class="japanese-watermark text-white text-[30rem] lg:text-[42rem]">語</span>
+      </div>
+
+      <!-- Centered content -->
+      <div class="relative z-10 max-w-3xl mx-auto px-6 text-center text-white">
+        <p class="label-kicker text-white/70 mb-6">日本語サービス &middot; Indonesia</p>
+        <h1 class="font-noto font-bold text-5xl lg:text-7xl leading-[1.1] mb-8">PT. Ichikara</h1>
+        <p class="text-lg lg:text-xl text-white/80 leading-relaxed max-w-2xl mx-auto mb-10">
+          Solusi terpercaya untuk layanan penerjemahan, interpretasi, dan edukasi bahasa Jepang. Menjembatani peluang profesional antara Indonesia dan Jepang dengan presisi linguistik.
+        </p>
+        <div class="flex flex-wrap gap-4 justify-center">
+          <a href="#layanan" class="bg-secondary text-white px-8 py-4 rounded-full font-bold hover:bg-red-hover transition-all flex items-center gap-2">
+            Mulai Sekarang
+            <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
+          </a>
+          <a href="tentang-kami.html" class="bg-transparent border border-white/40 text-white px-8 py-4 rounded-full font-bold hover:bg-white/10 transition-all">
+            Pelajari Lebih Lanjut
+          </a>
+        </div>
+      </div>
+
+      <!-- Scroll cue -->
+      <a href="#klien" class="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/50 hover:text-white transition-colors animate-bounce" aria-label="Gulir ke bawah">
+        <span class="material-symbols-outlined text-3xl" aria-hidden="true">expand_more</span>
+      </a>
+    </section>
+
+    <!-- =========================================================
+         CLIENT STRIP — 2-row auto-scrolling marquee (row 1 → left,
+         row 2 → right, pauses on hover). Jumlah logo diatur dari
+         admin panel (lihat applyClients() di bawah); markup di sini
+         adalah tampilan bawaan untuk 8 logo.
+         ========================================================= -->
+    <section id="klien" class="bg-white py-xl overflow-hidden" aria-label="Klien kami">
+      <div class="container mx-auto max-w-[1200px] px-6 fade-in">
+        <p class="text-center text-outline label-kicker mb-12">Klien yang Mempercayai Kami</p>
+      </div>
+
+      <div id="client-strip" class="marquee-wrap">
+        <div class="marquee-row marquee-row--left">
+          <div class="marquee-track">
+            <div class="flex items-center justify-center"><img class="h-20 w-auto object-contain opacity-60 hover:opacity-100 transition-opacity" src="images/clients/client-1.png" alt="Klien 1" loading="lazy"></div>
+            <div class="flex items-center justify-center"><img class="h-20 w-auto object-contain opacity-60 hover:opacity-100 transition-opacity" src="images/clients/client-3.png" alt="Klien 3" loading="lazy"></div>
+            <div class="flex items-center justify-center"><img class="h-20 w-auto object-contain opacity-60 hover:opacity-100 transition-opacity" src="images/clients/client-5.png" alt="Klien 5" loading="lazy"></div>
+            <div class="flex items-center justify-center"><img class="h-20 w-auto object-contain opacity-60 hover:opacity-100 transition-opacity" src="images/clients/client-7.png" alt="Klien 7" loading="lazy"></div>
+          </div>
+          <div class="marquee-track" aria-hidden="true">
+            <div class="flex items-center justify-center"><img class="h-20 w-auto object-contain opacity-60 hover:opacity-100 transition-opacity" src="images/clients/client-1.png" alt="" loading="lazy"></div>
+            <div class="flex items-center justify-center"><img class="h-20 w-auto object-contain opacity-60 hover:opacity-100 transition-opacity" src="images/clients/client-3.png" alt="" loading="lazy"></div>
+            <div class="flex items-center justify-center"><img class="h-20 w-auto object-contain opacity-60 hover:opacity-100 transition-opacity" src="images/clients/client-5.png" alt="" loading="lazy"></div>
+            <div class="flex items-center justify-center"><img class="h-20 w-auto object-contain opacity-60 hover:opacity-100 transition-opacity" src="images/clients/client-7.png" alt="" loading="lazy"></div>
+          </div>
+        </div>
+        <div class="marquee-row marquee-row--right">
+          <div class="marquee-track">
+            <div class="flex items-center justify-center"><img class="h-20 w-auto object-contain opacity-60 hover:opacity-100 transition-opacity" src="images/clients/client-2.png" alt="Klien 2" loading="lazy"></div>
+            <div class="flex items-center justify-center"><img class="h-20 w-auto object-contain opacity-60 hover:opacity-100 transition-opacity" src="images/clients/client-4.png" alt="Klien 4" loading="lazy"></div>
+            <div class="flex items-center justify-center"><img class="h-20 w-auto object-contain opacity-60 hover:opacity-100 transition-opacity" src="images/clients/client-6.png" alt="Klien 6" loading="lazy"></div>
+            <div class="flex items-center justify-center"><img class="h-20 w-auto object-contain opacity-60 hover:opacity-100 transition-opacity" src="images/clients/client-8.png" alt="Klien 8" loading="lazy"></div>
+          </div>
+          <div class="marquee-track" aria-hidden="true">
+            <div class="flex items-center justify-center"><img class="h-20 w-auto object-contain opacity-60 hover:opacity-100 transition-opacity" src="images/clients/client-2.png" alt="" loading="lazy"></div>
+            <div class="flex items-center justify-center"><img class="h-20 w-auto object-contain opacity-60 hover:opacity-100 transition-opacity" src="images/clients/client-4.png" alt="" loading="lazy"></div>
+            <div class="flex items-center justify-center"><img class="h-20 w-auto object-contain opacity-60 hover:opacity-100 transition-opacity" src="images/clients/client-6.png" alt="" loading="lazy"></div>
+            <div class="flex items-center justify-center"><img class="h-20 w-auto object-contain opacity-60 hover:opacity-100 transition-opacity" src="images/clients/client-8.png" alt="" loading="lazy"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Thin section divider -->
+    <div class="container mx-auto max-w-[1200px] px-6"><hr class="ma-divider"></div>
+
+    <!-- =========================================================
+         LAYANAN SECTION
+         Compact 2x2 grid of service cards with smooth hover
+         (scale + border color change).
+         Images: images/layanan-*.jpg
+         ========================================================= -->
+    <section class="py-xxl bg-background" id="layanan" aria-labelledby="layanan-heading">
+      <div class="container mx-auto max-w-[1200px] px-6">
+
+        <div class="text-center max-w-2xl mx-auto mb-16 fade-in">
+          <p class="label-kicker text-secondary mb-4">Layanan Kami</p>
+          <h2 id="layanan-heading" class="text-primary text-4xl lg:text-5xl font-noto font-bold mb-5">Layanan Unggulan Kami</h2>
+          <p class="text-on-surface-variant leading-relaxed text-lg">Pilih layanan yang sesuai dengan kebutuhan profesional atau akademik Anda. Kami menjamin akurasi dan kualitas standar industri Jepang.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+          <!-- Service 1: Jasa Penerjemahan -->
+          <a href="jasa-penerjemah.html" class="service-card group bg-white rounded-2xl border border-border-light overflow-hidden flex flex-col fade-in">
+            <div class="h-60 overflow-hidden">
+              <img alt="Tim penerjemah PT. Ichikara sedang mengerjakan dokumen profesional"
+                   class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                   src="images/layanan-penerjemahan.jpg" loading="lazy">
+            </div>
+            <div class="p-8 flex flex-col gap-3 flex-1">
+              <h3 class="text-primary text-2xl font-noto font-bold">Jasa Penerjemahan</h3>
+              <p class="text-on-surface-variant leading-relaxed flex-1">
+                Dokumen bisnis, kontrak hukum, hingga manual teknis. Diterjemahkan dengan akurasi tinggi oleh penerjemah tersumpah berpengalaman di industri Jepang dan Indonesia.
+              </p>
+              <span class="text-secondary font-bold text-sm flex items-center gap-1 mt-2">
+                Lihat Selengkapnya
+                <span class="material-symbols-outlined text-base group-hover:translate-x-1 transition-transform" aria-hidden="true">arrow_forward</span>
+              </span>
+            </div>
+          </a>
+
+          <!-- Service 2: Jasa Interpreter -->
+          <a href="jasa-interpreter.html" class="service-card group bg-white rounded-2xl border border-border-light overflow-hidden flex flex-col fade-in">
+            <div class="h-60 overflow-hidden">
+              <img alt="Interpreter PT. Ichikara memfasilitasi rapat bisnis Indonesia dan Jepang"
+                   class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                   src="images/layanan-interpreter.jpg" loading="lazy">
+            </div>
+            <div class="p-8 flex flex-col gap-3 flex-1">
+              <h3 class="text-primary text-2xl font-noto font-bold">Jasa Interpreter</h3>
+              <p class="text-on-surface-variant leading-relaxed flex-1">
+                Komunikasi bisnis tanpa hambatan bahasa. Interpreter kami hadir di meeting room, lantai produksi, hingga ruang negosiasi Anda.
+              </p>
+              <span class="text-secondary font-bold text-sm flex items-center gap-1 mt-2">
+                Lihat Selengkapnya
+                <span class="material-symbols-outlined text-base group-hover:translate-x-1 transition-transform" aria-hidden="true">arrow_forward</span>
+              </span>
+            </div>
+          </a>
+
+          <!-- Service 3: Kursus Bahasa -->
+          <a href="kursus-bahasa.html" class="service-card group bg-white rounded-2xl border border-border-light overflow-hidden flex flex-col fade-in">
+            <div class="h-60 overflow-hidden">
+              <img alt="Kelas kursus bahasa Jepang PT. Ichikara"
+                   class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                   src="images/layanan-kursus.jpg" loading="lazy">
+            </div>
+            <div class="p-8 flex flex-col gap-3 flex-1">
+              <h3 class="text-primary text-2xl font-noto font-bold">Kursus Bahasa Jepang</h3>
+              <p class="text-on-surface-variant leading-relaxed flex-1">
+                Belajar bahasa Jepang dengan metode terstruktur, dari N5 hingga N1, untuk individu maupun perusahaan.
+              </p>
+              <span class="text-secondary font-bold text-sm flex items-center gap-1 mt-2">
+                Lihat Selengkapnya
+                <span class="material-symbols-outlined text-base group-hover:translate-x-1 transition-transform" aria-hidden="true">arrow_forward</span>
+              </span>
+            </div>
+          </a>
+
+          <!-- Service 4: Tokutei Ginou -->
+          <a href="tokutei-ginou.html" class="service-card group bg-white rounded-2xl border border-border-light overflow-hidden flex flex-col fade-in">
+            <div class="h-60 overflow-hidden">
+              <img alt="Tenaga kerja Indonesia yang berhasil ditempatkan melalui program Tokutei Ginou"
+                   class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                   src="images/layanan-tokutei.jpg" loading="lazy">
+            </div>
+            <div class="p-8 flex flex-col gap-3 flex-1">
+              <h3 class="text-primary text-2xl font-noto font-bold">Tokutei Ginou / SSW</h3>
+              <p class="text-on-surface-variant leading-relaxed flex-1">
+                Wujudkan impian bekerja di Jepang bersama Ichikara, dari persiapan bahasa hingga penempatan kerja.
+              </p>
+              <span class="text-secondary font-bold text-sm flex items-center gap-1 mt-2">
+                Lihat Selengkapnya
+                <span class="material-symbols-outlined text-base group-hover:translate-x-1 transition-transform" aria-hidden="true">arrow_forward</span>
+              </span>
+            </div>
+          </a>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Thin section divider -->
+    <div class="container mx-auto max-w-[1200px] px-6"><hr class="ma-divider"></div>
+
+    <!-- =========================================================
+         KISAH SUKSES (SUCCESS STORIES PREVIEW)
+         Shows 3 latest story cards linking to success-story.html.
+         Cards carry .story-card (red left-border on hover).
+         Images: images/story-*.jpg
+         ========================================================= -->
+    <section class="py-xxl bg-background" id="kisah-sukses" aria-labelledby="kisah-heading">
+      <div class="container mx-auto max-w-[1200px] px-6">
+
+        <div class="text-center mb-16 fade-in">
+          <p class="label-kicker text-secondary mb-4">最新の成功事例</p>
+          <h2 id="kisah-heading" class="text-primary text-4xl lg:text-5xl font-noto font-bold mb-5">Kisah Sukses Terbaru</h2>
+          <p class="text-on-surface-variant max-w-2xl mx-auto text-lg">Inspirasi dari perjalanan mitra kami dalam meraih kesuksesan bersama PT. Ichikara.</p>
+        </div>
+
+        <div id="beranda-story-grid" class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-14">
+
+          <!-- Story Card 1 -->
+          <article class="story-card group bg-white rounded-2xl overflow-hidden border border-border-light fade-in">
+            <div class="h-52 overflow-hidden">
+              <img alt="Ekspansi global perusahaan manufaktur otomotif bersama PT. Ichikara"
+                   class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                   src="images/story-otomotif.jpg" loading="lazy">
+            </div>
+            <div class="p-7">
+              <span class="label-kicker text-secondary inline-block mb-3">Penerjemahan</span>
+              <h3 class="text-xl font-noto font-bold text-primary mb-4 leading-snug">Ekspansi Global Manufaktur Otomotif</h3>
+              <a class="text-secondary font-bold text-sm inline-flex items-center gap-1 hover:gap-2 transition-all" href="success-story.html">
+                Baca Selengkapnya <span class="material-symbols-outlined text-sm" aria-hidden="true">chevron_right</span>
+              </a>
+            </div>
+          </article>
+
+          <!-- Story Card 2 -->
+          <article class="story-card group bg-white rounded-2xl overflow-hidden border border-border-light fade-in">
+            <div class="h-52 overflow-hidden">
+              <img alt="Negosiasi bisnis lintas budaya yang difasilitasi PT. Ichikara"
+                   class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                   src="images/story-negosiasi.jpg" loading="lazy">
+            </div>
+            <div class="p-7">
+              <span class="label-kicker text-secondary inline-block mb-3">Interpreter</span>
+              <h3 class="text-xl font-noto font-bold text-primary mb-4 leading-snug">Negosiasi Bisnis Lintas Budaya</h3>
+              <a class="text-secondary font-bold text-sm inline-flex items-center gap-1 hover:gap-2 transition-all" href="success-story.html">
+                Baca Selengkapnya <span class="material-symbols-outlined text-sm" aria-hidden="true">chevron_right</span>
+              </a>
+            </div>
+          </article>
+
+          <!-- Story Card 3 -->
+          <article class="story-card group bg-white rounded-2xl overflow-hidden border border-border-light fade-in">
+            <div class="h-52 overflow-hidden">
+              <img alt="Karir profesional di Jepang melalui program Tokutei Ginou PT. Ichikara"
+                   class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                   src="images/story-aichi.jpg" loading="lazy">
+            </div>
+            <div class="p-7">
+              <span class="label-kicker text-secondary inline-block mb-3">Tokutei Ginou</span>
+              <h3 class="text-xl font-noto font-bold text-primary mb-4 leading-snug">Karir Profesional di Prefektur Aichi</h3>
+              <a class="text-secondary font-bold text-sm inline-flex items-center gap-1 hover:gap-2 transition-all" href="success-story.html">
+                Baca Selengkapnya <span class="material-symbols-outlined text-sm" aria-hidden="true">chevron_right</span>
+              </a>
+            </div>
+          </article>
+
+        </div>
+
+        <div class="text-center fade-in">
+          <a class="inline-flex items-center gap-2 border border-primary text-primary px-9 py-4 rounded-full font-bold hover:bg-primary hover:text-white transition-all" href="success-story.html">
+            Lihat Semua Kisah Sukses
+            <span class="material-symbols-outlined text-base" aria-hidden="true">arrow_forward</span>
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =========================================================
+         CTA BANNER — solid black, one bold line, minimal.
+         ========================================================= -->
+    <section class="py-xxl bg-primary relative overflow-hidden" id="kontak" aria-label="Hubungi kami">
+      <div class="absolute inset-0 flex items-center justify-center pointer-events-none" aria-hidden="true">
+        <span class="japanese-watermark text-white text-[24rem] lg:text-[32rem]">縁</span>
+      </div>
+      <div class="container mx-auto max-w-[1200px] px-6 relative z-10 text-center fade-in">
+        <h2 class="text-white text-4xl lg:text-6xl font-noto font-bold mb-8 leading-tight">Siap Bermitra dengan Ichikara?</h2>
+        <p class="text-white/70 text-lg mb-12 max-w-2xl mx-auto leading-relaxed">
+          Konsultasikan kebutuhan bahasa Jepang Anda dengan tim ahli kami. Kami siap memberikan solusi yang akurat dan efisien.
+        </p>
+
+        <div class="flex flex-wrap justify-center gap-4">
+          <!-- TODO: Replace XXXXXXXXXX with real WhatsApp number (format: 628XXXXXXXXX) -->
+          <a class="bg-secondary text-white px-9 py-4 rounded-full font-bold flex items-center gap-3 hover:bg-red-hover transition-all"
+             href="https://wa.me/6288291469464"
+             rel="noopener noreferrer"
+             target="_blank">
+            <span class="material-symbols-outlined" aria-hidden="true">chat</span>
+            Hubungi via WhatsApp
+          </a>
+          <a class="bg-white/0 border border-white/40 text-white px-9 py-4 rounded-full font-bold flex items-center gap-3 hover:bg-white/10 transition-all"
+             href="mailto:info@ichikara.co.id">
+            <span class="material-symbols-outlined" aria-hidden="true">mail</span>
+            Kirim Email
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===== FOOTER — injected by header-loader.js ===== -->
+  <div id="site-footer"></div>
+
+  <!-- =========================================================
+       PAGE-SPECIFIC SCRIPT: Service tab switcher
+       Data is hardcoded — do NOT introduce user-supplied data
+       into innerHTML without sanitization (see security note).
+       ========================================================= -->
+  <script>
+    // Service tab data (hardcoded — safe for innerHTML usage)
+    var services = {
+      penerjemahan: [
+        { icon: 'description',    title: 'Penerjemahan Dokumen',  desc: 'Penerjemahan dokumen resmi, hukum, dan teknis dengan akurasi tinggi antara Bahasa Indonesia dan Jepang.' },
+        { icon: 'menu_book',      title: 'Penerjemahan Literatur', desc: 'Adaptasi konten buku, komik, dan materi kreatif dengan menjaga nuansa budaya asli tetap tersampaikan.' },
+        { icon: 'code',           title: 'Lokalisasi Situs',       desc: 'Optimasi konten web dan aplikasi agar relevan secara linguistik bagi pengguna di pasar Jepang atau Indonesia.' }
+      ],
+      interpreter: [
+        { icon: 'record_voice_over', title: 'Interpretasi Simultan',    desc: 'Layanan interpretasi langsung untuk konferensi atau acara besar dengan peralatan lengkap.' },
+        { icon: 'groups',            title: 'Pendamping Bisnis',        desc: 'Pendampingan dalam meeting atau kunjungan pabrik untuk memastikan komunikasi bisnis lancar.' },
+        { icon: 'forum',             title: 'Interpretasi Jarak Jauh',  desc: 'Layanan interpreter via video call untuk efisiensi waktu dan biaya operasional.' }
+      ],
+      kursus: [
+        { icon: 'school',  title: 'Persiapan JLPT',    desc: 'Kursus intensif untuk menghadapi ujian JLPT dari level N5 hingga N1 dengan pengajar berpengalaman.' },
+        { icon: 'work',    title: 'Business Japanese', desc: 'Edukasi etika kerja dan komunikasi formal Jepang khusus untuk tenaga profesional.' },
+        { icon: 'person',  title: 'Private Tutoring',  desc: 'Pembelajaran personal satu-lawan-satu yang disesuaikan dengan kecepatan belajar siswa.' }
+      ],
+      tokutei: [
+        { icon: 'engineering',    title: 'Pelatihan Keahlian',  desc: 'Program persiapan kompetensi teknis sesuai dengan bidang yang diminati di Jepang.' },
+        { icon: 'flight_takeup',  title: 'Bimbingan Keberangkatan', desc: 'Bantuan administratif dan pembekalan budaya sebelum bekerja di negeri Sakura.' },
+        { icon: 'check_circle',   title: 'Sertifikasi JFT-Basic', desc: 'Pelatihan khusus untuk lulus tes bahasa yang menjadi syarat utama visa Tokutei Ginou.' }
+      ]
+    };
+
+    function switchTab(categoryId) {
+      // Update tab button styles
+      ['penerjemahan', 'interpreter', 'kursus', 'tokutei'].forEach(function (id) {
+        var tab = document.getElementById('tab-' + id);
+        if (!tab) return;
+        if (id === categoryId) {
+          tab.classList.add('tab-active');
+          tab.classList.remove('text-outline');
+        } else {
+          tab.classList.remove('tab-active');
+          tab.classList.add('text-outline');
+        }
+      });
+
+      // Update card content
+      var container = document.getElementById('service-content');
+      if (!container) return;
+      container.style.opacity = '0';
+
+      setTimeout(function () {
+        var items = services[categoryId] || [];
+        // Data is hardcoded above — safe to use innerHTML here.
+        container.innerHTML = items.map(function (item) {
+          return '<div class="service-card bg-white p-8 rounded-xl border border-border-light">'
+            + '<div class="size-12 bg-surface-container rounded-lg flex items-center justify-center text-primary mb-6">'
+            + '<span class="material-symbols-outlined" aria-hidden="true">' + item.icon + '</span>'
+            + '</div>'
+            + '<h3 class="text-xl font-bold text-primary mb-4">' + item.title + '</h3>'
+            + '<p class="text-on-surface-variant text-sm leading-relaxed mb-6">' + item.desc + '</p>'
+            + '<a href="' + categoryId + '.html" class="text-secondary font-bold text-sm flex items-center gap-1 hover:underline">'
+            + 'Selengkapnya <span class="material-symbols-outlined text-sm" aria-hidden="true">chevron_right</span>'
+            + '</a>'
+            + '</div>';
+        }).join('');
+        container.style.opacity = '1';
+        container.style.transition = 'opacity 0.3s ease';
+      }, 250);
+    }
+  </script>
+
+  <!-- =========================================================
+       DYNAMIC BERANDA — Supabase `ichikara_web_content` (real-time)
+       Client strip count + Featured stories.
+       Sumber utama: Supabase (diset via admin/index.html).
+       Fallback: localStorage (jika offline / file dibuka langsung)
+       atau konten statis di HTML ini.
+       ========================================================= -->
+  <script>
+  (function () {
+    // Fallback keys (dipakai hanya jika Supabase tidak terjangkau)
+    var STORIES_KEY  = 'ichikara-stories-v1';
+    var CLIENTS_KEY  = 'ichikara-clients-v1';
+    var SETTINGS_KEY = 'ichikara-beranda-settings';
+
+    var BADGE_LABELS = {
+      'achievement':  'Pencapaian',
+      'activity':     'Aktivitas',
+      'client-story': 'Kisah Klien',
+    };
+
+    function esc(str) {
+      return String(str || '')
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    // ── Client logo count ────────────────────────────────
+    // Renders a 2-row marquee: odd-numbered logos scroll left, even-numbered
+    // scroll right. Each row's track is duplicated once (aria-hidden) so the
+    // CSS animation (translateX -100%) loops seamlessly — see .marquee-* in
+    // css/style.css.
+    function logoTile(i, decorative) {
+      var src = window.IchikaraSite
+        ? window.IchikaraSite.imgSrc('clients/client-' + i + '.png')
+        : 'images/clients/client-' + i + '.png';
+      var alt = decorative ? '' : ('Klien ' + i);
+      return '<div class="flex items-center justify-center">'
+        + '<img class="h-20 w-auto object-contain opacity-60 hover:opacity-100 transition-opacity" src="' + esc(src) + '" alt="' + esc(alt) + '" loading="lazy">'
+        + '</div>';
+    }
+
+    function marqueeRow(ids, direction) {
+      var tiles = ids.map(function (i) { return logoTile(i, false); }).join('');
+      var tilesDecorative = ids.map(function (i) { return logoTile(i, true); }).join('');
+      return '<div class="marquee-row marquee-row--' + direction + '">'
+        + '<div class="marquee-track">' + tiles + '</div>'
+        + '<div class="marquee-track" aria-hidden="true">' + tilesDecorative + '</div>'
+        + '</div>';
+    }
+
+    function applyClients(count) {
+      if (!count || count === 8) return; // 8 = tampilan statis bawaan HTML
+      var strip = document.getElementById('client-strip');
+      if (!strip) return;
+      var odd = [], even = [];
+      for (var i = 1; i <= count; i++) (i % 2 ? odd : even).push(i);
+      // Odd row needs >=2 tiles for the duplicate-track loop to look continuous.
+      if (!odd.length) odd = even;
+      if (!even.length) even = odd;
+      strip.innerHTML = marqueeRow(odd, 'left') + marqueeRow(even, 'right');
+    }
+
+    // ── Featured stories ─────────────────────────────────
+    function applyStories(allStories, featuredIds) {
+      var featured = (featuredIds || [])
+        .map(function (id) { return allStories.find(function (s) { return s.id === id; }); })
+        .filter(Boolean);
+
+      // Jika featured kosong / semua sudah dihapus → 3 cerita terbaru
+      if (!featured.length) featured = (allStories || []).slice(0, 3);
+      if (!featured.length) return;
+
+      var grid = document.getElementById('beranda-story-grid');
+      if (!grid) return;
+
+      grid.innerHTML = featured.map(function (s) {
+        var label  = BADGE_LABELS[s.category] || 'Pencapaian';
+        var imgSrc = window.IchikaraSite ? window.IchikaraSite.imgSrc(s.image) : (s.image ? 'images/' + s.image : '');
+        return '<article class="story-card group bg-white rounded-2xl overflow-hidden border border-border-light fade-in visible">'
+          + '<div class="h-52 overflow-hidden' + (imgSrc ? '' : ' flex items-center justify-center') + '">'
+          + (imgSrc
+              ? '<img alt="' + esc(s.imageAlt || s.title) + '" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="' + esc(imgSrc) + '" loading="lazy">'
+              : '<span class="material-symbols-outlined text-gray-300 text-5xl" aria-hidden="true">image</span>')
+          + '</div>'
+          + '<div class="p-7">'
+          + '<span class="label-kicker text-secondary inline-block mb-3">' + esc(label) + '</span>'
+          + '<h3 class="text-xl font-noto font-bold text-primary mb-4 leading-snug">' + esc(s.title || '') + '</h3>'
+          + '<a class="text-secondary font-bold text-sm inline-flex items-center gap-1 hover:gap-2 transition-all" href="success-story.html">'
+          + 'Baca Selengkapnya <span class="material-symbols-outlined text-sm" aria-hidden="true">chevron_right</span>'
+          + '</a>'
+          + '</div>'
+          + '</article>';
+      }).join('');
+    }
+
+    // ── Fallback: baca localStorage (offline / file lokal) ──
+    function fromLocal() {
+      try {
+        var clientsRaw = localStorage.getItem(CLIENTS_KEY);
+        if (clientsRaw) applyClients(JSON.parse(clientsRaw).count || 8);
+      } catch (e) {}
+      try {
+        var settingsRaw = localStorage.getItem(SETTINGS_KEY);
+        var storiesRaw  = localStorage.getItem(STORIES_KEY);
+        if (!settingsRaw || !storiesRaw) return;
+        applyStories(JSON.parse(storiesRaw), JSON.parse(settingsRaw).featuredIds || []);
+      } catch (e) {}
+    }
+
+    // ── Terapkan konten dinamis (Supabase) ──
+    function applyContent(c) {
+      // Override gambar ke SEMUA <img loading="lazy"> di halaman (hero, logo, thumbnail)
+      window.IchikaraSite.applyMediaOverrides(c);
+      applyClients(c.clients && c.clients.count);
+      applyStories(c.stories, c.beranda && c.beranda.featuredIds);
+    }
+
+    // ── Init: Supabase dulu (real-time), fallback ke localStorage ──
+    function init() {
+      if (!window.IchikaraSite || !window.IchikaraSite.ready) { fromLocal(); return; }
+      window.IchikaraSite.onContent(applyContent);
+      // Bila Supabase gagal (offline), onContent tidak memanggil cb → fallback.
+      window.IchikaraSite.loadContent().catch(fromLocal);
+    }
+
+    init();
+  }());
+  </script>
+
+  <!-- Shared header/footer loader — must be last -->
+  <script src="js/header-loader.js"></script>
+
+</body>
+</html>

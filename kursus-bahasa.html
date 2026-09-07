@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kursus Bahasa Jepang | PT. Ichikara</title>
+  <meta name="description" content="Kursus bahasa Jepang terstruktur dari JLPT N5 hingga N1. Tersedia kelas reguler, intensif, dan privat untuk individu maupun perusahaan.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Serif+JP:wght@600;700;900&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script src="js/tailwind-config.js"></script>
+  <!-- Konten dinamis: Supabase + loader bersama (lihat js/site-data.js) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="js/site-data.js"></script>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="bg-background text-on-background font-inter" data-site-root="">
+
+  <div id="site-header"></div>
+
+  <main>
+
+    <!-- =========================================================
+         HERO SECTION
+         Image: images/hero-kursus.jpg (classroom / students learning)
+         ========================================================= -->
+    <section class="relative min-h-[80vh] flex items-center justify-center overflow-hidden bg-primary" aria-label="Hero Kursus Bahasa Jepang">
+      <img src="images/hero-kursus.jpg" alt="" aria-hidden="true" class="absolute inset-0 w-full h-full object-cover">
+      <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/55 to-black/85"></div>
+      <div class="absolute inset-0 flex items-center justify-center" aria-hidden="true">
+        <span class="japanese-watermark text-white text-[26rem] lg:text-[36rem]">学</span>
+      </div>
+
+      <div class="relative z-10 max-w-3xl mx-auto px-6 text-center text-white pt-20">
+        <nav class="flex justify-center gap-2 text-xs text-white/60 mb-6" aria-label="Breadcrumb">
+          <a href="beranda.html" class="hover:text-white transition-colors">Beranda</a>
+          <span aria-hidden="true">/</span>
+          <span class="text-white" aria-current="page">Kursus Bahasa Jepang</span>
+        </nav>
+        <h1 class="font-noto font-bold text-4xl lg:text-6xl leading-[1.15] mb-6">Kursus Bahasa Jepang</h1>
+        <p class="text-lg text-white/80 leading-relaxed max-w-2xl mx-auto mb-10">
+          Belajar bahasa Jepang dengan metode terstruktur dan pengajar berpengalaman, dari N5 untuk pemula hingga N1 untuk level lanjutan.
+        </p>
+        <div class="flex flex-wrap gap-4 justify-center">
+          <!-- TODO: Replace XXXXXXXXXX with real WhatsApp number -->
+          <a href="https://wa.me/6288291469464" class="bg-secondary text-white px-8 py-4 rounded-full font-bold hover:bg-red-hover transition-all flex items-center gap-2" rel="noopener noreferrer" target="_blank">
+            <span class="material-symbols-outlined" aria-hidden="true">chat</span>
+            Daftar Sekarang
+          </a>
+          <a href="#program" class="border border-white/40 text-white px-8 py-4 rounded-full font-bold hover:bg-white/10 transition-all">
+            Lihat Program
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         JLPT LEVEL CARDS — N5 to N1
+         ========================================================= -->
+    <section class="py-xxl bg-bg-gray" id="program" aria-labelledby="jlpt-heading">
+      <div class="container mx-auto max-w-[1200px] px-6">
+        <div class="text-center mb-16 fade-in">
+          <h2 id="jlpt-heading" class="text-primary text-4xl font-noto font-bold mb-4">Program JLPT</h2>
+          <p class="text-on-surface-variant max-w-2xl mx-auto">
+            Kurikulum kami mengacu pada standar Japanese Language Proficiency Test (JLPT), sertifikasi bahasa Jepang yang diakui internasional.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-5">
+
+          <!-- N5 — Beginner -->
+          <div class="bg-white rounded-2xl p-6 border border-border-light card-hover text-center">
+            <div class="w-14 h-14 bg-tertiary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+              <span class="text-xl font-noto font-black text-tertiary">N5</span>
+            </div>
+            <h3 class="font-noto font-bold text-primary mb-2">Pemula</h3>
+            <p class="text-xs text-on-surface-variant leading-relaxed mb-4">Hiragana, Katakana, kosakata & kalimat dasar sehari-hari</p>
+            <span class="inline-block bg-tertiary/10 text-tertiary text-xs font-bold px-3 py-1 rounded-full">Mulai dari 0</span>
+          </div>
+
+          <!-- N4 -->
+          <div class="bg-white rounded-2xl p-6 border border-border-light card-hover text-center">
+            <div class="w-14 h-14 bg-tertiary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+              <span class="text-xl font-noto font-black text-tertiary">N4</span>
+            </div>
+            <h3 class="font-noto font-bold text-primary mb-2">Dasar</h3>
+            <p class="text-xs text-on-surface-variant leading-relaxed mb-4">Kanji dasar, percakapan, dan tata bahasa formal ringan</p>
+            <span class="inline-block bg-tertiary/10 text-tertiary text-xs font-bold px-3 py-1 rounded-full">Setelah N5</span>
+          </div>
+
+          <!-- N3 -->
+          <div class="bg-white rounded-2xl p-6 border border-secondary/30 card-hover text-center ring-2 ring-secondary/20">
+            <div class="w-14 h-14 bg-secondary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+              <span class="text-xl font-noto font-black text-secondary">N3</span>
+            </div>
+            <h3 class="font-noto font-bold text-primary mb-2">Menengah</h3>
+            <p class="text-xs text-on-surface-variant leading-relaxed mb-4">Komunikasi kerja, membaca artikel, kanji tingkat menengah</p>
+            <span class="inline-block bg-secondary/10 text-secondary text-xs font-bold px-3 py-1 rounded-full">Paling Populer</span>
+          </div>
+
+          <!-- N2 -->
+          <div class="bg-white rounded-2xl p-6 border border-border-light card-hover text-center">
+            <div class="w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+              <span class="text-xl font-noto font-black text-primary">N2</span>
+            </div>
+            <h3 class="font-noto font-bold text-primary mb-2">Lanjutan</h3>
+            <p class="text-xs text-on-surface-variant leading-relaxed mb-4">Teks kompleks, diskusi bisnis, media Jepang</p>
+            <span class="inline-block bg-primary/10 text-primary text-xs font-bold px-3 py-1 rounded-full">Diakui industri</span>
+          </div>
+
+          <!-- N1 -->
+          <div class="bg-white rounded-2xl p-6 border border-border-light card-hover text-center">
+            <div class="w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+              <span class="text-xl font-noto font-black text-primary">N1</span>
+            </div>
+            <h3 class="font-noto font-bold text-primary mb-2">Mahir</h3>
+            <p class="text-xs text-on-surface-variant leading-relaxed mb-4">Level paling tinggi, setara penutur asli dalam konteks profesional</p>
+            <span class="inline-block bg-primary/10 text-primary text-xs font-bold px-3 py-1 rounded-full">Expert level</span>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         CLASS TYPES — 3 cards + schedule table
+         ========================================================= -->
+    <section class="py-xxl bg-white" aria-labelledby="kelas-heading">
+      <div class="container mx-auto max-w-[1200px] px-6">
+        <div class="text-center mb-16 fade-in">
+          <h2 id="kelas-heading" class="text-primary text-4xl font-noto font-bold mb-4">Jenis Kelas</h2>
+          <p class="text-on-surface-variant max-w-xl mx-auto">Pilih format belajar yang paling sesuai dengan jadwal dan gaya belajar Anda.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+
+          <div class="service-card bg-bg-gray p-8 rounded-xl border border-border-light">
+            <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-6">
+              <span class="material-symbols-outlined text-primary" aria-hidden="true">groups</span>
+            </div>
+            <h3 class="text-xl font-noto font-bold text-primary mb-3">Kelas Reguler</h3>
+            <p class="text-on-surface-variant text-sm leading-relaxed mb-4">
+              Belajar bersama kelompok kecil 5–10 siswa. Interaktif, menyenangkan, dan lebih terjangkau.
+            </p>
+            <ul class="space-y-2 text-xs text-on-surface-variant">
+              <li class="flex gap-2"><span class="material-symbols-outlined text-secondary text-[16px]" aria-hidden="true">check</span> 2–3 kali/minggu</li>
+              <li class="flex gap-2"><span class="material-symbols-outlined text-secondary text-[16px]" aria-hidden="true">check</span> 90 menit per sesi</li>
+              <li class="flex gap-2"><span class="material-symbols-outlined text-secondary text-[16px]" aria-hidden="true">check</span> Materi JLPT terstruktur</li>
+            </ul>
+          </div>
+
+          <div class="service-card bg-bg-gray p-8 rounded-xl border border-secondary/30 ring-2 ring-secondary/20">
+            <div class="w-12 h-12 bg-secondary/10 rounded-lg flex items-center justify-center mb-6">
+              <span class="material-symbols-outlined text-secondary" aria-hidden="true">bolt</span>
+            </div>
+            <h3 class="text-xl font-noto font-bold text-primary mb-3">Kelas Intensif</h3>
+            <p class="text-on-surface-variant text-sm leading-relaxed mb-4">
+              Program percepatan untuk profesional atau calon peserta Tokutei Ginou. Target lulus JLPT dalam waktu lebih singkat.
+            </p>
+            <ul class="space-y-2 text-xs text-on-surface-variant">
+              <li class="flex gap-2"><span class="material-symbols-outlined text-secondary text-[16px]" aria-hidden="true">check</span> 5 kali/minggu</li>
+              <li class="flex gap-2"><span class="material-symbols-outlined text-secondary text-[16px]" aria-hidden="true">check</span> 2 jam per sesi</li>
+              <li class="flex gap-2"><span class="material-symbols-outlined text-secondary text-[16px]" aria-hidden="true">check</span> Tryout JLPT rutin</li>
+            </ul>
+          </div>
+
+          <div class="service-card bg-bg-gray p-8 rounded-xl border border-border-light">
+            <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-6">
+              <span class="material-symbols-outlined text-primary" aria-hidden="true">person</span>
+            </div>
+            <h3 class="text-xl font-noto font-bold text-primary mb-3">Kelas Privat</h3>
+            <p class="text-on-surface-variant text-sm leading-relaxed mb-4">
+              Pembelajaran 1-on-1 disesuaikan dengan kecepatan dan kebutuhan spesifik siswa atau perusahaan.
+            </p>
+            <ul class="space-y-2 text-xs text-on-surface-variant">
+              <li class="flex gap-2"><span class="material-symbols-outlined text-secondary text-[16px]" aria-hidden="true">check</span> Jadwal fleksibel</li>
+              <li class="flex gap-2"><span class="material-symbols-outlined text-secondary text-[16px]" aria-hidden="true">check</span> Online atau offline</li>
+              <li class="flex gap-2"><span class="material-symbols-outlined text-secondary text-[16px]" aria-hidden="true">check</span> Kurikulum disesuaikan</li>
+            </ul>
+          </div>
+
+        </div>
+
+        <!-- Schedule table -->
+        <div class="bg-bg-gray rounded-2xl border border-border-light overflow-hidden">
+          <div class="px-6 py-4 border-b border-border-light bg-white">
+            <h3 class="font-bold text-primary">Jadwal Kelas Reguler</h3>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm">
+              <thead class="bg-primary text-white">
+                <tr>
+                  <th class="px-6 py-3 text-left font-semibold">Level</th>
+                  <th class="px-6 py-3 text-left font-semibold">Hari</th>
+                  <th class="px-6 py-3 text-left font-semibold">Waktu</th>
+                  <th class="px-6 py-3 text-left font-semibold">Durasi</th>
+                  <th class="px-6 py-3 text-left font-semibold">Status</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-border-light">
+                <tr class="bg-white hover:bg-surface-container-low transition-colors">
+                  <td class="px-6 py-4 font-bold text-primary">N5</td>
+                  <td class="px-6 py-4 text-on-surface-variant">Senin & Rabu</td>
+                  <td class="px-6 py-4 text-on-surface-variant">18:30 – 20:00</td>
+                  <td class="px-6 py-4 text-on-surface-variant">3 bulan</td>
+                  <td class="px-6 py-4"><span class="bg-green-100 text-green-700 text-xs font-bold px-2 py-1 rounded-full">Tersedia</span></td>
+                </tr>
+                <tr class="bg-white hover:bg-surface-container-low transition-colors">
+                  <td class="px-6 py-4 font-bold text-primary">N4</td>
+                  <td class="px-6 py-4 text-on-surface-variant">Selasa & Kamis</td>
+                  <td class="px-6 py-4 text-on-surface-variant">18:30 – 20:00</td>
+                  <td class="px-6 py-4 text-on-surface-variant">4 bulan</td>
+                  <td class="px-6 py-4"><span class="bg-green-100 text-green-700 text-xs font-bold px-2 py-1 rounded-full">Tersedia</span></td>
+                </tr>
+                <tr class="bg-white hover:bg-surface-container-low transition-colors">
+                  <td class="px-6 py-4 font-bold text-primary">N3</td>
+                  <td class="px-6 py-4 text-on-surface-variant">Sabtu</td>
+                  <td class="px-6 py-4 text-on-surface-variant">09:00 – 12:00</td>
+                  <td class="px-6 py-4 text-on-surface-variant">5 bulan</td>
+                  <td class="px-6 py-4"><span class="bg-yellow-100 text-yellow-700 text-xs font-bold px-2 py-1 rounded-full">Hampir Penuh</span></td>
+                </tr>
+                <tr class="bg-white hover:bg-surface-container-low transition-colors">
+                  <td class="px-6 py-4 font-bold text-primary">N2 / N1</td>
+                  <td class="px-6 py-4 text-on-surface-variant">Hubungi Kami</td>
+                  <td class="px-6 py-4 text-on-surface-variant">Disesuaikan</td>
+                  <td class="px-6 py-4 text-on-surface-variant">6 bulan</td>
+                  <td class="px-6 py-4"><span class="bg-blue-100 text-blue-700 text-xs font-bold px-2 py-1 rounded-full">Privat</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         LEARNING FLOW — 7 steps
+         ========================================================= -->
+    <section class="py-xxl bg-bg-gray" aria-labelledby="alur-heading">
+      <div class="container mx-auto max-w-[1200px] px-6">
+        <div class="text-center mb-16 fade-in">
+          <h2 id="alur-heading" class="text-primary text-4xl font-noto font-bold mb-4">Alur Pembelajaran</h2>
+          <p class="text-on-surface-variant max-w-xl mx-auto">7 tahap terstruktur dari pendaftaran hingga kelulusan JLPT.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <!-- Steps 1–4 -->
+          <div class="bg-white rounded-xl p-6 border border-border-light relative">
+            <div class="absolute -top-3 -left-3 w-8 h-8 bg-secondary text-white rounded-full flex items-center justify-center text-sm font-bold">1</div>
+            <h4 class="font-bold text-primary mb-2 mt-1">Placement Test</h4>
+            <p class="text-xs text-on-surface-variant leading-relaxed">Tes penempatan untuk menentukan level awal yang tepat.</p>
+          </div>
+          <div class="bg-white rounded-xl p-6 border border-border-light relative">
+            <div class="absolute -top-3 -left-3 w-8 h-8 bg-secondary text-white rounded-full flex items-center justify-center text-sm font-bold">2</div>
+            <h4 class="font-bold text-primary mb-2 mt-1">Orientasi Kelas</h4>
+            <p class="text-xs text-on-surface-variant leading-relaxed">Pengenalan metode belajar, pengajar, dan target capaian.</p>
+          </div>
+          <div class="bg-white rounded-xl p-6 border border-border-light relative">
+            <div class="absolute -top-3 -left-3 w-8 h-8 bg-secondary text-white rounded-full flex items-center justify-center text-sm font-bold">3</div>
+            <h4 class="font-bold text-primary mb-2 mt-1">Pembelajaran Aktif</h4>
+            <p class="text-xs text-on-surface-variant leading-relaxed">Sesi kelas reguler dengan materi terstruktur dan latihan soal.</p>
+          </div>
+          <div class="bg-white rounded-xl p-6 border border-border-light relative">
+            <div class="absolute -top-3 -left-3 w-8 h-8 bg-secondary text-white rounded-full flex items-center justify-center text-sm font-bold">4</div>
+            <h4 class="font-bold text-primary mb-2 mt-1">Evaluasi Tengah</h4>
+            <p class="text-xs text-on-surface-variant leading-relaxed">Ujian tengah program untuk mengukur perkembangan siswa.</p>
+          </div>
+          <div class="bg-white rounded-xl p-6 border border-border-light relative">
+            <div class="absolute -top-3 -left-3 w-8 h-8 bg-secondary text-white rounded-full flex items-center justify-center text-sm font-bold">5</div>
+            <h4 class="font-bold text-primary mb-2 mt-1">Tryout JLPT</h4>
+            <p class="text-xs text-on-surface-variant leading-relaxed">Simulasi ujian resmi JLPT dengan soal latihan eksklusif.</p>
+          </div>
+          <div class="bg-white rounded-xl p-6 border border-border-light relative">
+            <div class="absolute -top-3 -left-3 w-8 h-8 bg-secondary text-white rounded-full flex items-center justify-center text-sm font-bold">6</div>
+            <h4 class="font-bold text-primary mb-2 mt-1">Review Intensif</h4>
+            <p class="text-xs text-on-surface-variant leading-relaxed">Persiapan akhir sebelum ujian JLPT sesungguhnya.</p>
+          </div>
+          <div class="bg-white rounded-xl p-6 border border-border-light relative">
+            <div class="absolute -top-3 -left-3 w-8 h-8 bg-secondary text-white rounded-full flex items-center justify-center text-sm font-bold">7</div>
+            <h4 class="font-bold text-primary mb-2 mt-1">Ujian JLPT</h4>
+            <p class="text-xs text-on-surface-variant leading-relaxed">Siswa mengikuti ujian JLPT resmi dengan kepercayaan diri penuh.</p>
+          </div>
+          <div class="bg-secondary rounded-xl p-6 relative">
+            <div class="absolute -top-3 -left-3 w-8 h-8 bg-primary text-white rounded-full flex items-center justify-center" aria-hidden="true">
+              <span class="material-symbols-outlined text-[16px]">emoji_events</span>
+            </div>
+            <h4 class="font-bold text-white mb-2 mt-1">Kelulusan & Sertifikat</h4>
+            <p class="text-xs text-white/80 leading-relaxed">Sertifikat JLPT dan sertifikat penyelesaian kursus dari PT. Ichikara.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         TEACHER PROFILES — 5 avatars
+         Images: images/guru-1.jpg ... guru-5.jpg
+         ========================================================= -->
+    <section class="py-xxl bg-white" aria-labelledby="pengajar-heading">
+      <div class="container mx-auto max-w-[1200px] px-6">
+        <div class="text-center mb-16 fade-in">
+          <h2 id="pengajar-heading" class="text-primary text-4xl font-noto font-bold mb-4">Tim Pengajar</h2>
+          <p class="text-on-surface-variant max-w-xl mx-auto">Pengajar kami adalah lulusan Jepang dengan sertifikasi JLPT N1 dan pengalaman mengajar lebih dari 5 tahun.</p>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
+          <!-- TODO: Add teacher photos → images/guru-1.jpg ... images/guru-5.jpg -->
+          <div class="text-center">
+            <div class="w-24 h-24 rounded-full overflow-hidden mx-auto mb-4 border-4 border-surface-container">
+              <img src="images/guru-1.jpg" alt="Pengajar Bahasa Jepang 1 PT. Ichikara" class="w-full h-full object-cover" loading="lazy">
+            </div>
+            <h4 class="font-bold text-primary text-sm">Sensei Aiko</h4>
+            <p class="text-xs text-on-surface-variant">N5 – N3 Specialist</p>
+          </div>
+          <div class="text-center">
+            <div class="w-24 h-24 rounded-full overflow-hidden mx-auto mb-4 border-4 border-surface-container">
+              <img src="images/guru-2.jpg" alt="Pengajar Bahasa Jepang 2 PT. Ichikara" class="w-full h-full object-cover" loading="lazy">
+            </div>
+            <h4 class="font-bold text-primary text-sm">Sensei Hiro</h4>
+            <p class="text-xs text-on-surface-variant">Business Japanese</p>
+          </div>
+          <div class="text-center">
+            <div class="w-24 h-24 rounded-full overflow-hidden mx-auto mb-4 border-4 border-surface-container">
+              <img src="images/guru-3.jpg" alt="Pengajar Bahasa Jepang 3 PT. Ichikara" class="w-full h-full object-cover" loading="lazy">
+            </div>
+            <h4 class="font-bold text-primary text-sm">Sensei Yuki</h4>
+            <p class="text-xs text-on-surface-variant">N2 – N1 Specialist</p>
+          </div>
+          <div class="text-center">
+            <div class="w-24 h-24 rounded-full overflow-hidden mx-auto mb-4 border-4 border-surface-container">
+              <img src="images/guru-4.jpg" alt="Pengajar Bahasa Jepang 4 PT. Ichikara" class="w-full h-full object-cover" loading="lazy">
+            </div>
+            <h4 class="font-bold text-primary text-sm">Sensei Kenji</h4>
+            <p class="text-xs text-on-surface-variant">JLPT Preparation</p>
+          </div>
+          <div class="text-center">
+            <div class="w-24 h-24 rounded-full overflow-hidden mx-auto mb-4 border-4 border-surface-container">
+              <img src="images/guru-5.jpg" alt="Pengajar Bahasa Jepang 5 PT. Ichikara" class="w-full h-full object-cover" loading="lazy">
+            </div>
+            <h4 class="font-bold text-primary text-sm">Sensei Riko</h4>
+            <p class="text-xs text-on-surface-variant">Conversation Class</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         CTA BANNER
+         ========================================================= -->
+    <section class="py-xxl bg-primary" aria-label="Daftar kursus">
+      <div class="container mx-auto max-w-[1200px] px-6 text-center">
+        <h2 class="text-white text-4xl font-noto font-bold mb-6">Mulai Perjalanan Bahasa Jepang Anda</h2>
+        <p class="text-surface-container-highest text-lg mb-10 max-w-xl mx-auto">
+          Daftar sekarang dan dapatkan sesi percobaan gratis bersama pengajar kami.
+        </p>
+        <!-- TODO: Replace XXXXXXXXXX with real WhatsApp number -->
+        <a href="https://wa.me/6288291469464" class="inline-flex items-center gap-3 bg-secondary text-white px-10 py-5 rounded-full font-bold hover:bg-red-hover transition-all" rel="noopener noreferrer" target="_blank">
+          <span class="material-symbols-outlined" aria-hidden="true">chat</span>
+          Daftar via WhatsApp
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script src="js/header-loader.js"></script>
+
+</body>
+</html>

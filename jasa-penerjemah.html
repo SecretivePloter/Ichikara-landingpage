@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jasa Penerjemah Bahasa Jepang | PT. Ichikara</title>
+  <meta name="description" content="Layanan penerjemahan dokumen bahasa Jepang–Indonesia profesional oleh penerjemah tersumpah. Dokumen bisnis, hukum, teknis, dan lebih banyak lagi.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Serif+JP:wght@600;700;900&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script src="js/tailwind-config.js"></script>
+  <!-- Konten dinamis: Supabase + loader bersama (lihat js/site-data.js) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="js/site-data.js"></script>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="bg-background text-on-background font-inter" data-site-root="">
+
+  <div id="site-header"></div>
+
+  <main>
+
+    <!-- =========================================================
+         HERO SECTION — full-bleed image, dark overlay, centered text
+         Image: images/hero-penerjemah.jpg (desk with documents)
+         ========================================================= -->
+    <section class="relative min-h-[80vh] flex items-center justify-center overflow-hidden bg-primary" aria-label="Hero Jasa Penerjemah">
+      <img src="images/hero-penerjemah.jpg" alt="" aria-hidden="true" class="absolute inset-0 w-full h-full object-cover">
+      <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/55 to-black/85"></div>
+      <!-- Decorative kanji 訳 (translation) -->
+      <div class="absolute inset-0 flex items-center justify-center" aria-hidden="true">
+        <span class="japanese-watermark text-white text-[26rem] lg:text-[36rem]">訳</span>
+      </div>
+
+      <div class="relative z-10 max-w-3xl mx-auto px-6 text-center text-white pt-20">
+        <nav class="flex justify-center gap-2 text-xs text-white/60 mb-6" aria-label="Breadcrumb">
+          <a href="beranda.html" class="hover:text-white transition-colors">Beranda</a>
+          <span aria-hidden="true">/</span>
+          <span class="text-white" aria-current="page">Jasa Penerjemah</span>
+        </nav>
+        <h1 class="font-noto font-bold text-4xl lg:text-6xl leading-[1.15] mb-6">Jasa Penerjemah Bahasa Jepang</h1>
+        <p class="text-lg text-white/80 leading-relaxed max-w-2xl mx-auto mb-10">
+          Penerjemahan dokumen bisnis, hukum, dan teknis oleh penerjemah bersertifikat dengan pengalaman industri lebih dari 10 tahun.
+        </p>
+        <div class="flex flex-wrap gap-4 justify-center">
+          <!-- TODO: Replace XXXXXXXXXX with real WhatsApp number -->
+          <a href="https://wa.me/6288291469464" class="bg-secondary text-white px-8 py-4 rounded-full font-bold hover:bg-red-hover transition-all flex items-center gap-2" rel="noopener noreferrer" target="_blank">
+            <span class="material-symbols-outlined" aria-hidden="true">chat</span>
+            Konsultasi Gratis
+          </a>
+          <a href="#layanan-penerjemah" class="border border-white/40 text-white px-8 py-4 rounded-full font-bold hover:bg-white/10 transition-all">
+            Lihat Layanan
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         STATS STRIP
+         ========================================================= -->
+    <section class="bg-white border-b border-border-light py-12" aria-label="Statistik layanan">
+      <div class="container mx-auto max-w-[1200px] px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+        <div>
+          <p class="text-4xl font-noto font-black text-primary">5+</p>
+          <p class="text-sm text-on-surface-variant mt-1">Pasang Bahasa</p>
+        </div>
+        <div>
+          <p class="text-4xl font-noto font-black text-primary">10+</p>
+          <p class="text-sm text-on-surface-variant mt-1">Tahun Pengalaman</p>
+        </div>
+        <div>
+          <p class="text-4xl font-noto font-black text-primary">500+</p>
+          <p class="text-sm text-on-surface-variant mt-1">Proyek Selesai</p>
+        </div>
+        <div>
+          <p class="text-4xl font-noto font-black text-primary">98%</p>
+          <p class="text-sm text-on-surface-variant mt-1">Kepuasan Klien</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         LANGUAGE PAIRS — 5 cards (JP/EN/ID/KR/CN)
+         Images: images/flag-jp.png, flag-en.png, flag-id.png, flag-kr.png, flag-cn.png
+         ========================================================= -->
+    <section class="py-xxl bg-bg-gray" id="layanan-penerjemah" aria-labelledby="bahasa-heading">
+      <div class="container mx-auto max-w-[1200px] px-6">
+        <div class="text-center mb-16 fade-in">
+          <h2 id="bahasa-heading" class="text-primary text-4xl font-noto font-bold mb-4">Pasang Bahasa Tersedia</h2>
+          <p class="text-on-surface-variant max-w-xl mx-auto">Kami menangani dokumen dari dan ke berbagai bahasa utama Asia dan Eropa.</p>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+          <!-- TODO: Add flag images → images/flag-jp.png, flag-en.png, flag-id.png, flag-kr.png, flag-cn.png -->
+          <div class="bg-white rounded-xl p-6 text-center border border-border-light card-hover">
+            <div class="w-16 h-16 rounded-full overflow-hidden mx-auto mb-4 border-2 border-border-light">
+              <img src="images/flag-jp.png" alt="Bendera Jepang" class="w-full h-full object-cover" loading="lazy">
+            </div>
+            <h3 class="font-bold text-primary">Bahasa Jepang</h3>
+            <p class="text-xs text-on-surface-variant mt-1">日本語</p>
+          </div>
+          <div class="bg-white rounded-xl p-6 text-center border border-border-light card-hover">
+            <div class="w-16 h-16 rounded-full overflow-hidden mx-auto mb-4 border-2 border-border-light">
+              <img src="images/flag-en.png" alt="Bendera Inggris" class="w-full h-full object-cover" loading="lazy">
+            </div>
+            <h3 class="font-bold text-primary">Bahasa Inggris</h3>
+            <p class="text-xs text-on-surface-variant mt-1">English</p>
+          </div>
+          <div class="bg-white rounded-xl p-6 text-center border border-border-light card-hover">
+            <div class="w-16 h-16 rounded-full overflow-hidden mx-auto mb-4 border-2 border-border-light">
+              <img src="images/flag-id.png" alt="Bendera Indonesia" class="w-full h-full object-cover" loading="lazy">
+            </div>
+            <h3 class="font-bold text-primary">Bahasa Indonesia</h3>
+            <p class="text-xs text-on-surface-variant mt-1">Indonesia</p>
+          </div>
+          <div class="bg-white rounded-xl p-6 text-center border border-border-light card-hover">
+            <div class="w-16 h-16 rounded-full overflow-hidden mx-auto mb-4 border-2 border-border-light">
+              <img src="images/flag-kr.png" alt="Bendera Korea" class="w-full h-full object-cover" loading="lazy">
+            </div>
+            <h3 class="font-bold text-primary">Bahasa Korea</h3>
+            <p class="text-xs text-on-surface-variant mt-1">한국어</p>
+          </div>
+          <div class="bg-white rounded-xl p-6 text-center border border-border-light card-hover">
+            <div class="w-16 h-16 rounded-full overflow-hidden mx-auto mb-4 border-2 border-border-light">
+              <img src="images/flag-cn.png" alt="Bendera China" class="w-full h-full object-cover" loading="lazy">
+            </div>
+            <h3 class="font-bold text-primary">Bahasa Mandarin</h3>
+            <p class="text-xs text-on-surface-variant mt-1">中文</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         TRANSLATOR TYPES — 3 cards
+         ========================================================= -->
+    <section class="py-xxl bg-white" aria-labelledby="tipe-heading">
+      <div class="container mx-auto max-w-[1200px] px-6">
+        <div class="text-center mb-16 fade-in">
+          <h2 id="tipe-heading" class="text-primary text-4xl font-noto font-bold mb-4">Jenis Penerjemah Kami</h2>
+          <p class="text-on-surface-variant max-w-xl mx-auto">Pilih tipe penerjemah sesuai kebutuhan dokumen dan tingkat formalitas yang diperlukan.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div class="service-card bg-bg-gray p-8 rounded-xl border border-border-light">
+            <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-6">
+              <span class="material-symbols-outlined text-primary" aria-hidden="true">verified</span>
+            </div>
+            <h3 class="text-xl font-noto font-bold text-primary mb-3">Penerjemah Tersumpah</h3>
+            <p class="text-on-surface-variant text-sm leading-relaxed mb-6">
+              Penerjemahan resmi dengan sertifikasi pemerintah, dibutuhkan untuk dokumen legal, imigrasi, dan korporat.
+            </p>
+            <a href="jasa-penerjemah/dokumen-translation.html" class="text-secondary font-bold text-sm flex items-center gap-1 hover:underline">
+              Selengkapnya <span class="material-symbols-outlined text-sm" aria-hidden="true">chevron_right</span>
+            </a>
+          </div>
+
+          <div class="service-card bg-bg-gray p-8 rounded-xl border border-border-light">
+            <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-6">
+              <span class="material-symbols-outlined text-primary" aria-hidden="true">description</span>
+            </div>
+            <h3 class="text-xl font-noto font-bold text-primary mb-3">Penerjemah Reguler</h3>
+            <p class="text-on-surface-variant text-sm leading-relaxed mb-6">
+              Penerjemahan dokumen bisnis, teknis, dan internal dengan turnaround cepat dan biaya terjangkau.
+            </p>
+            <a href="jasa-penerjemah/dokumen-translation.html" class="text-secondary font-bold text-sm flex items-center gap-1 hover:underline">
+              Selengkapnya <span class="material-symbols-outlined text-sm" aria-hidden="true">chevron_right</span>
+            </a>
+          </div>
+
+          <div class="service-card bg-bg-gray p-8 rounded-xl border border-border-light">
+            <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-6">
+              <span class="material-symbols-outlined text-primary" aria-hidden="true">rate_review</span>
+            </div>
+            <h3 class="text-xl font-noto font-bold text-primary mb-3">Native Review</h3>
+            <p class="text-on-surface-variant text-sm leading-relaxed mb-6">
+              Review dan penyempurnaan terjemahan oleh penutur asli bahasa Jepang untuk konten marketing premium.
+            </p>
+            <a href="jasa-penerjemah/dokumen-translation.html" class="text-secondary font-bold text-sm flex items-center gap-1 hover:underline">
+              Selengkapnya <span class="material-symbols-outlined text-sm" aria-hidden="true">chevron_right</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         SPECIFIC SERVICES — 6 icon tiles
+         ========================================================= -->
+    <section class="py-xxl bg-bg-gray" aria-labelledby="spesifik-heading">
+      <div class="container mx-auto max-w-[1200px] px-6">
+        <div class="text-center mb-16 fade-in">
+          <h2 id="spesifik-heading" class="text-primary text-4xl font-noto font-bold mb-4">Layanan Spesifik</h2>
+          <p class="text-on-surface-variant max-w-xl mx-auto">Sub-layanan yang dirancang untuk kebutuhan penerjemahan yang lebih spesifik.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+          <a href="jasa-penerjemah/dokumen-translation.html" class="flex gap-4 items-start bg-white p-6 rounded-xl border border-border-light card-hover group">
+            <div class="w-10 h-10 bg-secondary/10 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-secondary/20 transition-colors">
+              <span class="material-symbols-outlined text-secondary text-[20px]" aria-hidden="true">article</span>
+            </div>
+            <div>
+              <h3 class="font-bold text-primary mb-1">Penerjemahan Dokumen</h3>
+              <p class="text-xs text-on-surface-variant leading-relaxed">Dokumen resmi, kontrak, dan sertifikat</p>
+            </div>
+          </a>
+
+          <a href="jasa-penerjemah/e-learning.html" class="flex gap-4 items-start bg-white p-6 rounded-xl border border-border-light card-hover group">
+            <div class="w-10 h-10 bg-secondary/10 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-secondary/20 transition-colors">
+              <span class="material-symbols-outlined text-secondary text-[20px]" aria-hidden="true">school</span>
+            </div>
+            <div>
+              <h3 class="font-bold text-primary mb-1">E-Learning</h3>
+              <p class="text-xs text-on-surface-variant leading-relaxed">Modul pelatihan dan materi pendidikan digital</p>
+            </div>
+          </a>
+
+          <a href="jasa-penerjemah/video-translation.html" class="flex gap-4 items-start bg-white p-6 rounded-xl border border-border-light card-hover group">
+            <div class="w-10 h-10 bg-secondary/10 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-secondary/20 transition-colors">
+              <span class="material-symbols-outlined text-secondary text-[20px]" aria-hidden="true">videocam</span>
+            </div>
+            <div>
+              <h3 class="font-bold text-primary mb-1">Penerjemahan Video</h3>
+              <p class="text-xs text-on-surface-variant leading-relaxed">Subtitle dan dubbing untuk konten video</p>
+            </div>
+          </a>
+
+          <a href="jasa-penerjemah/website-translation.html" class="flex gap-4 items-start bg-white p-6 rounded-xl border border-border-light card-hover group">
+            <div class="w-10 h-10 bg-secondary/10 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-secondary/20 transition-colors">
+              <span class="material-symbols-outlined text-secondary text-[20px]" aria-hidden="true">language</span>
+            </div>
+            <div>
+              <h3 class="font-bold text-primary mb-1">Penerjemahan Website</h3>
+              <p class="text-xs text-on-surface-variant leading-relaxed">Lokalisasi konten website dan aplikasi</p>
+            </div>
+          </a>
+
+          <a href="jasa-penerjemah/dokumen-translation.html" class="flex gap-4 items-start bg-white p-6 rounded-xl border border-border-light card-hover group">
+            <div class="w-10 h-10 bg-secondary/10 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-secondary/20 transition-colors">
+              <span class="material-symbols-outlined text-secondary text-[20px]" aria-hidden="true">gavel</span>
+            </div>
+            <div>
+              <h3 class="font-bold text-primary mb-1">Penerjemahan Hukum</h3>
+              <p class="text-xs text-on-surface-variant leading-relaxed">Kontrak, perjanjian, dan dokumen legal lainnya</p>
+            </div>
+          </a>
+
+          <a href="jasa-penerjemah/dokumen-translation.html" class="flex gap-4 items-start bg-white p-6 rounded-xl border border-border-light card-hover group">
+            <div class="w-10 h-10 bg-secondary/10 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-secondary/20 transition-colors">
+              <span class="material-symbols-outlined text-secondary text-[20px]" aria-hidden="true">engineering</span>
+            </div>
+            <div>
+              <h3 class="font-bold text-primary mb-1">Penerjemahan Teknis</h3>
+              <p class="text-xs text-on-surface-variant leading-relaxed">Manual mesin, spesifikasi, dan dokumen industri</p>
+            </div>
+          </a>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         KEUNGGULAN (WHY CHOOSE US)
+         Image: images/keunggulan-penerjemah.jpg
+         ========================================================= -->
+    <section class="py-xxl bg-white" aria-labelledby="keunggulan-heading">
+      <div class="container mx-auto max-w-[1200px] px-6 grid lg:grid-cols-2 gap-16 items-center">
+        <!-- TODO: Add → images/keunggulan-penerjemah.jpg (team working photo) -->
+        <div class="relative h-80 rounded-2xl overflow-hidden shadow-xl">
+          <img src="images/keunggulan-penerjemah.jpg" alt="Tim penerjemah PT. Ichikara" class="w-full h-full object-cover" loading="lazy">
+          <a href="#" class="absolute inset-0 flex items-center justify-center bg-primary/30 hover:bg-primary/40 transition-colors group" aria-label="Putar video profil layanan penerjemahan">
+            <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform">
+              <span class="material-symbols-outlined text-primary text-4xl" aria-hidden="true">play_arrow</span>
+            </div>
+          </a>
+        </div>
+
+        <div>
+          <h2 id="keunggulan-heading" class="text-primary text-4xl font-noto font-bold mb-8">Kenapa Pilih Ichikara?</h2>
+          <ul class="space-y-5">
+            <li class="flex gap-4 items-start">
+              <div class="w-8 h-8 bg-secondary/10 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                <span class="material-symbols-outlined text-secondary text-[18px]" aria-hidden="true">check</span>
+              </div>
+              <div>
+                <h4 class="font-bold text-primary mb-1">Penerjemah Bersertifikasi</h4>
+                <p class="text-on-surface-variant text-sm leading-relaxed">Semua penerjemah memiliki sertifikasi resmi dan spesialisasi industri.</p>
+              </div>
+            </li>
+            <li class="flex gap-4 items-start">
+              <div class="w-8 h-8 bg-secondary/10 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                <span class="material-symbols-outlined text-secondary text-[18px]" aria-hidden="true">check</span>
+              </div>
+              <div>
+                <h4 class="font-bold text-primary mb-1">Konteks Budaya Mendalam</h4>
+                <p class="text-on-surface-variant text-sm leading-relaxed">Kami memahami nuansa budaya bisnis Jepang–Indonesia untuk komunikasi yang lebih efektif.</p>
+              </div>
+            </li>
+            <li class="flex gap-4 items-start">
+              <div class="w-8 h-8 bg-secondary/10 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                <span class="material-symbols-outlined text-secondary text-[18px]" aria-hidden="true">check</span>
+              </div>
+              <div>
+                <h4 class="font-bold text-primary mb-1">Turnaround Cepat</h4>
+                <p class="text-on-surface-variant text-sm leading-relaxed">Dokumen standar selesai dalam 1–3 hari kerja. Layanan ekspres tersedia.</p>
+              </div>
+            </li>
+            <li class="flex gap-4 items-start">
+              <div class="w-8 h-8 bg-secondary/10 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                <span class="material-symbols-outlined text-secondary text-[18px]" aria-hidden="true">check</span>
+              </div>
+              <div>
+                <h4 class="font-bold text-primary mb-1">Kerahasiaan Dokumen</h4>
+                <p class="text-on-surface-variant text-sm leading-relaxed">Setiap dokumen klien dijaga kerahasiaannya dengan protokol perlindungan data yang ketat.</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         FAQ ACCORDION
+         To add new FAQ: copy one <div class="accordion-item"> block below.
+         ========================================================= -->
+    <section class="py-xxl bg-bg-gray" aria-labelledby="faq-heading">
+      <div class="container mx-auto max-w-[1200px] px-6">
+        <div class="text-center mb-12 fade-in">
+          <h2 id="faq-heading" class="text-primary text-4xl font-noto font-bold mb-4">Pertanyaan Umum</h2>
+        </div>
+
+        <div class="max-w-3xl mx-auto space-y-3">
+
+          <div class="accordion-item bg-white rounded-xl border border-border-light overflow-hidden">
+            <button class="w-full flex justify-between items-center px-6 py-5 text-left font-bold text-primary hover:text-secondary transition-colors"
+                    aria-expanded="false"
+                    onclick="toggleAccordion(this)">
+              Berapa lama waktu penerjemahan dokumen?
+              <span class="material-symbols-outlined accordion-arrow flex-shrink-0 ml-4" aria-hidden="true">expand_more</span>
+            </button>
+            <div class="accordion-content px-6">
+              <p class="text-on-surface-variant text-sm leading-relaxed pb-5">
+                Dokumen standar (1–5 halaman) biasanya selesai dalam 1–2 hari kerja. Dokumen lebih panjang atau teknis mungkin memerlukan 3–7 hari kerja. Layanan ekspres (24 jam) tersedia dengan biaya tambahan.
+              </p>
+            </div>
+          </div>
+
+          <div class="accordion-item bg-white rounded-xl border border-border-light overflow-hidden">
+            <button class="w-full flex justify-between items-center px-6 py-5 text-left font-bold text-primary hover:text-secondary transition-colors"
+                    aria-expanded="false"
+                    onclick="toggleAccordion(this)">
+              Apakah terjemahan tersumpah diakui secara resmi?
+              <span class="material-symbols-outlined accordion-arrow flex-shrink-0 ml-4" aria-hidden="true">expand_more</span>
+            </button>
+            <div class="accordion-content px-6">
+              <p class="text-on-surface-variant text-sm leading-relaxed pb-5">
+                Ya. Penerjemah tersumpah kami berlisensi dari pemerintah Indonesia. Terjemahan tersumpah PT. Ichikara diterima oleh instansi pemerintah, pengadilan, kedutaan besar, dan lembaga imigrasi.
+              </p>
+            </div>
+          </div>
+
+          <div class="accordion-item bg-white rounded-xl border border-border-light overflow-hidden">
+            <button class="w-full flex justify-between items-center px-6 py-5 text-left font-bold text-primary hover:text-secondary transition-colors"
+                    aria-expanded="false"
+                    onclick="toggleAccordion(this)">
+              Bagaimana cara mengirimkan dokumen?
+              <span class="material-symbols-outlined accordion-arrow flex-shrink-0 ml-4" aria-hidden="true">expand_more</span>
+            </button>
+            <div class="accordion-content px-6">
+              <p class="text-on-surface-variant text-sm leading-relaxed pb-5">
+                Dokumen dapat dikirimkan via WhatsApp, email, atau diserahkan langsung ke kantor kami. Format yang diterima: PDF, Word, Excel, PowerPoint, JPEG/PNG.
+              </p>
+            </div>
+          </div>
+
+          <div class="accordion-item bg-white rounded-xl border border-border-light overflow-hidden">
+            <button class="w-full flex justify-between items-center px-6 py-5 text-left font-bold text-primary hover:text-secondary transition-colors"
+                    aria-expanded="false"
+                    onclick="toggleAccordion(this)">
+              Apakah kerahasiaan dokumen terjamin?
+              <span class="material-symbols-outlined accordion-arrow flex-shrink-0 ml-4" aria-hidden="true">expand_more</span>
+            </button>
+            <div class="accordion-content px-6">
+              <p class="text-on-surface-variant text-sm leading-relaxed pb-5">
+                Tentu. Semua dokumen klien tunduk pada perjanjian kerahasiaan (NDA) internal kami dan dihapus dari sistem setelah proyek selesai.
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         CTA BANNER
+         ========================================================= -->
+    <section class="py-xxl bg-primary" aria-label="Hubungi kami">
+      <div class="container mx-auto max-w-[1200px] px-6 text-center">
+        <h2 class="text-white text-4xl font-noto font-bold mb-6">Siap Memulai Penerjemahan?</h2>
+        <p class="text-surface-container-highest text-lg mb-10 max-w-xl mx-auto">
+          Konsultasikan kebutuhan penerjemahan Anda sekarang. Gratis, tanpa komitmen.
+        </p>
+        <!-- TODO: Replace XXXXXXXXXX with real WhatsApp number -->
+        <a href="https://wa.me/6288291469464" class="inline-flex items-center gap-3 bg-secondary text-white px-10 py-5 rounded-full font-bold hover:bg-red-hover transition-all" rel="noopener noreferrer" target="_blank">
+          <span class="material-symbols-outlined" aria-hidden="true">chat</span>
+          Hubungi via WhatsApp
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script>
+    function toggleAccordion(btn) {
+      var item   = btn.closest('.accordion-item');
+      var isOpen = item.classList.contains('open');
+      document.querySelectorAll('.accordion-item.open').forEach(function (el) {
+        el.classList.remove('open');
+        el.querySelector('button').setAttribute('aria-expanded', 'false');
+      });
+      if (!isOpen) {
+        item.classList.add('open');
+        btn.setAttribute('aria-expanded', 'true');
+      }
+    }
+  </script>
+
+  <script src="js/header-loader.js"></script>
+
+</body>
+</html>

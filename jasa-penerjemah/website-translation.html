@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Penerjemahan Website | PT. Ichikara</title>
+  <meta name="description" content="Layanan lokalisasi website dan aplikasi bahasa Jepang–Indonesia. Terjemahan akurat yang adaptif terhadap budaya dan UX target pasar.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Serif+JP:wght@600;700;900&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script src="../js/tailwind-config.js"></script>
+  <!-- Konten dinamis: Supabase + loader bersama (lihat js/site-data.js) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="../js/site-data.js"></script>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body class="bg-background text-on-background font-inter" data-site-root="../">
+
+  <div id="site-header"></div>
+
+  <main>
+
+    <!-- HERO -->
+    <section class="relative min-h-[70vh] flex items-center justify-center bg-primary overflow-hidden" aria-label="Website Translation">
+      <img src="../images/hero-website.jpg" alt="" aria-hidden="true" class="absolute inset-0 w-full h-full object-cover">
+      <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/55 to-black/85"></div>
+      <div class="absolute inset-0 flex items-center justify-center" aria-hidden="true">
+        <span class="japanese-watermark text-white text-[24rem] lg:text-[32rem]">語</span>
+      </div>
+
+      <div class="container mx-auto max-w-3xl px-6 relative z-10 text-center text-white pt-20">
+        <nav class="flex justify-center gap-2 text-xs text-white/60 mb-6" aria-label="Breadcrumb">
+          <a href="../beranda.html" class="hover:text-white transition-colors">Beranda</a>
+          <span aria-hidden="true">/</span>
+          <a href="../jasa-penerjemah.html" class="hover:text-white transition-colors">Jasa Penerjemah</a>
+          <span aria-hidden="true">/</span>
+          <span class="text-white" aria-current="page">Penerjemahan Website</span>
+        </nav>
+        <h1 class="font-noto font-bold text-4xl lg:text-6xl leading-[1.15] mb-6">
+          Penerjemahan &amp; Lokalisasi Website
+        </h1>
+        <p class="text-lg text-white/80 leading-relaxed max-w-2xl mx-auto mb-10">
+          Lebih dari sekadar terjemahan kata. Kami mengadaptasi konten website Anda agar terasa natural bagi pengguna Jepang maupun Indonesia.
+        </p>
+        <!-- TODO: Replace XXXXXXXXXX with real WhatsApp number -->
+        <a href="https://wa.me/6288291469464" class="inline-flex items-center gap-2 bg-secondary text-white px-8 py-4 rounded-full font-bold hover:bg-red-hover transition-all" rel="noopener noreferrer" target="_blank">
+          <span class="material-symbols-outlined" aria-hidden="true">chat</span>
+          Konsultasi Gratis
+        </a>
+      </div>
+    </section>
+
+    <!-- TRANSLATION vs LOCALIZATION -->
+    <section class="py-xxl bg-white" aria-labelledby="lokalisasi-heading">
+      <div class="container mx-auto max-w-[1200px] px-6">
+        <div class="text-center mb-16 fade-in">
+          <h2 id="lokalisasi-heading" class="text-primary text-4xl font-noto font-bold mb-4">Penerjemahan vs Lokalisasi</h2>
+          <p class="text-on-surface-variant max-w-2xl mx-auto">
+            Kami tidak hanya menerjemahkan kata. Kami melokalisasi pesan Anda agar beresonansi dengan audiens target secara budaya dan kontekstual.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          <div class="bg-bg-gray rounded-2xl p-8 border border-border-light">
+            <h3 class="font-noto font-bold text-primary text-xl mb-4 flex items-center gap-3">
+              <span class="material-symbols-outlined text-on-surface-variant" aria-hidden="true">translate</span>
+              Penerjemahan Biasa
+            </h3>
+            <ul class="space-y-3 text-sm text-on-surface-variant">
+              <li class="flex gap-2 items-center"><span class="material-symbols-outlined text-on-surface-variant text-[16px]" aria-hidden="true">close</span> Kata-per-kata dari bahasa sumber</li>
+              <li class="flex gap-2 items-center"><span class="material-symbols-outlined text-on-surface-variant text-[16px]" aria-hidden="true">close</span> Idiom bisa terasa janggal</li>
+              <li class="flex gap-2 items-center"><span class="material-symbols-outlined text-on-surface-variant text-[16px]" aria-hidden="true">close</span> Format tanggal/mata uang tidak disesuaikan</li>
+              <li class="flex gap-2 items-center"><span class="material-symbols-outlined text-on-surface-variant text-[16px]" aria-hidden="true">close</span> Nuansa budaya bisa hilang</li>
+            </ul>
+          </div>
+
+          <div class="bg-white rounded-2xl p-8 border-2 border-secondary shadow-lg">
+            <h3 class="font-noto font-bold text-primary text-xl mb-4 flex items-center gap-3">
+              <span class="material-symbols-outlined text-secondary" aria-hidden="true">public</span>
+              Lokalisasi PT. Ichikara
+            </h3>
+            <ul class="space-y-3 text-sm text-on-surface-variant">
+              <li class="flex gap-2 items-center"><span class="material-symbols-outlined text-secondary text-[16px]" aria-hidden="true">check_circle</span> Adaptasi makna dan konteks budaya</li>
+              <li class="flex gap-2 items-center"><span class="material-symbols-outlined text-secondary text-[16px]" aria-hidden="true">check_circle</span> Idiom dan ungkapan natural</li>
+              <li class="flex gap-2 items-center"><span class="material-symbols-outlined text-secondary text-[16px]" aria-hidden="true">check_circle</span> Format lokal (tanggal, mata uang, alamat)</li>
+              <li class="flex gap-2 items-center"><span class="material-symbols-outlined text-secondary text-[16px]" aria-hidden="true">check_circle</span> Tone of voice disesuaikan audiens</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHAT WE LOCALIZE -->
+    <section class="py-xxl bg-bg-gray" aria-labelledby="konten-heading">
+      <div class="container mx-auto max-w-[1200px] px-6">
+        <div class="text-center mb-16 fade-in">
+          <h2 id="konten-heading" class="text-primary text-4xl font-noto font-bold mb-4">Konten yang Kami Lokalisasi</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+          <div class="bg-white p-6 rounded-xl border border-border-light service-card">
+            <div class="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
+              <span class="material-symbols-outlined text-primary" aria-hidden="true">web</span>
+            </div>
+            <h3 class="font-bold text-primary mb-2">Landing Page &amp; Website</h3>
+            <p class="text-on-surface-variant text-sm leading-relaxed">Teks, CTA, tagline, dan microcopy yang terasa natural bagi pengguna target.</p>
+          </div>
+
+          <div class="bg-white p-6 rounded-xl border border-border-light service-card">
+            <div class="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
+              <span class="material-symbols-outlined text-primary" aria-hidden="true">phone_android</span>
+            </div>
+            <h3 class="font-bold text-primary mb-2">Aplikasi Mobile &amp; Desktop</h3>
+            <p class="text-on-surface-variant text-sm leading-relaxed">UI string, pesan error, notifikasi, dan onboarding yang adaptif terhadap budaya pengguna.</p>
+          </div>
+
+          <div class="bg-white p-6 rounded-xl border border-border-light service-card">
+            <div class="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
+              <span class="material-symbols-outlined text-primary" aria-hidden="true">shopping_cart</span>
+            </div>
+            <h3 class="font-bold text-primary mb-2">E-Commerce</h3>
+            <p class="text-on-surface-variant text-sm leading-relaxed">Deskripsi produk, kategori, checkout flow, dan email transaksional yang meyakinkan pembeli.</p>
+          </div>
+
+          <div class="bg-white p-6 rounded-xl border border-border-light service-card">
+            <div class="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
+              <span class="material-symbols-outlined text-primary" aria-hidden="true">help</span>
+            </div>
+            <h3 class="font-bold text-primary mb-2">Help Center &amp; Dokumentasi</h3>
+            <p class="text-on-surface-variant text-sm leading-relaxed">FAQ, artikel bantuan, dan dokumentasi teknis yang mudah dipahami pengguna lokal.</p>
+          </div>
+
+          <div class="bg-white p-6 rounded-xl border border-border-light service-card">
+            <div class="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
+              <span class="material-symbols-outlined text-primary" aria-hidden="true">campaign</span>
+            </div>
+            <h3 class="font-bold text-primary mb-2">Konten Marketing</h3>
+            <p class="text-on-surface-variant text-sm leading-relaxed">Blog, artikel, email marketing, dan materi promosi dengan tone of voice yang tepat.</p>
+          </div>
+
+          <div class="bg-white p-6 rounded-xl border border-border-light service-card">
+            <div class="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
+              <span class="material-symbols-outlined text-primary" aria-hidden="true">manage_accounts</span>
+            </div>
+            <h3 class="font-bold text-primary mb-2">SaaS &amp; Dashboard</h3>
+            <p class="text-on-surface-variant text-sm leading-relaxed">Seluruh interface produk digital Anda, dari menu hingga laporan analitik.</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="py-xxl bg-primary" aria-label="Hubungi kami">
+      <div class="container mx-auto max-w-[1200px] px-6 text-center">
+        <h2 class="text-white text-4xl font-noto font-bold mb-6">Ekspansi Digital ke Pasar Jepang atau Indonesia</h2>
+        <p class="text-surface-container-highest mb-10 max-w-xl mx-auto">Diskusikan kebutuhan lokalisasi website Anda bersama tim ahli kami.</p>
+        <a href="https://wa.me/6288291469464" class="inline-flex items-center gap-3 bg-secondary text-white px-10 py-5 rounded-full font-bold hover:bg-red-hover transition-all" rel="noopener noreferrer" target="_blank">
+          <span class="material-symbols-outlined" aria-hidden="true">chat</span>
+          Hubungi via WhatsApp
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script src="../js/header-loader.js"></script>
+
+</body>
+</html>
