@@ -8,6 +8,11 @@ Log perubahan project. Format entri: **tanggal — ringkasan perubahan — file/
 
 ---
 
+## 2026-09-07 — Fix: kartu "Layanan" di beranda terlihat kosong/rusak
+- **Laporan user:** setelah 4 placeholder foto layanan diganti gradient polos (lihat entri di bawah), kartu terlihat seperti gambar gagal tampil — dicek langsung ke production (`curl` + baca file JPG-nya), file-nya 200 OK dan valid, cuma warna solid tanpa elemen visual apa pun jadi tidak terbaca sebagai "gambar" oleh pengunjung.
+- **Fix:** `scripts/gen-hero-placeholders.js` diperbarui — tiap kartu sekarang punya watermark kanji besar (opacity 0.28) senada dengan kanji yang sudah dipakai di hero halaman terkait (訳=jasa-penerjemah, 通=jasa-interpreter, 学=kursus-bahasa, 働=tokutei-ginou), supaya jelas terlihat disengaja sambil menunggu admin upload foto asli lewat admin panel (slot sudah ada di tab "Gambar Website" > Beranda).
+- Terdampak: `images/layanan-*.jpg` (4 file), `scripts/gen-hero-placeholders.js`.
+
 ## 2026-09-07 — Cek & perbaikan tampilan mobile sebelum deploy
 - Ditemukan 4 gambar lagi dengan pola sama seperti hero placeholder sebelumnya: `images/layanan-penerjemahan.jpg`, `layanan-interpreter.jpg`, `layanan-kursus.jpg`, `layanan-tokutei.jpg` (dipakai di 4 kartu "Layanan Kami" beranda.html) ternyata baked-in teks judul (bahkan ada typo "Translater") yang duplikat dengan `<h3>` di bawahnya — makin terlihat jelek/terpotong di layar mobile sempit.
 - Diganti gradient brand bersih (ink/merah/emas, tanpa teks) via `scripts/gen-hero-placeholders.js` (diperluas untuk menangani kedua kategori: hero 2:1 dan kartu layanan 16:10).
