@@ -224,11 +224,14 @@
 
     <!-- =========================================================
          KISAH SUKSES (SUCCESS STORIES PREVIEW)
-         Shows 3 latest story cards linking to success-story.html.
-         Cards carry .story-card (red left-border on hover).
-         Images: images/story-*.jpg
+         Fully admin-controlled — foto, teks, dan cerita mana yang tampil
+         semuanya diatur dari admin/index.html (tab Beranda > Cerita
+         Unggulan). TIDAK ada konten bawaan/hardcoded di sini: kalau admin
+         belum memilih cerita unggulan (dan belum ada cerita sama sekali),
+         section ini disembunyikan (lihat applyStories() di bawah), bukan
+         menampilkan placeholder palsu.
          ========================================================= -->
-    <section class="py-xxl bg-background" id="kisah-sukses" aria-labelledby="kisah-heading">
+    <section class="py-xxl bg-background hidden" id="kisah-sukses" aria-labelledby="kisah-heading">
       <div class="container mx-auto max-w-[1200px] px-6">
 
         <div class="text-center mb-16 fade-in">
@@ -237,57 +240,7 @@
           <p class="text-on-surface-variant max-w-2xl mx-auto text-lg">Inspirasi dari perjalanan mitra kami dalam meraih kesuksesan bersama PT. Ichikara.</p>
         </div>
 
-        <div id="beranda-story-grid" class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-14">
-
-          <!-- Story Card 1 -->
-          <article class="story-card group bg-white rounded-2xl overflow-hidden border border-border-light fade-in">
-            <div class="h-52 overflow-hidden">
-              <img alt="Ekspansi global perusahaan manufaktur otomotif bersama PT. Ichikara"
-                   class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                   src="images/story-otomotif.jpg" loading="lazy">
-            </div>
-            <div class="p-7">
-              <span class="label-kicker text-secondary inline-block mb-3">Penerjemahan</span>
-              <h3 class="text-xl font-noto font-bold text-primary mb-4 leading-snug">Ekspansi Global Manufaktur Otomotif</h3>
-              <a class="text-secondary font-bold text-sm inline-flex items-center gap-1 hover:gap-2 transition-all" href="success-story.html">
-                Baca Selengkapnya <span class="material-symbols-outlined text-sm" aria-hidden="true">chevron_right</span>
-              </a>
-            </div>
-          </article>
-
-          <!-- Story Card 2 -->
-          <article class="story-card group bg-white rounded-2xl overflow-hidden border border-border-light fade-in">
-            <div class="h-52 overflow-hidden">
-              <img alt="Negosiasi bisnis lintas budaya yang difasilitasi PT. Ichikara"
-                   class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                   src="images/story-negosiasi.jpg" loading="lazy">
-            </div>
-            <div class="p-7">
-              <span class="label-kicker text-secondary inline-block mb-3">Interpreter</span>
-              <h3 class="text-xl font-noto font-bold text-primary mb-4 leading-snug">Negosiasi Bisnis Lintas Budaya</h3>
-              <a class="text-secondary font-bold text-sm inline-flex items-center gap-1 hover:gap-2 transition-all" href="success-story.html">
-                Baca Selengkapnya <span class="material-symbols-outlined text-sm" aria-hidden="true">chevron_right</span>
-              </a>
-            </div>
-          </article>
-
-          <!-- Story Card 3 -->
-          <article class="story-card group bg-white rounded-2xl overflow-hidden border border-border-light fade-in">
-            <div class="h-52 overflow-hidden">
-              <img alt="Karir profesional di Jepang melalui program Tokutei Ginou PT. Ichikara"
-                   class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                   src="images/story-aichi.jpg" loading="lazy">
-            </div>
-            <div class="p-7">
-              <span class="label-kicker text-secondary inline-block mb-3">Tokutei Ginou</span>
-              <h3 class="text-xl font-noto font-bold text-primary mb-4 leading-snug">Karir Profesional di Prefektur Aichi</h3>
-              <a class="text-secondary font-bold text-sm inline-flex items-center gap-1 hover:gap-2 transition-all" href="success-story.html">
-                Baca Selengkapnya <span class="material-symbols-outlined text-sm" aria-hidden="true">chevron_right</span>
-              </a>
-            </div>
-          </article>
-
-        </div>
+        <div id="beranda-story-grid" class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-14"></div>
 
         <div class="text-center fade-in">
           <a class="inline-flex items-center gap-2 border border-primary text-primary px-9 py-4 rounded-full font-bold hover:bg-primary hover:text-white transition-all" href="success-story.html">
@@ -469,17 +422,28 @@
     }
 
     // ── Featured stories ─────────────────────────────────
+    // Section "Kisah Sukses Terbaru" mulai dalam keadaan hidden (lihat
+    // class="hidden" di <section id="kisah-sukses">). Ditampilkan HANYA
+    // kalau admin sudah punya minimal 1 cerita untuk ditunjukkan — tidak
+    // pernah menampilkan placeholder statis. Real-time: kalau admin hapus
+    // semua cerita, section ini otomatis sembunyi lagi tanpa reload.
     function applyStories(allStories, featuredIds) {
+      var section = document.getElementById('kisah-sukses');
+      var grid    = document.getElementById('beranda-story-grid');
+      if (!section || !grid) return;
+
       var featured = (featuredIds || [])
         .map(function (id) { return allStories.find(function (s) { return s.id === id; }); })
         .filter(Boolean);
 
-      // Jika featured kosong / semua sudah dihapus → 3 cerita terbaru
+      // Featured kosong / semua sudah dihapus → tampilkan 3 cerita terbaru
       if (!featured.length) featured = (allStories || []).slice(0, 3);
-      if (!featured.length) return;
 
-      var grid = document.getElementById('beranda-story-grid');
-      if (!grid) return;
+      if (!featured.length) {
+        section.classList.add('hidden');
+        grid.innerHTML = '';
+        return;
+      }
 
       grid.innerHTML = featured.map(function (s) {
         var label  = BADGE_LABELS[s.category] || 'Pencapaian';
@@ -499,6 +463,7 @@
           + '</div>'
           + '</article>';
       }).join('');
+      section.classList.remove('hidden');
     }
 
     // ── Fallback: baca localStorage (offline / file lokal) ──
