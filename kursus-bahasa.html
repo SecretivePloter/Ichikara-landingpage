@@ -575,54 +575,20 @@
     </section>
 
     <!-- =========================================================
-         TEACHER PROFILES — 5 avatars
-         Images: images/guru-1.jpg ... guru-5.jpg
+         TEACHER PROFILES — fully admin-controlled (nama, foto,
+         spesialisasi, dan siapa yang tampil semuanya diatur dari
+         admin/index.html tab "Pengajar"). TIDAK ada data bawaan di
+         sini — kalau admin belum menambahkan pengajar, section ini
+         disembunyikan (lihat applyTeachers() di bawah).
          ========================================================= -->
-    <section class="py-xxl bg-white" aria-labelledby="pengajar-heading">
+    <section class="py-xxl bg-white hidden" id="pengajar" aria-labelledby="pengajar-heading">
       <div class="container mx-auto max-w-[1200px] px-6">
         <div class="text-center mb-16 fade-in">
           <h2 id="pengajar-heading" class="text-primary text-4xl font-noto font-bold mb-4">Tim Pengajar</h2>
           <p class="text-on-surface-variant max-w-xl mx-auto">Pengajar kami adalah lulusan Jepang dengan sertifikasi JLPT N1 dan pengalaman mengajar lebih dari 5 tahun.</p>
         </div>
 
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
-          <!-- TODO: Add teacher photos → images/guru-1.jpg ... images/guru-5.jpg -->
-          <div class="text-center">
-            <div class="w-24 h-24 rounded-full overflow-hidden mx-auto mb-4 border-4 border-surface-container">
-              <img src="images/guru-1.jpg" alt="Pengajar Bahasa Jepang 1 PT. Ichikara" class="w-full h-full object-cover" loading="lazy">
-            </div>
-            <h4 class="font-bold text-primary text-sm">Sensei Aiko</h4>
-            <p class="text-xs text-on-surface-variant">N5 – N3 Specialist</p>
-          </div>
-          <div class="text-center">
-            <div class="w-24 h-24 rounded-full overflow-hidden mx-auto mb-4 border-4 border-surface-container">
-              <img src="images/guru-2.jpg" alt="Pengajar Bahasa Jepang 2 PT. Ichikara" class="w-full h-full object-cover" loading="lazy">
-            </div>
-            <h4 class="font-bold text-primary text-sm">Sensei Hiro</h4>
-            <p class="text-xs text-on-surface-variant">Business Japanese</p>
-          </div>
-          <div class="text-center">
-            <div class="w-24 h-24 rounded-full overflow-hidden mx-auto mb-4 border-4 border-surface-container">
-              <img src="images/guru-3.jpg" alt="Pengajar Bahasa Jepang 3 PT. Ichikara" class="w-full h-full object-cover" loading="lazy">
-            </div>
-            <h4 class="font-bold text-primary text-sm">Sensei Yuki</h4>
-            <p class="text-xs text-on-surface-variant">N2 – N1 Specialist</p>
-          </div>
-          <div class="text-center">
-            <div class="w-24 h-24 rounded-full overflow-hidden mx-auto mb-4 border-4 border-surface-container">
-              <img src="images/guru-4.jpg" alt="Pengajar Bahasa Jepang 4 PT. Ichikara" class="w-full h-full object-cover" loading="lazy">
-            </div>
-            <h4 class="font-bold text-primary text-sm">Sensei Kenji</h4>
-            <p class="text-xs text-on-surface-variant">JLPT Preparation</p>
-          </div>
-          <div class="text-center">
-            <div class="w-24 h-24 rounded-full overflow-hidden mx-auto mb-4 border-4 border-surface-container">
-              <img src="images/guru-5.jpg" alt="Pengajar Bahasa Jepang 5 PT. Ichikara" class="w-full h-full object-cover" loading="lazy">
-            </div>
-            <h4 class="font-bold text-primary text-sm">Sensei Riko</h4>
-            <p class="text-xs text-on-surface-variant">Conversation Class</p>
-          </div>
-        </div>
+        <div id="pengajar-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8"></div>
       </div>
     </section>
 
@@ -723,6 +689,63 @@
   </main>
 
   <div id="site-footer"></div>
+
+  <!-- =========================================================
+       DYNAMIC: Tim Pengajar — Supabase `ichikara_web_content`
+       (real-time). Sumber utama: Supabase (diset via admin/index.html
+       tab "Pengajar"). Fallback: localStorage (offline / file lokal).
+       Section #pengajar mulai hidden dan HANYA dimunculkan kalau
+       memang ada pengajar untuk ditampilkan.
+       ========================================================= -->
+  <script>
+  (function () {
+    var TEACHERS_KEY = 'ichikara-teachers-v1'; // fallback offline (dipakai hanya jika Supabase tak terjangkau)
+
+    function esc(str) {
+      return String(str || '')
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    function applyTeachers(teachers) {
+      var section = document.getElementById('pengajar');
+      var grid    = document.getElementById('pengajar-grid');
+      if (!section || !grid) return;
+
+      if (!teachers || !teachers.length) {
+        section.classList.add('hidden');
+        grid.innerHTML = '';
+        return;
+      }
+
+      grid.innerHTML = teachers.map(function (t) {
+        var imgSrc = window.IchikaraSite ? window.IchikaraSite.imgSrc(t.image) : (t.image ? 'images/' + t.image : '');
+        return '<div class="text-center fade-in visible">'
+          + '<div class="w-24 h-24 rounded-full overflow-hidden mx-auto mb-4 border-4 border-surface-container' + (imgSrc ? '' : ' flex items-center justify-center bg-surface-container') + '">'
+          + (imgSrc
+              ? '<img src="' + esc(imgSrc) + '" alt="' + esc(t.imageAlt || t.name || '') + '" class="w-full h-full object-cover" loading="lazy">'
+              : '<span class="material-symbols-outlined text-gray-300 text-3xl" aria-hidden="true">person</span>')
+          + '</div>'
+          + '<h4 class="font-bold text-primary text-sm">' + esc(t.name || '') + '</h4>'
+          + '<p class="text-xs text-on-surface-variant">' + esc(t.specialty || '') + '</p>'
+          + '</div>';
+      }).join('');
+      section.classList.remove('hidden');
+    }
+
+    function fromLocal() {
+      try { applyTeachers(JSON.parse(localStorage.getItem(TEACHERS_KEY) || '[]')); } catch (e) {}
+    }
+
+    function init() {
+      if (!window.IchikaraSite || !window.IchikaraSite.ready) { fromLocal(); return; }
+      window.IchikaraSite.onContent(function (content) { applyTeachers(content.teachers); });
+      window.IchikaraSite.loadContent().catch(fromLocal);
+    }
+
+    init();
+  }());
+  </script>
 
   <script src="js/header-loader.js"></script>
 
