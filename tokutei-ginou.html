@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tokutei Ginou / SSW | PT. Ichikara</title>
+  <meta name="description" content="Program Tokutei Ginou (Specified Skilled Worker) — pendampingan lengkap untuk bekerja di Jepang dengan visa SSW.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Serif+JP:wght@600;700;900&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script src="js/tailwind-config.js"></script>
+  <!-- Konten dinamis: Supabase + loader bersama (lihat js/site-data.js) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="js/site-data.js"></script>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="bg-background text-on-background font-inter" data-site-root="">
+
+  <div id="site-header"></div>
+
+  <main>
+
+    <!-- =========================================================
+         HERO SECTION
+         Image: images/hero-tokutei.jpg (worker in Japan factory)
+         ========================================================= -->
+    <section class="relative min-h-[80vh] flex items-center justify-center overflow-hidden bg-primary" aria-label="Hero Tokutei Ginou">
+      <img src="images/hero-tokutei.jpg" alt="" aria-hidden="true" class="absolute inset-0 w-full h-full object-cover">
+      <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/55 to-black/85"></div>
+      <div class="absolute inset-0 flex items-center justify-center" aria-hidden="true">
+        <span class="japanese-watermark text-white text-[26rem] lg:text-[36rem]">働</span>
+      </div>
+
+      <div class="relative z-10 max-w-3xl mx-auto px-6 text-center text-white pt-20">
+        <nav class="flex justify-center gap-2 text-xs text-white/60 mb-6" aria-label="Breadcrumb">
+          <a href="beranda.html" class="hover:text-white transition-colors">Beranda</a>
+          <span aria-hidden="true">/</span>
+          <span class="text-white" aria-current="page">Tokutei Ginou</span>
+        </nav>
+        <span class="inline-block bg-tertiary-container text-on-tertiary-container px-4 py-1.5 rounded-full text-xs font-bold tracking-label uppercase mb-6">特定技能 / SSW</span>
+        <h1 class="font-noto font-bold text-4xl lg:text-6xl leading-[1.15] mb-6">Tokutei Ginou / SSW</h1>
+        <p class="text-lg text-white/80 leading-relaxed max-w-2xl mx-auto mb-10">
+          Wujudkan impian bekerja di Jepang bersama PT. Ichikara. Kami mendampingi Anda dari persiapan bahasa hingga penempatan kerja.
+        </p>
+        <div class="flex flex-wrap gap-4 justify-center">
+          <!-- TODO: Replace XXXXXXXXXX with real WhatsApp number -->
+          <a href="https://wa.me/6288291469464" class="bg-secondary text-white px-8 py-4 rounded-full font-bold hover:bg-red-hover transition-all flex items-center gap-2" rel="noopener noreferrer" target="_blank">
+            <span class="material-symbols-outlined" aria-hidden="true">chat</span>
+            Konsultasi Gratis
+          </a>
+          <a href="#program-ssw" class="border border-white/40 text-white px-8 py-4 rounded-full font-bold hover:bg-white/10 transition-all">
+            Pelajari Program
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         WHAT IS SSW — explainer section
+         Image: images/pamflet-ssw.jpg (SSW pamphlet visual)
+         ========================================================= -->
+    <section class="py-xxl bg-white" id="program-ssw" aria-labelledby="ssw-heading">
+      <div class="container mx-auto max-w-[1200px] px-6 grid lg:grid-cols-2 gap-16 items-center">
+
+        <!-- Pamphlet/visual image -->
+        <!-- TODO: Add → images/pamflet-ssw.jpg (official SSW info graphic) -->
+        <div class="h-96 rounded-2xl overflow-hidden shadow-xl border border-border-light">
+          <img src="images/pamflet-ssw.jpg" alt="Infografis program Tokutei Ginou (SSW) — persyaratan dan proses pendaftaran" class="w-full h-full object-cover" loading="lazy">
+        </div>
+
+        <!-- Explainer text -->
+        <div>
+          <h2 id="ssw-heading" class="text-primary text-4xl font-noto font-bold mb-6">Apa itu Tokutei Ginou?</h2>
+          <p class="text-on-surface-variant leading-relaxed mb-6">
+            <strong class="text-primary">Tokutei Ginou</strong> (特定技能) adalah program visa Jepang yang memungkinkan tenaga kerja asing dengan keahlian tertentu bekerja secara legal di Jepang. Dikenal juga sebagai Specified Skilled Worker (SSW).
+          </p>
+          <p class="text-on-surface-variant leading-relaxed mb-8">
+            Program ini membuka peluang kerja di 14 sektor industri Jepang, mulai dari manufaktur, agrikultur, hingga perhotelan. Gaji kompetitif dengan standar Jepang dan kesempatan untuk memperpanjang visa.
+          </p>
+          <div class="grid grid-cols-2 gap-4">
+            <div class="bg-bg-gray rounded-xl p-5 border border-border-light">
+              <p class="text-3xl font-noto font-black text-primary mb-1">14</p>
+              <p class="text-xs text-on-surface-variant">Sektor Industri Tersedia</p>
+            </div>
+            <div class="bg-bg-gray rounded-xl p-5 border border-border-light">
+              <p class="text-3xl font-noto font-black text-primary mb-1">5 Th</p>
+              <p class="text-xs text-on-surface-variant">Masa Tinggal SSW-1</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =========================================================
+         4-STEP FLOW
+         ========================================================= -->
+    <section class="py-xxl bg-bg-gray" aria-labelledby="alur-ssw-heading">
+      <div class="container mx-auto max-w-[1200px] px-6">
+        <div class="text-center mb-16 fade-in">
+          <h2 id="alur-ssw-heading" class="text-primary text-4xl font-noto font-bold mb-4">Proses Pendampingan Kami</h2>
+          <p class="text-on-surface-variant max-w-xl mx-auto">4 tahap terstruktur dari persiapan awal hingga keberangkatan ke Jepang.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+
+          <div class="relative">
+            <!-- Connector line (desktop only) -->
+            <div class="hidden lg:block absolute top-10 left-full w-full h-0.5 bg-border-light -translate-y-1/2 z-0" aria-hidden="true"></div>
+            <div class="relative z-10 bg-white rounded-2xl p-8 border border-border-light shadow-sm">
+              <div class="w-14 h-14 bg-secondary text-white rounded-full flex items-center justify-center text-xl font-black mb-6 font-noto">1</div>
+              <h3 class="font-noto font-bold text-primary text-lg mb-3">Konsultasi Awal</h3>
+              <p class="text-on-surface-variant text-sm leading-relaxed">
+                Penilaian kesiapan kandidat: level bahasa, pengalaman kerja, dan sektor yang diminati.
+              </p>
+            </div>
+          </div>
+
+          <div class="relative">
+            <div class="hidden lg:block absolute top-10 left-full w-full h-0.5 bg-border-light -translate-y-1/2 z-0" aria-hidden="true"></div>
+            <div class="relative z-10 bg-white rounded-2xl p-8 border border-border-light shadow-sm">
+              <div class="w-14 h-14 bg-secondary text-white rounded-full flex items-center justify-center text-xl font-black mb-6 font-noto">2</div>
+              <h3 class="font-noto font-bold text-primary text-lg mb-3">Persiapan Bahasa</h3>
+              <p class="text-on-surface-variant text-sm leading-relaxed">
+                Kursus bahasa Jepang intensif dan persiapan ujian JFT-Basic yang menjadi syarat visa SSW.
+              </p>
+            </div>
+          </div>
+
+          <div class="relative">
+            <div class="hidden lg:block absolute top-10 left-full w-full h-0.5 bg-border-light -translate-y-1/2 z-0" aria-hidden="true"></div>
+            <div class="relative z-10 bg-white rounded-2xl p-8 border border-border-light shadow-sm">
+              <div class="w-14 h-14 bg-secondary text-white rounded-full flex items-center justify-center text-xl font-black mb-6 font-noto">3</div>
+              <h3 class="font-noto font-bold text-primary text-lg mb-3">Pengurusan Dokumen</h3>
+              <p class="text-on-surface-variant text-sm leading-relaxed">
+                Bantuan lengkap administrasi visa, legalisasi dokumen, dan koordinasi dengan perusahaan di Jepang.
+              </p>
+            </div>
+          </div>
+
+          <div class="relative">
+            <div class="relative z-10 bg-primary rounded-2xl p-8 border border-primary shadow-sm">
+              <div class="w-14 h-14 bg-secondary text-white rounded-full flex items-center justify-center mb-6">
+                <span class="material-symbols-outlined" aria-hidden="true">flight_takeup</span>
+              </div>
+              <h3 class="font-noto font-bold text-white text-lg mb-3">Keberangkatan</h3>
+              <p class="text-surface-container-highest text-sm leading-relaxed">
+                Pembekalan budaya kerja Jepang, dukungan penempatan, dan pendampingan awal di Jepang.
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         REQUIREMENTS & SECTORS
+         ========================================================= -->
+    <section class="py-xxl bg-white" aria-labelledby="syarat-heading">
+      <div class="container mx-auto max-w-[1200px] px-6 grid lg:grid-cols-2 gap-16">
+
+        <div>
+          <h2 id="syarat-heading" class="text-primary text-3xl font-noto font-bold mb-8 border-l-4 border-secondary pl-6">Syarat Pendaftaran</h2>
+          <ul class="space-y-4">
+            <li class="flex gap-4 items-start">
+              <div class="w-8 h-8 bg-secondary/10 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                <span class="material-symbols-outlined text-secondary text-[16px]" aria-hidden="true">check</span>
+              </div>
+              <div>
+                <h4 class="font-bold text-primary text-sm">Usia 18 – 35 tahun</h4>
+                <p class="text-xs text-on-surface-variant mt-1">Batas usia dapat berbeda tergantung perusahaan penempatan</p>
+              </div>
+            </li>
+            <li class="flex gap-4 items-start">
+              <div class="w-8 h-8 bg-secondary/10 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                <span class="material-symbols-outlined text-secondary text-[16px]" aria-hidden="true">check</span>
+              </div>
+              <div>
+                <h4 class="font-bold text-primary text-sm">Lulus JFT-Basic atau JLPT N4</h4>
+                <p class="text-xs text-on-surface-variant mt-1">Sertifikasi bahasa Jepang minimum yang dipersyaratkan pemerintah Jepang</p>
+              </div>
+            </li>
+            <li class="flex gap-4 items-start">
+              <div class="w-8 h-8 bg-secondary/10 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                <span class="material-symbols-outlined text-secondary text-[16px]" aria-hidden="true">check</span>
+              </div>
+              <div>
+                <h4 class="font-bold text-primary text-sm">Lulus Skill Evaluation Test</h4>
+                <p class="text-xs text-on-surface-variant mt-1">Ujian kompetensi teknis sesuai sektor industri yang dipilih</p>
+              </div>
+            </li>
+            <li class="flex gap-4 items-start">
+              <div class="w-8 h-8 bg-secondary/10 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                <span class="material-symbols-outlined text-secondary text-[16px]" aria-hidden="true">check</span>
+              </div>
+              <div>
+                <h4 class="font-bold text-primary text-sm">Tidak sedang dalam program Magang</h4>
+                <p class="text-xs text-on-surface-variant mt-1">Kandidat aktif program Technical Intern Training tidak dapat mendaftar bersamaan</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <h2 class="text-primary text-3xl font-noto font-bold mb-8 border-l-4 border-tertiary-container pl-6">Sektor Populer</h2>
+          <div class="grid grid-cols-2 gap-3">
+            <div class="bg-bg-gray rounded-lg px-4 py-3 border border-border-light text-sm font-medium text-primary flex gap-2 items-center">
+              <span class="material-symbols-outlined text-secondary text-[16px]" aria-hidden="true">precision_manufacturing</span>
+              Manufaktur
+            </div>
+            <div class="bg-bg-gray rounded-lg px-4 py-3 border border-border-light text-sm font-medium text-primary flex gap-2 items-center">
+              <span class="material-symbols-outlined text-secondary text-[16px]" aria-hidden="true">restaurant</span>
+              Restoran &amp; F&amp;B
+            </div>
+            <div class="bg-bg-gray rounded-lg px-4 py-3 border border-border-light text-sm font-medium text-primary flex gap-2 items-center">
+              <span class="material-symbols-outlined text-secondary text-[16px]" aria-hidden="true">construction</span>
+              Konstruksi
+            </div>
+            <div class="bg-bg-gray rounded-lg px-4 py-3 border border-border-light text-sm font-medium text-primary flex gap-2 items-center">
+              <span class="material-symbols-outlined text-secondary text-[16px]" aria-hidden="true">agriculture</span>
+              Agrikultur
+            </div>
+            <div class="bg-bg-gray rounded-lg px-4 py-3 border border-border-light text-sm font-medium text-primary flex gap-2 items-center">
+              <span class="material-symbols-outlined text-secondary text-[16px]" aria-hidden="true">hotel</span>
+              Perhotelan
+            </div>
+            <div class="bg-bg-gray rounded-lg px-4 py-3 border border-border-light text-sm font-medium text-primary flex gap-2 items-center">
+              <span class="material-symbols-outlined text-secondary text-[16px]" aria-hidden="true">cleaning_services</span>
+              Perawatan
+            </div>
+            <div class="bg-bg-gray rounded-lg px-4 py-3 border border-border-light text-sm font-medium text-primary flex gap-2 items-center">
+              <span class="material-symbols-outlined text-secondary text-[16px]" aria-hidden="true">sailing</span>
+              Penangkapan Ikan
+            </div>
+            <div class="bg-bg-gray rounded-lg px-4 py-3 border border-border-light text-sm font-medium text-primary flex gap-2 items-center">
+              <span class="material-symbols-outlined text-secondary text-[16px]" aria-hidden="true">more_horiz</span>
+              +7 Sektor Lainnya
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =========================================================
+         CTA BANNER
+         Image: images/cta-tokutei.jpg (Japan city background)
+         ========================================================= -->
+    <section class="relative py-xxl overflow-hidden" aria-label="Daftar program SSW">
+      <!-- TODO: Add → images/cta-tokutei.jpg (Japan sakura or city) -->
+      <div class="absolute inset-0">
+        <img src="images/cta-tokutei.jpg" alt="" role="presentation" class="w-full h-full object-cover">
+        <div class="absolute inset-0 bg-primary/80"></div>
+      </div>
+      <div class="container mx-auto max-w-[1200px] px-6 text-center relative z-10">
+        <h2 class="text-white text-4xl font-noto font-bold mb-6">Mulai Perjalanan ke Jepang Anda</h2>
+        <p class="text-surface-container-highest text-lg mb-10 max-w-xl mx-auto">
+          Konsultasikan kesiapan Anda bersama tim ahli kami. Gratis, tanpa komitmen.
+        </p>
+        <!-- TODO: Replace XXXXXXXXXX with real WhatsApp number -->
+        <a href="https://wa.me/6288291469464" class="inline-flex items-center gap-3 bg-secondary text-white px-10 py-5 rounded-full font-bold hover:bg-red-hover transition-all" rel="noopener noreferrer" target="_blank">
+          <span class="material-symbols-outlined" aria-hidden="true">chat</span>
+          Konsultasi via WhatsApp
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script src="js/header-loader.js"></script>
+
+</body>
+</html>

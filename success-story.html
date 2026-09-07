@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kisah Sukses | PT. Ichikara</title>
+  <meta name="description" content="Kisah sukses klien dan kegiatan PT. Ichikara — pencapaian, aktivitas, dan cerita nyata dari komunitas kami.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Serif+JP:wght@600;700;900&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script src="js/tailwind-config.js"></script>
+  <!-- Konten dinamis: Supabase + loader bersama (lihat js/site-data.js) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="js/site-data.js"></script>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="bg-background text-on-background font-inter" data-site-root="">
+
+  <div id="site-header"></div>
+
+  <main>
+
+    <!-- =========================================================
+         HERO SECTION
+         ========================================================= -->
+    <section class="relative min-h-[70vh] flex items-center justify-center bg-primary overflow-hidden" aria-label="Kisah Sukses">
+      <div class="absolute inset-0 flex items-center justify-center" aria-hidden="true">
+        <span class="japanese-watermark text-white text-[26rem] lg:text-[36rem]">成</span>
+      </div>
+
+      <div class="relative z-10 max-w-3xl mx-auto px-6 text-center text-white pt-20">
+        <nav class="flex justify-center gap-2 text-xs text-white/60 mb-6" aria-label="Breadcrumb">
+          <a href="beranda.html" class="hover:text-white transition-colors">Beranda</a>
+          <span aria-hidden="true">/</span>
+          <span class="text-white" aria-current="page">Kisah Sukses</span>
+        </nav>
+        <p class="label-kicker text-white/70 mb-6">成功事例</p>
+        <h1 class="font-noto font-bold text-5xl lg:text-7xl leading-[1.1] mb-6">Kisah Sukses</h1>
+        <p class="text-lg lg:text-xl text-white/80 leading-relaxed max-w-2xl mx-auto">
+          Pencapaian, aktivitas, dan cerita nyata dari komunitas PT. Ichikara: klien, peserta kursus, dan mitra kami.
+        </p>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         FILTER TABS
+         Active tab styling handled by JS below (addFilterListeners).
+         To add a new category: add a button below AND add the matching
+         data-category="..." attribute to story cards.
+         ========================================================= -->
+    <section class="bg-white border-b border-border-light sticky top-20 z-40" aria-label="Filter kategori">
+      <div class="container mx-auto max-w-[1200px] px-6">
+        <div class="flex gap-1 overflow-x-auto py-3 scrollbar-none" role="tablist" aria-label="Filter kisah sukses">
+          <button class="filter-tab tab-active flex-shrink-0 px-5 py-2.5 text-sm font-semibold rounded-lg transition-colors" data-filter="all" role="tab" aria-selected="true">
+            Semua
+          </button>
+          <button class="filter-tab flex-shrink-0 px-5 py-2.5 text-sm font-medium text-on-surface-variant rounded-lg hover:bg-surface-container transition-colors" data-filter="achievement" role="tab" aria-selected="false">
+            Pencapaian
+          </button>
+          <button class="filter-tab flex-shrink-0 px-5 py-2.5 text-sm font-medium text-on-surface-variant rounded-lg hover:bg-surface-container transition-colors" data-filter="activity" role="tab" aria-selected="false">
+            Aktivitas
+          </button>
+          <button class="filter-tab flex-shrink-0 px-5 py-2.5 text-sm font-medium text-on-surface-variant rounded-lg hover:bg-surface-container transition-colors" data-filter="client-story" role="tab" aria-selected="false">
+            Kisah Klien
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         STORY CARDS GRID
+         Stories are loaded dynamically from localStorage (managed via admin/index.html).
+         To add or edit stories: open admin/index.html in the same browser.
+         ========================================================= -->
+    <section class="py-xxl bg-bg-gray" aria-labelledby="stories-heading">
+      <div class="container mx-auto max-w-[1200px] px-6">
+        <h2 id="stories-heading" class="sr-only">Daftar Kisah Sukses</h2>
+
+        <div id="stories-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <!-- Cards injected by renderStories() below -->
+        </div>
+
+        <!-- Empty state: no stories at all -->
+        <div id="no-stories" class="hidden text-center py-20">
+          <span class="material-symbols-outlined text-5xl text-on-surface-variant" aria-hidden="true">article</span>
+          <p class="text-on-surface-variant mt-4 font-medium">Belum ada cerita sukses.</p>
+          <p class="text-on-surface-variant text-sm mt-1">
+            Tambahkan cerita pertama melalui
+            <a href="admin/index.html" class="text-secondary font-bold hover:underline">Story Manager</a>.
+          </p>
+        </div>
+
+        <!-- Empty state: category filter yields 0 results -->
+        <div id="no-match" class="hidden text-center py-20">
+          <span class="material-symbols-outlined text-5xl text-on-surface-variant" aria-hidden="true">search_off</span>
+          <p class="text-on-surface-variant mt-4 font-medium">Belum ada cerita di kategori ini.</p>
+          <p class="text-on-surface-variant text-sm mt-1">Coba pilih kategori lain atau kembali ke "Semua".</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =========================================================
+         CTA — Newsletter / Contact
+         ========================================================= -->
+    <section class="py-xxl bg-primary" aria-label="Tetap terhubung">
+      <div class="container mx-auto max-w-[1200px] px-6 text-center">
+        <h2 class="text-white text-4xl font-noto font-bold mb-4">Punya Kisah Sukses?</h2>
+        <p class="text-surface-container-highest text-lg mb-10 max-w-xl mx-auto">
+          Jika Anda pernah bekerja sama dengan PT. Ichikara dan ingin berbagi cerita, kami ingin mendengarnya!
+        </p>
+        <!-- TODO: Replace XXXXXXXXXX with real WhatsApp number -->
+        <a href="https://wa.me/6288291469464" class="inline-flex items-center gap-3 bg-secondary text-white px-10 py-5 rounded-full font-bold hover:bg-red-hover transition-all" rel="noopener noreferrer" target="_blank">
+          <span class="material-symbols-outlined" aria-hidden="true">chat</span>
+          Ceritakan Kepada Kami
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <div id="site-footer"></div>
+
+  <!-- ============================================================
+       STORY RENDERER + FILTER SCRIPT
+       Sumber data UTAMA: tabel Supabase `ichikara_web_content`
+       (section 'stories'), diperbarui real-time saat admin menyimpan.
+       Fallback: localStorage 'ichikara-stories-v1' (untuk membuka
+       file secara lokal / jika Supabase tidak terjangkau).
+       ============================================================ -->
+  <script>
+    (function () {
+
+      var STORAGE_KEY = 'ichikara-stories-v1';
+      var grid      = document.getElementById('stories-grid');
+      var noStories = document.getElementById('no-stories');
+      var noMatch   = document.getElementById('no-match');
+
+      var BADGES = {
+        'achievement':  'bg-secondary/10 text-secondary',
+        'activity':     'bg-tertiary/10 text-tertiary',
+        'client-story': 'bg-primary/10 text-primary',
+      };
+      var LABELS = {
+        'achievement':  'Pencapaian',
+        'activity':     'Aktivitas',
+        'client-story': 'Kisah Klien',
+      };
+
+      var currentFilter = 'all';
+
+      /* ── Render all cards from a stories array ── */
+      function renderStories(stories) {
+        if (!stories || !stories.length) {
+          noStories.classList.remove('hidden');
+          grid.innerHTML = '';
+          return;
+        }
+
+        grid.innerHTML = stories.map(function (s) {
+          var badge  = BADGES[s.category] || BADGES['achievement'];
+          var label  = LABELS[s.category] || 'Pencapaian';
+          var imgSrc = window.IchikaraSite ? window.IchikaraSite.imgSrc(s.image) : (s.image ? 'images/' + s.image : '');
+          return '<article class="story-card bg-white rounded-2xl overflow-hidden border border-border-light shadow-sm card-hover" data-category="' + esc(s.category) + '">'
+            + '<div class="h-52 overflow-hidden bg-gray-100 flex items-center justify-center">'
+            + (imgSrc
+                ? '<img src="' + esc(imgSrc) + '" alt="' + esc(s.imageAlt || s.title || '') + '" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" loading="lazy">'
+                : '<span class="material-symbols-outlined text-gray-300 text-5xl" aria-hidden="true">image</span>')
+            + '</div>'
+            + '<div class="p-6">'
+            + '<div class="flex items-center gap-3 mb-4">'
+            + '<span class="' + badge + ' text-xs font-bold px-2.5 py-1 rounded-full">' + esc(label) + '</span>'
+            + '<span class="text-on-surface-variant text-xs">' + esc(s.date || '') + '</span>'
+            + '</div>'
+            + '<h2 class="text-primary font-noto font-bold text-lg leading-snug mb-3">' + esc(s.title || '') + '</h2>'
+            + '<div class="text-on-surface-variant text-sm leading-relaxed mb-5">' + (s.excerpt || '') + '</div>'
+            + '<a href="' + esc(s.link || '#') + '" class="text-secondary font-bold text-sm flex items-center gap-1 hover:underline">'
+            + 'Baca Selengkapnya <span class="material-symbols-outlined text-sm" aria-hidden="true">chevron_right</span>'
+            + '</a>'
+            + '</div>'
+            + '</article>';
+        }).join('');
+
+        noStories.classList.add('hidden');
+        applyFilter(currentFilter);
+      }
+
+      /* ── Filter by category tab ── */
+      function applyFilter(filter) {
+        currentFilter = filter;
+        var cards   = document.querySelectorAll('.story-card');
+        var visible = 0;
+        cards.forEach(function (card) {
+          var match = filter === 'all' || card.dataset.category === filter;
+          card.style.display = match ? '' : 'none';
+          if (match) visible++;
+        });
+        noMatch.classList.toggle('hidden', visible > 0);
+      }
+
+      var tabs = document.querySelectorAll('.filter-tab');
+      tabs.forEach(function (tab) {
+        tab.addEventListener('click', function () {
+          tabs.forEach(function (t) {
+            t.classList.remove('tab-active');
+            t.setAttribute('aria-selected', 'false');
+          });
+          tab.classList.add('tab-active');
+          tab.setAttribute('aria-selected', 'true');
+          applyFilter(tab.dataset.filter);
+        });
+      });
+
+      /* ── HTML-escape helper (used for attributes, NOT innerHTML content) ── */
+      function esc(str) {
+        return String(str || '')
+          .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+      }
+
+      /* ── Fallback: baca localStorage (dipakai saat offline / lokal) ── */
+      function renderFromLocal() {
+        var raw = localStorage.getItem(STORAGE_KEY);
+        var stories = [];
+        try { stories = raw ? JSON.parse(raw) : []; } catch (e) { stories = []; }
+        renderStories(stories);
+      }
+
+      /* ── Init: Supabase dulu (real-time), fallback ke localStorage ── */
+      function init() {
+        if (!window.IchikaraSite || !window.IchikaraSite.ready) { renderFromLocal(); return; }
+        window.IchikaraSite.onContent(function (content) {
+          renderStories(content.stories);
+        });
+        // Bila Supabase gagal (offline), onContent tidak memanggil cb → fallback.
+        window.IchikaraSite.loadContent().catch(renderFromLocal);
+      }
+
+      init();
+    }());
+  </script>
+
+  <script src="js/header-loader.js"></script>
+
+</body>
+</html>

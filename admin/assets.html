@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Asset Manager — PT. Ichikara Admin</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Serif+JP:wght@700&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary:        '#021a38',
+            secondary:      '#b02d21',
+            'red-hover':    '#A93226',
+            'border-light': '#E5E7EB',
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block; vertical-align: middle;
+    }
+
+    /* Asset card */
+    .asset-card { transition: box-shadow 0.2s, transform 0.2s; }
+    .asset-card:hover { box-shadow: 0 8px 30px rgba(0,0,0,0.12); transform: translateY(-2px); }
+
+    /* Drag-over highlight */
+    .asset-card.drag-over { outline: 3px dashed #b02d21; outline-offset: 2px; background: #fff5f5; }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 999px; }
+
+    /* Toast */
+    #toast { transition: opacity 0.3s, transform 0.3s; }
+    #toast.out { opacity: 0; transform: translateY(8px); }
+
+    /* Filter pill active */
+    .pill { border: 1.5px solid transparent; }
+    .pill.active { border-color: #b02d21; background: #fff0ee; color: #b02d21; font-weight: 700; }
+
+    /* Progress bar fill */
+    #prog-fill { transition: width 0.5s ease; }
+
+    /* Section header sticky */
+    .section-head { position: sticky; top: 60px; z-index: 10; }
+  </style>
+</head>
+
+<body class="bg-gray-50 text-gray-900" style="display:flex;flex-direction:column;height:100dvh;overflow:hidden;">
+
+  <!-- =========================================================
+       TOP BAR
+       ========================================================= -->
+  <header class="bg-primary text-white px-6 py-3.5 flex items-center justify-between flex-shrink-0 shadow-xl z-30">
+    <div class="flex items-center gap-4">
+      <img src="../images/logo.png" alt="PT. Ichikara" class="h-8 w-auto brightness-0 invert" onerror="this.style.display='none'">
+      <div>
+        <h1 class="font-bold text-base leading-none">Asset Manager</h1>
+        <p class="text-white/50 text-xs mt-0.5">Kelola gambar website PT. Ichikara</p>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-3">
+      <!-- Nav to other admin tools -->
+      <a href="index.html"
+         class="flex items-center gap-1.5 px-3 py-2 text-xs text-white/70 hover:text-white hover:bg-white/10 rounded-lg transition-colors">
+        <span class="material-symbols-outlined text-[16px]">edit_note</span> Story Manager
+      </a>
+      <a href="../success-story.html" target="_blank"
+         class="flex items-center gap-1.5 px-3 py-2 text-xs text-white/70 hover:text-white hover:bg-white/10 rounded-lg transition-colors">
+        <span class="material-symbols-outlined text-[16px]">open_in_new</span> Lihat Website
+      </a>
+      <div class="w-px h-5 bg-white/20"></div>
+
+      <!-- Reload status -->
+      <button onclick="reloadStatus()"
+              class="flex items-center gap-1.5 px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-xs font-semibold transition-colors">
+        <span class="material-symbols-outlined text-[16px]">refresh</span> Refresh Status
+      </button>
+
+      <!-- Open folder button -->
+      <button id="btn-open-folder" onclick="openFolder()"
+              class="flex items-center gap-2 px-5 py-2 bg-secondary hover:bg-red-hover rounded-lg text-sm font-bold transition-colors">
+        <span class="material-symbols-outlined text-[18px]">folder_open</span>
+        <span id="btn-label">Buka Folder images/</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- =========================================================
+       WELCOME / NO-FOLDER STATE
+       ========================================================= -->
+  <div id="welcome" class="flex-1 flex items-center justify-center p-8">
+    <div class="max-w-lg text-center">
+      <div class="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
+        <span class="material-symbols-outlined text-primary text-4xl">folder_open</span>
+      </div>
+      <h2 class="text-2xl font-bold text-primary mb-3">Buka Folder <code class="text-secondary">images/</code></h2>
+      <p class="text-gray-500 text-sm leading-relaxed mb-8">
+        Klik tombol di bawah untuk memberi akses ke folder <strong>images/</strong> di dalam folder website Anda.
+        Browser akan meminta izin — klik <strong>"View Files"</strong> atau <strong>"Pilih"</strong> untuk melanjutkan.
+        <br><br>
+        Setelah itu, semua slot gambar akan tampil lengkap dengan status mana yang sudah ada dan mana yang masih kosong.
+        Klik kartu gambar mana saja untuk langsung pilih file dari komputer dan disimpan otomatis ke folder yang benar.
+      </p>
+
+      <!-- Browser warning -->
+      <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 text-sm text-amber-800 mb-8 text-left">
+        <div class="flex gap-2">
+          <span class="material-symbols-outlined text-amber-600 flex-shrink-0 text-[18px] mt-0.5">info</span>
+          <div>
+            <strong>Hanya tersedia di Chrome / Edge.</strong>
+            Fitur "File System Access API" belum didukung Firefox dan Safari.
+            Jika menggunakan browser lain, gunakan cara manual (copy file ke folder <code>images/</code> biasa).
+          </div>
+        </div>
+      </div>
+
+      <button onclick="openFolder()"
+              class="inline-flex items-center gap-3 bg-primary hover:bg-blue-950 text-white px-8 py-4 rounded-xl font-bold text-base transition-colors shadow-lg">
+        <span class="material-symbols-outlined">folder_open</span>
+        Buka Folder images/
+      </button>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       MAIN CONTENT — after folder is opened
+       ========================================================= -->
+  <div id="main-content" class="hidden flex-1 flex flex-col overflow-hidden">
+
+    <!-- ── STATUS BAR ── -->
+    <div class="bg-white border-b border-border-light px-6 py-3 flex items-center justify-between gap-6 flex-shrink-0">
+
+      <!-- Progress -->
+      <div class="flex-1 max-w-sm">
+        <div class="flex justify-between text-xs font-semibold mb-1.5">
+          <span class="text-gray-600">Kelengkapan Gambar</span>
+          <span id="prog-label" class="text-primary">0 / 0</span>
+        </div>
+        <div class="h-2 bg-gray-100 rounded-full overflow-hidden">
+          <div id="prog-fill" class="h-full bg-secondary rounded-full" style="width:0%"></div>
+        </div>
+      </div>
+
+      <!-- Legend -->
+      <div class="flex items-center gap-5 text-xs">
+        <span class="flex items-center gap-1.5 text-green-600 font-semibold">
+          <span class="w-2.5 h-2.5 rounded-full bg-green-500 inline-block"></span>
+          <span id="count-ok">0</span> Sudah Ada
+        </span>
+        <span class="flex items-center gap-1.5 text-red-500 font-semibold">
+          <span class="w-2.5 h-2.5 rounded-full bg-red-400 inline-block"></span>
+          <span id="count-missing">0</span> Belum Ada
+        </span>
+      </div>
+
+      <!-- Filter pills -->
+      <div class="flex items-center gap-2">
+        <button class="pill active text-xs px-3.5 py-1.5 rounded-full transition-all" data-filter="all"    onclick="setFilter('all')">Semua</button>
+        <button class="pill        text-xs px-3.5 py-1.5 rounded-full transition-all" data-filter="missing" onclick="setFilter('missing')">Belum Ada</button>
+        <button class="pill        text-xs px-3.5 py-1.5 rounded-full transition-all" data-filter="ok"      onclick="setFilter('ok')">Sudah Ada</button>
+      </div>
+
+      <!-- Folder path -->
+      <div class="text-xs text-gray-400 hidden md:block max-w-xs truncate" title="">
+        <span class="material-symbols-outlined text-[14px] mr-1">folder</span>
+        <span id="folder-name">images/</span>
+      </div>
+    </div>
+
+    <!-- ── GRID AREA ── -->
+    <div id="grid-area" class="flex-1 overflow-y-auto px-6 py-6 space-y-10">
+      <!-- Injected by renderGrid() -->
+    </div>
+  </div>
+
+  <!-- =========================================================
+       TOAST
+       ========================================================= -->
+  <div id="toast" class="out fixed bottom-6 right-6 text-white px-5 py-3 rounded-xl shadow-2xl text-sm font-medium flex items-center gap-2 z-50 bg-primary pointer-events-none">
+    <span class="material-symbols-outlined text-[18px]" id="toast-icon">check_circle</span>
+    <span id="toast-msg">Berhasil!</span>
+  </div>
+
+  <!-- =========================================================
+       JAVASCRIPT
+       ========================================================= -->
+  <script>
+
+  // ── IMAGE MANIFEST ──────────────────────────────────────────
+  // All images required by the website, grouped by section.
+  // 'hint' = recommended specs for photographer/designer.
+  const SECTIONS = [
+    {
+      id: 'global',
+      label: 'Global — Semua Halaman',
+      icon: 'language',
+      images: [
+        {
+          file: 'logo.png',
+          label: 'Logo PT. Ichikara',
+          pages: ['Semua halaman (header & footer)'],
+          hint: 'Format PNG transparan. Lebar min 300px, tinggi min 100px. Pastikan ada versi putih untuk background gelap.',
+          ratio: '3:1',
+        },
+      ],
+    },
+    {
+      id: 'beranda',
+      label: 'Beranda',
+      icon: 'home',
+      images: [
+        {
+          file: 'hero-beranda.jpg',
+          label: 'Hero Beranda',
+          pages: ['beranda.html — Hero utama'],
+          hint: 'Foto utama halaman depan. Suasana profesional tim atau kantor PT. Ichikara. Min 1600×800px, landscape.',
+          ratio: '2:1',
+        },
+        {
+          file: 'layanan-penerjemahan.jpg',
+          label: 'Foto Layanan Penerjemahan',
+          pages: ['beranda.html — Seksi "Layanan Unggulan"'],
+          hint: 'Foto ilustrasi layanan penerjemahan: orang sedang menerjemahkan dokumen. Min 800×500px.',
+          ratio: '16:10',
+        },
+        {
+          file: 'layanan-interpreter.jpg',
+          label: 'Foto Layanan Interpreter',
+          pages: ['beranda.html — Seksi "Layanan Unggulan"'],
+          hint: 'Foto interpreter dalam rapat bisnis atau konferensi. Min 800×500px.',
+          ratio: '16:10',
+        },
+        {
+          file: 'layanan-kursus.jpg',
+          label: 'Foto Layanan Kursus',
+          pages: ['beranda.html — Seksi "Layanan Unggulan"'],
+          hint: 'Foto suasana kelas kursus bahasa Jepang. Min 800×500px.',
+          ratio: '16:10',
+        },
+        {
+          file: 'layanan-tokutei.jpg',
+          label: 'Foto Layanan Tokutei Ginou',
+          pages: ['beranda.html — Seksi "Layanan Unggulan" & "Akses Cepat"'],
+          hint: 'Foto pekerja Indonesia di lingkungan kerja Jepang / SSW. Min 800×500px.',
+          ratio: '16:10',
+        },
+        {
+          file: 'story-otomotif.jpg',
+          label: 'Story Mini: Otomotif',
+          pages: ['beranda.html — Seksi "Kisah Sukses"'],
+          hint: 'Foto ekspansi perusahaan manufaktur otomotif. Min 800×500px.',
+          ratio: '16:10',
+        },
+        {
+          file: 'story-negosiasi.jpg',
+          label: 'Story Mini: Negosiasi Bisnis',
+          pages: ['beranda.html — Seksi "Kisah Sukses"'],
+          hint: 'Foto negosiasi bisnis lintas budaya Indonesia–Jepang. Min 800×500px.',
+          ratio: '16:10',
+        },
+        {
+          file: 'story-aichi.jpg',
+          label: 'Story Mini: Program Aichi / SSW',
+          pages: ['beranda.html — Seksi "Kisah Sukses"'],
+          hint: 'Foto karir profesional di Jepang melalui program SSW. Min 800×500px.',
+          ratio: '16:10',
+        },
+        // Client logos live in images/clients/ subfolder
+        {
+          file: 'clients/client-1.png',
+          label: 'Logo Klien 1',
+          pages: ['beranda.html — Strip "Klien yang Mempercayai Kami"'],
+          hint: 'Logo perusahaan klien. PNG transparan, tinggi cukup 60–80px, lebar bebas. Background transparan.',
+          ratio: 'bebas',
+        },
+        {
+          file: 'clients/client-2.png',
+          label: 'Logo Klien 2',
+          pages: ['beranda.html — Strip klien'],
+          hint: 'Logo perusahaan klien. PNG transparan, min 60px tinggi.',
+          ratio: 'bebas',
+        },
+        {
+          file: 'clients/client-3.png',
+          label: 'Logo Klien 3',
+          pages: ['beranda.html — Strip klien'],
+          hint: 'Logo perusahaan klien. PNG transparan.',
+          ratio: 'bebas',
+        },
+        {
+          file: 'clients/client-4.png',
+          label: 'Logo Klien 4',
+          pages: ['beranda.html — Strip klien'],
+          hint: 'Logo perusahaan klien. PNG transparan.',
+          ratio: 'bebas',
+        },
+        {
+          file: 'clients/client-5.png',
+          label: 'Logo Klien 5',
+          pages: ['beranda.html — Strip klien'],
+          hint: 'Logo perusahaan klien. PNG transparan.',
+          ratio: 'bebas',
+        },
+        {
+          file: 'clients/client-6.png',
+          label: 'Logo Klien 6',
+          pages: ['beranda.html — Strip klien'],
+          hint: 'Logo perusahaan klien. PNG transparan.',
+          ratio: 'bebas',
+        },
+        {
+          file: 'clients/client-7.png',
+          label: 'Logo Klien 7',
+          pages: ['beranda.html — Strip klien'],
+          hint: 'Logo perusahaan klien. PNG transparan.',
+          ratio: 'bebas',
+        },
+        {
+          file: 'clients/client-8.png',
+          label: 'Logo Klien 8',
+          pages: ['beranda.html — Strip klien'],
+          hint: 'Logo perusahaan klien. PNG transparan.',
+          ratio: 'bebas',
+        },
+      ],
+    },
+    {
+      id: 'penerjemah',
+      label: 'Jasa Penerjemah',
+      icon: 'translate',
+      images: [
+        {
+          file: 'hero-penerjemah.jpg',
+          label: 'Hero Jasa Penerjemah',
+          pages: ['jasa-penerjemah.html'],
+          hint: 'Foto suasana penerjemahan dokumen. Min 1200×600px, landscape.',
+          ratio: '2:1',
+        },
+        {
+          file: 'flag-jp.png',
+          label: 'Bendera Jepang',
+          pages: ['jasa-penerjemah.html'],
+          hint: 'Ikon bendera Jepang. Idealnya PNG transparan, 64×64px atau lebih, square.',
+          ratio: '1:1',
+        },
+        {
+          file: 'flag-en.png',
+          label: 'Bendera Inggris / Internasional',
+          pages: ['jasa-penerjemah.html'],
+          hint: 'Ikon bendera UK atau USA. PNG transparan, 64×64px, square.',
+          ratio: '1:1',
+        },
+        {
+          file: 'flag-id.png',
+          label: 'Bendera Indonesia',
+          pages: ['jasa-penerjemah.html'],
+          hint: 'Ikon bendera Indonesia. PNG transparan, 64×64px, square.',
+          ratio: '1:1',
+        },
+        {
+          file: 'flag-kr.png',
+          label: 'Bendera Korea',
+          pages: ['jasa-penerjemah.html'],
+          hint: 'Ikon bendera Korea Selatan. PNG transparan, 64×64px, square.',
+          ratio: '1:1',
+        },
+        {
+          file: 'flag-cn.png',
+          label: 'Bendera China',
+          pages: ['jasa-penerjemah.html'],
+          hint: 'Ikon bendera China. PNG transparan, 64×64px, square.',
+          ratio: '1:1',
+        },
+        {
+          file: 'keunggulan-penerjemah.jpg',
+          label: 'Ilustrasi Keunggulan Penerjemahan',
+          pages: ['jasa-penerjemah.html'],
+          hint: 'Foto ilustrasi keunggulan layanan: orang bekerja dengan dokumen, laptop, dll. Min 800×500px.',
+          ratio: '16:10',
+        },
+      ],
+    },
+    {
+      id: 'interpreter',
+      label: 'Jasa Interpreter',
+      icon: 'record_voice_over',
+      images: [
+        {
+          file: 'hero-interpreter.jpg',
+          label: 'Hero Jasa Interpreter',
+          pages: ['jasa-interpreter.html'],
+          hint: 'Foto interpreter dalam aksi di pertemuan bisnis atau konferensi. Min 1200×600px.',
+          ratio: '2:1',
+        },
+        {
+          file: 'interpretasi-consecutive.jpg',
+          label: 'Foto Interpretasi Konsekutif',
+          pages: ['jasa-interpreter.html'],
+          hint: 'Suasana interpretasi konsekutif: one-on-one atau diskusi kelompok kecil. Min 800×500px.',
+          ratio: '16:10',
+        },
+        {
+          file: 'interpretasi-simultaneous.jpg',
+          label: 'Foto Interpretasi Simultan',
+          pages: ['jasa-interpreter.html'],
+          hint: 'Interpreter di bilik kaca, headset, konferensi besar. Min 800×500px.',
+          ratio: '16:10',
+        },
+      ],
+    },
+    {
+      id: 'kursus',
+      label: 'Kursus Bahasa',
+      icon: 'school',
+      images: [
+        {
+          file: 'hero-kursus.jpg',
+          label: 'Hero Kursus Bahasa',
+          pages: ['kursus-bahasa.html'],
+          hint: 'Foto suasana kelas kursus bahasa Jepang: siswa, papan tulis, sensei. Min 1200×600px.',
+          ratio: '2:1',
+        },
+        {
+          file: 'guru-1.jpg',
+          label: 'Foto Profil Pengajar 1',
+          pages: ['kursus-bahasa.html'],
+          hint: 'Foto portrait profesional pengajar. Square (1:1), min 400×400px. Background netral.',
+          ratio: '1:1',
+        },
+        {
+          file: 'guru-2.jpg',
+          label: 'Foto Profil Pengajar 2',
+          pages: ['kursus-bahasa.html'],
+          hint: 'Foto portrait profesional pengajar. Square (1:1), min 400×400px.',
+          ratio: '1:1',
+        },
+        {
+          file: 'guru-3.jpg',
+          label: 'Foto Profil Pengajar 3',
+          pages: ['kursus-bahasa.html'],
+          hint: 'Foto portrait profesional pengajar. Square (1:1), min 400×400px.',
+          ratio: '1:1',
+        },
+        {
+          file: 'guru-4.jpg',
+          label: 'Foto Profil Pengajar 4',
+          pages: ['kursus-bahasa.html'],
+          hint: 'Foto portrait profesional pengajar. Square (1:1), min 400×400px.',
+          ratio: '1:1',
+        },
+        {
+          file: 'guru-5.jpg',
+          label: 'Foto Profil Pengajar 5',
+          pages: ['kursus-bahasa.html'],
+          hint: 'Foto portrait profesional pengajar. Square (1:1), min 400×400px.',
+          ratio: '1:1',
+        },
+      ],
+    },
+    {
+      id: 'tentang',
+      label: 'Tentang Kami',
+      icon: 'apartment',
+      images: [
+        {
+          file: 'kantor-ichikara.jpg',
+          label: 'Foto Kantor / Tim PT. Ichikara',
+          pages: ['tentang-kami.html'],
+          hint: 'Foto lebar (cinematic) kantor atau seluruh tim. MIN 1600×600px, landscape. Akan ditampilkan full-width.',
+          ratio: '8:3',
+        },
+        {
+          file: 'tentang-layanan-penerjemah.jpg',
+          label: 'Thumbnail Layanan Penerjemah',
+          pages: ['tentang-kami.html'],
+          hint: 'Card thumbnail layanan penerjemahan di halaman About. Min 600×400px, ada hover overlay gelap.',
+          ratio: '3:2',
+        },
+        {
+          file: 'tentang-layanan-interpreter.jpg',
+          label: 'Thumbnail Layanan Interpreter',
+          pages: ['tentang-kami.html'],
+          hint: 'Card thumbnail layanan interpreter. Min 600×400px.',
+          ratio: '3:2',
+        },
+        {
+          file: 'tentang-layanan-kursus.jpg',
+          label: 'Thumbnail Layanan Kursus',
+          pages: ['tentang-kami.html'],
+          hint: 'Card thumbnail layanan kursus bahasa. Min 600×400px.',
+          ratio: '3:2',
+        },
+        {
+          file: 'tentang-layanan-ssw.jpg',
+          label: 'Thumbnail Layanan SSW',
+          pages: ['tentang-kami.html'],
+          hint: 'Card thumbnail layanan Tokutei Ginou. Min 600×400px.',
+          ratio: '3:2',
+        },
+      ],
+    },
+    {
+      id: 'tokutei',
+      label: 'Tokutei Ginou (SSW)',
+      icon: 'work',
+      images: [
+        {
+          file: 'hero-tokutei.jpg',
+          label: 'Hero Tokutei Ginou',
+          pages: ['tokutei-ginou.html'],
+          hint: 'Foto pekerja Indonesia/Asia di lingkungan kerja Jepang. Min 1200×600px.',
+          ratio: '2:1',
+        },
+        {
+          file: 'pamflet-ssw.jpg',
+          label: 'Pamflet / Brosur SSW',
+          pages: ['tokutei-ginou.html'],
+          hint: 'Foto atau scan pamflet resmi program SSW. Format portrait, min 600×800px.',
+          ratio: '3:4',
+        },
+        {
+          file: 'cta-tokutei.jpg',
+          label: 'Background CTA Tokutei',
+          pages: ['tokutei-ginou.html'],
+          hint: 'Foto untuk background section ajakan di bawah halaman SSW. Min 1200×400px, landscape. Akan di-overlay warna gelap.',
+          ratio: '3:1',
+        },
+      ],
+    },
+    {
+      id: 'stories',
+      label: 'Kisah Sukses',
+      icon: 'auto_stories',
+      images: [
+        {
+          file: 'story-jlpt-n3-2026.jpg',
+          label: 'Story: Siswa Lulus JLPT N3',
+          pages: ['success-story.html'],
+          hint: 'Foto siswa menerima sertifikat JLPT atau suasana perayaan kelulusan. Min 800×500px.',
+          ratio: '16:10',
+        },
+        {
+          file: 'story-klien-manufaktur.jpg',
+          label: 'Story: Kunjungan Pabrik Jepang',
+          pages: ['success-story.html'],
+          hint: 'Foto delegasi bisnis Jepang dalam kunjungan pabrik Indonesia. Min 800×500px.',
+          ratio: '16:10',
+        },
+        {
+          file: 'story-seminar-ssw.jpg',
+          label: 'Story: Seminar Tokutei Ginou',
+          pages: ['success-story.html'],
+          hint: 'Foto suasana seminar SSW dengan peserta. Min 800×500px.',
+          ratio: '16:10',
+        },
+        {
+          file: 'story-penerjemah-tersumpah.jpg',
+          label: 'Story: Penerjemah Tersumpah',
+          pages: ['success-story.html'],
+          hint: 'Foto penerjemah menerima sertifikat atau bekerja dengan dokumen resmi. Min 800×500px.',
+          ratio: '16:10',
+        },
+        {
+          file: 'story-klien-hukum.jpg',
+          label: 'Story: Kontrak Joint Venture',
+          pages: ['success-story.html'],
+          hint: 'Foto proses penandatanganan kontrak atau dokumen bisnis. Min 800×500px.',
+          ratio: '16:10',
+        },
+        {
+          file: 'story-kelas-korporat.jpg',
+          label: 'Story: Kelas Korporat',
+          pages: ['success-story.html'],
+          hint: 'Foto kelas bahasa Jepang di lingkungan perusahaan atau pabrik. Min 800×500px.',
+          ratio: '16:10',
+        },
+      ],
+    },
+  ];
+
+  // ── STATE ──────────────────────────────────────────────────
+  let dirHandle  = null;          // FileSystemDirectoryHandle for images/
+  let fileStatus = {};            // { 'logo.png': { exists: true, url: '...' } }
+  let activeFilter = 'all';
+
+  // ── OPEN FOLDER ─────────────────────────────────────────────
+  async function openFolder() {
+    if (!window.showDirectoryPicker) {
+      alert('Browser Anda tidak mendukung File System Access API.\nGunakan Google Chrome atau Microsoft Edge versi terbaru.');
+      return;
+    }
+    try {
+      dirHandle = await window.showDirectoryPicker({ mode: 'readwrite', id: 'ichikara-images', startIn: 'documents' });
+      document.getElementById('folder-name').textContent = dirHandle.name + '/';
+      document.getElementById('btn-label').textContent   = dirHandle.name + '/ (Ganti)';
+      document.getElementById('welcome').classList.add('hidden');
+      document.getElementById('main-content').classList.remove('hidden');
+      document.getElementById('main-content').classList.add('flex');
+      await reloadStatus();
+    } catch (e) {
+      if (e.name !== 'AbortError') toast('Gagal membuka folder: ' + e.message, 'error');
+    }
+  }
+
+  // ── RESOLVE NESTED FILE HANDLE (supports 'clients/client-1.png') ──
+  async function resolveHandle(path, options = {}) {
+    const parts = path.split('/');
+    let handle = dirHandle;
+    for (let i = 0; i < parts.length - 1; i++) {
+      handle = await handle.getDirectoryHandle(parts[i], options.create ? { create: true } : {});
+    }
+    return handle.getFileHandle(parts[parts.length - 1], options);
+  }
+
+  // ── SCAN FILES ──────────────────────────────────────────────
+  async function reloadStatus() {
+    if (!dirHandle) return;
+
+    // Revoke old object URLs to free memory
+    Object.values(fileStatus).forEach(s => { if (s.url) URL.revokeObjectURL(s.url); });
+    fileStatus = {};
+
+    const allFiles = [];
+    SECTIONS.forEach(sec => sec.images.forEach(img => allFiles.push(img.file)));
+
+    await Promise.all(allFiles.map(async fname => {
+      try {
+        const fh   = await resolveHandle(fname);
+        const file = await fh.getFile();
+        const url  = URL.createObjectURL(file);
+        fileStatus[fname] = { exists: true, url, size: file.size };
+      } catch (e) {
+        fileStatus[fname] = { exists: false };
+      }
+    }));
+
+    updateProgress();
+    renderGrid();
+  }
+
+  // ── PROGRESS ────────────────────────────────────────────────
+  function updateProgress() {
+    const total   = Object.keys(fileStatus).length;
+    const ok      = Object.values(fileStatus).filter(s => s.exists).length;
+    const missing = total - ok;
+    const pct     = total ? Math.round((ok / total) * 100) : 0;
+
+    document.getElementById('prog-fill').style.width  = pct + '%';
+    document.getElementById('prog-label').textContent = ok + ' / ' + total;
+    document.getElementById('count-ok').textContent      = ok;
+    document.getElementById('count-missing').textContent = missing;
+  }
+
+  // ── RENDER GRID ─────────────────────────────────────────────
+  function renderGrid() {
+    const area = document.getElementById('grid-area');
+    area.innerHTML = '';
+
+    SECTIONS.forEach(sec => {
+      const visible = sec.images.filter(img => {
+        const s = fileStatus[img.file] || {};
+        if (activeFilter === 'ok')      return s.exists;
+        if (activeFilter === 'missing') return !s.exists;
+        return true;
+      });
+      if (!visible.length) return;
+
+      // Section header
+      const hdr = document.createElement('div');
+      hdr.className = 'section-head bg-gray-50/90 backdrop-blur-sm pb-2';
+      hdr.innerHTML = `
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
+            <span class="material-symbols-outlined text-primary text-[18px]">${sec.icon}</span>
+          </div>
+          <h2 class="font-bold text-primary text-base">${sec.label}</h2>
+          <span class="text-xs text-gray-400">(${visible.length} gambar)</span>
+        </div>
+      `;
+      area.appendChild(hdr);
+
+      // Cards grid
+      const grid = document.createElement('div');
+      grid.className = 'grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 mb-2';
+
+      visible.forEach(img => {
+        const s = fileStatus[img.file] || {};
+        const card = document.createElement('div');
+        card.className = 'asset-card bg-white rounded-2xl overflow-hidden border border-border-light cursor-pointer relative group';
+        card.dataset.file = img.file;
+        card.title = 'Klik untuk pilih gambar';
+        card.setAttribute('tabindex', '0');
+        card.setAttribute('role', 'button');
+        card.setAttribute('aria-label', 'Pilih gambar untuk ' + img.label);
+
+        // Drag & drop
+        card.addEventListener('dragover',  e => { e.preventDefault(); card.classList.add('drag-over'); });
+        card.addEventListener('dragleave', () => card.classList.remove('drag-over'));
+        card.addEventListener('drop',      e => { e.preventDefault(); card.classList.remove('drag-over'); handleDrop(e, img.file); });
+        card.addEventListener('click',     () => pickFile(img.file));
+        card.addEventListener('keydown',   e => { if (e.key === 'Enter' || e.key === ' ') pickFile(img.file); });
+
+        const thumb = s.exists
+          ? `<img src="${s.url}" alt="${img.label}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">`
+          : `<div class="flex flex-col items-center justify-center h-full text-gray-300 gap-1 group-hover:text-secondary transition-colors">
+               <span class="material-symbols-outlined text-4xl">add_photo_alternate</span>
+               <span class="text-xs font-semibold">Klik untuk pilih</span>
+             </div>`;
+
+        const badge = s.exists
+          ? `<span class="flex items-center gap-1 text-green-600 text-[10px] font-bold"><span class="w-1.5 h-1.5 rounded-full bg-green-500 inline-block"></span>Ada ${humanSize(s.size)}</span>`
+          : `<span class="flex items-center gap-1 text-red-500 text-[10px] font-bold"><span class="w-1.5 h-1.5 rounded-full bg-red-400 inline-block"></span>Belum Ada</span>`;
+
+        // Change overlay (shown on hover when file exists)
+        const overlay = s.exists
+          ? `<div class="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors flex items-center justify-center">
+               <span class="material-symbols-outlined text-white opacity-0 group-hover:opacity-100 transition-opacity text-2xl drop-shadow-lg">edit</span>
+             </div>`
+          : '';
+
+        card.innerHTML = `
+          <!-- Thumbnail -->
+          <div class="h-36 bg-gray-100 overflow-hidden relative">
+            ${thumb}
+            ${overlay}
+            <!-- Aspect ratio hint -->
+            <span class="absolute top-2 left-2 text-[9px] bg-black/40 text-white px-1.5 py-0.5 rounded font-mono">${img.ratio}</span>
+          </div>
+
+          <!-- Info -->
+          <div class="p-3">
+            <p class="font-semibold text-primary text-xs leading-snug mb-1 line-clamp-2">${img.label}</p>
+            <p class="text-[10px] text-gray-400 font-mono mb-2 truncate">${img.file}</p>
+            <div class="flex items-center justify-between">
+              ${badge}
+              <button class="text-[10px] font-bold text-secondary hover:underline">
+                ${s.exists ? 'Ganti' : 'Pilih'}
+              </button>
+            </div>
+          </div>
+
+          <!-- Tooltip hint (visible on hover via title) -->
+        `;
+
+        // Append hint on hover as a bottom tooltip
+        card.addEventListener('mouseenter', () => showHint(card, img.hint, img.pages));
+        card.addEventListener('mouseleave', hideHint);
+
+        grid.appendChild(card);
+      });
+
+      area.appendChild(grid);
+    });
+
+    if (!area.children.length) {
+      area.innerHTML = `
+        <div class="flex flex-col items-center justify-center h-64 text-gray-400 text-center">
+          <span class="material-symbols-outlined text-5xl mb-3" style="color:#d1d5db">done_all</span>
+          <p class="font-semibold text-gray-500">Semua gambar sudah ada!</p>
+          <p class="text-sm mt-1">Tidak ada yang perlu diupload untuk filter ini.</p>
+        </div>`;
+    }
+  }
+
+  // ── PICK FILE ───────────────────────────────────────────────
+  async function pickFile(targetFilename) {
+    if (!dirHandle) { toast('Folder belum dibuka.', 'error'); return; }
+
+    // Determine accepted types based on extension
+    const ext = targetFilename.split('.').pop().toLowerCase();
+    const types = ext === 'png'
+      ? [{ description: 'PNG Image', accept: { 'image/png': ['.png'] } }]
+      : [{ description: 'Image', accept: { 'image/*': ['.jpg', '.jpeg', '.png', '.webp', '.gif'] } }];
+
+    let [fileHandle] = await window.showOpenFilePicker({ types, multiple: false }).catch(() => [null]);
+    if (!fileHandle) return;
+
+    await saveFile(fileHandle, targetFilename);
+  }
+
+  // ── DROP FILE ───────────────────────────────────────────────
+  async function handleDrop(ev, targetFilename) {
+    const dt    = ev.dataTransfer;
+    const items = [...(dt.items || [])];
+    const item  = items.find(i => i.kind === 'file');
+    if (!item) return;
+
+    const file = item.getAsFile();
+    if (!file.type.startsWith('image/')) { toast('File bukan gambar.', 'error'); return; }
+
+    await writeFile(targetFilename, await file.arrayBuffer());
+  }
+
+  // ── SAVE FROM FILE PICKER HANDLE ────────────────────────────
+  async function saveFile(fileHandle, targetFilename) {
+    try {
+      const file   = await fileHandle.getFile();
+      const buffer = await file.arrayBuffer();
+      await writeFile(targetFilename, buffer);
+    } catch (e) {
+      toast('Gagal membaca file: ' + e.message, 'error');
+    }
+  }
+
+  // ── WRITE TO DIRECTORY ──────────────────────────────────────
+  async function writeFile(filename, buffer) {
+    try {
+      const fh       = await resolveHandle(filename, { create: true });
+      const writable = await fh.createWritable();
+      await writable.write(buffer);
+      await writable.close();
+      toast('✓ Berhasil disimpan: ' + filename, 'success');
+      // Refresh only this card
+      await refreshOne(filename);
+    } catch (e) {
+      toast('Gagal menyimpan: ' + e.message, 'error');
+    }
+  }
+
+  // ── REFRESH SINGLE CARD ─────────────────────────────────────
+  async function refreshOne(filename) {
+    try {
+      const fh   = await resolveHandle(filename);
+      const file = await fh.getFile();
+      if (fileStatus[filename]?.url) URL.revokeObjectURL(fileStatus[filename].url);
+      fileStatus[filename] = { exists: true, url: URL.createObjectURL(file), size: file.size };
+    } catch (e) {
+      fileStatus[filename] = { exists: false };
+    }
+    updateProgress();
+    renderGrid();
+  }
+
+  // ── FILTER ──────────────────────────────────────────────────
+  function setFilter(f) {
+    activeFilter = f;
+    document.querySelectorAll('.pill').forEach(p => {
+      p.classList.toggle('active', p.dataset.filter === f);
+    });
+    renderGrid();
+  }
+
+  // ── HOVER HINT ──────────────────────────────────────────────
+  let hintEl = null;
+
+  function showHint(card, hint, pages) {
+    hideHint();
+    hintEl = document.createElement('div');
+    hintEl.className = 'fixed z-50 bg-gray-900 text-white text-xs rounded-xl px-4 py-3 shadow-xl max-w-xs leading-relaxed pointer-events-none';
+    hintEl.style.opacity = '0';
+    hintEl.style.transition = 'opacity 0.15s';
+    hintEl.innerHTML = `
+      <p class="font-bold mb-1 text-yellow-300">Rekomendasi:</p>
+      <p class="mb-2">${hint}</p>
+      <p class="text-gray-400 text-[10px]">Dipakai di: ${pages.join(', ')}</p>
+      <p class="text-gray-500 text-[10px] mt-1.5">Drag & Drop juga bisa langsung ke kartu ini</p>
+    `;
+    document.body.appendChild(hintEl);
+
+    const rect = card.getBoundingClientRect();
+    const left = Math.min(rect.left, window.innerWidth - 280);
+    const top  = rect.bottom + 8;
+    hintEl.style.left = left + 'px';
+    hintEl.style.top  = top + 'px';
+
+    requestAnimationFrame(() => { if (hintEl) hintEl.style.opacity = '1'; });
+  }
+
+  function hideHint() {
+    if (hintEl) { hintEl.remove(); hintEl = null; }
+  }
+
+  // ── UTILITIES ───────────────────────────────────────────────
+  function humanSize(bytes) {
+    if (!bytes) return '';
+    if (bytes < 1024)        return bytes + ' B';
+    if (bytes < 1048576)     return (bytes / 1024).toFixed(0) + ' KB';
+    return (bytes / 1048576).toFixed(1) + ' MB';
+  }
+
+  let _toastTimer;
+  function toast(msg, type = 'success') {
+    const el = document.getElementById('toast');
+    document.getElementById('toast-icon').textContent = type === 'error' ? 'error' : 'check_circle';
+    document.getElementById('toast-msg').textContent  = msg;
+    el.style.background = type === 'error' ? '#dc2626' : '#021a38';
+    el.classList.remove('out');
+    clearTimeout(_toastTimer);
+    _toastTimer = setTimeout(() => el.classList.add('out'), 3500);
+  }
+
+  </script>
+</body>
+</html>

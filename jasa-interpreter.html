@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jasa Interpreter Bahasa Jepang | PT. Ichikara</title>
+  <meta name="description" content="Layanan interpreter bahasa Jepang profesional untuk meeting bisnis, negosiasi, kunjungan pabrik, dan konferensi.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Serif+JP:wght@600;700;900&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script src="js/tailwind-config.js"></script>
+  <!-- Konten dinamis: Supabase + loader bersama (lihat js/site-data.js) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="js/site-data.js"></script>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="bg-background text-on-background font-inter" data-site-root="">
+
+  <div id="site-header"></div>
+
+  <main>
+
+    <!-- =========================================================
+         HERO SECTION
+         Image: images/hero-interpreter.jpg (interpreter in meeting room)
+         ========================================================= -->
+    <section class="relative min-h-[80vh] flex items-center justify-center overflow-hidden bg-primary" aria-label="Hero Jasa Interpreter">
+      <img src="images/hero-interpreter.jpg" alt="" aria-hidden="true" class="absolute inset-0 w-full h-full object-cover">
+      <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/55 to-black/85"></div>
+      <div class="absolute inset-0 flex items-center justify-center" aria-hidden="true">
+        <span class="japanese-watermark text-white text-[26rem] lg:text-[36rem]">通</span>
+      </div>
+
+      <div class="relative z-10 max-w-3xl mx-auto px-6 text-center text-white pt-20">
+        <nav class="flex justify-center gap-2 text-xs text-white/60 mb-6" aria-label="Breadcrumb">
+          <a href="beranda.html" class="hover:text-white transition-colors">Beranda</a>
+          <span aria-hidden="true">/</span>
+          <span class="text-white" aria-current="page">Jasa Interpreter</span>
+        </nav>
+        <h1 class="font-noto font-bold text-4xl lg:text-6xl leading-[1.15] mb-6">Jasa Interpreter Bahasa Jepang</h1>
+        <p class="text-lg text-white/80 leading-relaxed max-w-2xl mx-auto mb-10">
+          Komunikasi bisnis tanpa hambatan bahasa. Interpreter profesional hadir di meeting room, lantai produksi, atau ruang negosiasi Anda.
+        </p>
+        <div class="flex flex-wrap gap-4 justify-center">
+          <!-- TODO: Replace XXXXXXXXXX with real WhatsApp number -->
+          <a href="https://wa.me/6288291469464" class="bg-secondary text-white px-8 py-4 rounded-full font-bold hover:bg-red-hover transition-all flex items-center gap-2" rel="noopener noreferrer" target="_blank">
+            <span class="material-symbols-outlined" aria-hidden="true">chat</span>
+            Pesan Interpreter
+          </a>
+          <a href="#metode" class="border border-white/40 text-white px-8 py-4 rounded-full font-bold hover:bg-white/10 transition-all">
+            Lihat Metode
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         STATS STRIP
+         ========================================================= -->
+    <section class="bg-white border-b border-border-light py-12" aria-label="Statistik layanan">
+      <div class="container mx-auto max-w-[1200px] px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+        <div>
+          <p class="text-4xl font-noto font-black text-primary">98%</p>
+          <p class="text-sm text-on-surface-variant mt-1">Tingkat Retensi Pesan</p>
+        </div>
+        <div>
+          <p class="text-4xl font-noto font-black text-primary">200+</p>
+          <p class="text-sm text-on-surface-variant mt-1">Sesi Berhasil</p>
+        </div>
+        <div>
+          <p class="text-4xl font-noto font-black text-primary">50+</p>
+          <p class="text-sm text-on-surface-variant mt-1">Klien Korporat</p>
+        </div>
+        <div>
+          <p class="text-4xl font-noto font-black text-primary">10+</p>
+          <p class="text-sm text-on-surface-variant mt-1">Industri Dilayani</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         METODE INTERPRETASI — 2 cards
+         ========================================================= -->
+    <section class="py-xxl bg-bg-gray" id="metode" aria-labelledby="metode-heading">
+      <div class="container mx-auto max-w-[1200px] px-6">
+        <div class="text-center mb-16 fade-in">
+          <h2 id="metode-heading" class="text-primary text-4xl font-noto font-bold mb-4">Metode Interpretasi</h2>
+          <p class="text-on-surface-variant max-w-xl mx-auto">Dua metode interpretasi profesional untuk berbagai jenis situasi dan skala acara.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          <!-- Consecutive -->
+          <!-- TODO: Add → images/interpretasi-consecutive.jpg -->
+          <div class="bg-white rounded-2xl overflow-hidden border border-border-light shadow-sm card-hover">
+            <div class="h-52 overflow-hidden">
+              <img src="images/interpretasi-consecutive.jpg" alt="Interpreter melakukan interpretasi konsekutif dalam rapat kecil" class="w-full h-full object-cover" loading="lazy">
+            </div>
+            <div class="p-8">
+              <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-5">
+                <span class="material-symbols-outlined text-primary" aria-hidden="true">record_voice_over</span>
+              </div>
+              <h3 class="text-xl font-noto font-bold text-primary mb-3">Interpretasi Konsekutif</h3>
+              <p class="text-on-surface-variant text-sm leading-relaxed mb-4">
+                Interpreter mendengarkan pembicara, mencatat, lalu menyampaikan pesan setelah pembicara berhenti. Ideal untuk meeting, negosiasi, kunjungan pabrik, dan wawancara.
+              </p>
+              <ul class="space-y-2">
+                <li class="flex gap-2 items-center text-sm text-on-surface-variant">
+                  <span class="material-symbols-outlined text-secondary text-[16px]" aria-hidden="true">check_circle</span>
+                  Cocok untuk 2–20 peserta
+                </li>
+                <li class="flex gap-2 items-center text-sm text-on-surface-variant">
+                  <span class="material-symbols-outlined text-secondary text-[16px]" aria-hidden="true">check_circle</span>
+                  Tanpa peralatan khusus
+                </li>
+                <li class="flex gap-2 items-center text-sm text-on-surface-variant">
+                  <span class="material-symbols-outlined text-secondary text-[16px]" aria-hidden="true">check_circle</span>
+                  Interaksi lebih personal
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Simultaneous -->
+          <!-- TODO: Add → images/interpretasi-simultaneous.jpg -->
+          <div class="bg-white rounded-2xl overflow-hidden border border-border-light shadow-sm card-hover">
+            <div class="h-52 overflow-hidden">
+              <img src="images/interpretasi-simultaneous.jpg" alt="Interpreter melakukan interpretasi simultan di konferensi besar" class="w-full h-full object-cover" loading="lazy">
+            </div>
+            <div class="p-8">
+              <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-5">
+                <span class="material-symbols-outlined text-primary" aria-hidden="true">headset_mic</span>
+              </div>
+              <h3 class="text-xl font-noto font-bold text-primary mb-3">Interpretasi Simultan</h3>
+              <p class="text-on-surface-variant text-sm leading-relaxed mb-4">
+                Interpreter menerjemahkan secara real-time bersamaan dengan pembicara. Digunakan untuk konferensi besar, seminar, dan acara internasional.
+              </p>
+              <ul class="space-y-2">
+                <li class="flex gap-2 items-center text-sm text-on-surface-variant">
+                  <span class="material-symbols-outlined text-secondary text-[16px]" aria-hidden="true">check_circle</span>
+                  Ideal untuk 50+ peserta
+                </li>
+                <li class="flex gap-2 items-center text-sm text-on-surface-variant">
+                  <span class="material-symbols-outlined text-secondary text-[16px]" aria-hidden="true">check_circle</span>
+                  Memerlukan peralatan audio
+                </li>
+                <li class="flex gap-2 items-center text-sm text-on-surface-variant">
+                  <span class="material-symbols-outlined text-secondary text-[16px]" aria-hidden="true">check_circle</span>
+                  Tanpa jeda presentasi
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         DURASI & SKALA — 3 bento cards
+         ========================================================= -->
+    <section class="py-xxl bg-white" aria-labelledby="paket-heading">
+      <div class="container mx-auto max-w-[1200px] px-6">
+        <div class="text-center mb-16 fade-in">
+          <h2 id="paket-heading" class="text-primary text-4xl font-noto font-bold mb-4">Paket Layanan</h2>
+          <p class="text-on-surface-variant max-w-xl mx-auto">Tersedia untuk berbagai durasi dan skala kegiatan Anda.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+          <div class="bg-bg-gray border border-border-light rounded-2xl p-8 service-card">
+            <div class="w-12 h-12 bg-secondary/10 rounded-lg flex items-center justify-center mb-6">
+              <span class="material-symbols-outlined text-secondary" aria-hidden="true">schedule</span>
+            </div>
+            <h3 class="text-xl font-noto font-bold text-primary mb-3">Harian</h3>
+            <p class="text-on-surface-variant text-sm leading-relaxed">
+              Layanan interpreter untuk kegiatan 1 hari penuh, meliputi kunjungan pabrik, negosiasi, atau tur fasilitas.
+            </p>
+          </div>
+
+          <div class="bg-bg-gray border border-border-light rounded-2xl p-8 service-card">
+            <div class="w-12 h-12 bg-secondary/10 rounded-lg flex items-center justify-center mb-6">
+              <span class="material-symbols-outlined text-secondary" aria-hidden="true">calendar_month</span>
+            </div>
+            <h3 class="text-xl font-noto font-bold text-primary mb-3">Mingguan / Proyek</h3>
+            <p class="text-on-surface-variant text-sm leading-relaxed">
+              Pendampingan untuk proyek multi-hari: pelatihan, audit, implementasi sistem, atau due diligence.
+            </p>
+          </div>
+
+          <div class="bg-bg-gray border border-border-light rounded-2xl p-8 service-card">
+            <div class="w-12 h-12 bg-secondary/10 rounded-lg flex items-center justify-center mb-6">
+              <span class="material-symbols-outlined text-secondary" aria-hidden="true">video_call</span>
+            </div>
+            <h3 class="text-xl font-noto font-bold text-primary mb-3">Jarak Jauh (Online)</h3>
+            <p class="text-on-surface-variant text-sm leading-relaxed">
+              Layanan interpreter via Zoom, Teams, atau platform video call lainnya. Hemat waktu dan biaya perjalanan.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         ADVANTAGES SECTION — keunggulan dengan stat 98%
+         ========================================================= -->
+    <section class="py-xxl bg-primary overflow-hidden relative" aria-labelledby="advantages-heading">
+      <div class="japanese-watermark absolute right-[-5%] top-0 text-[20rem] text-white pointer-events-none select-none" aria-hidden="true">優</div>
+      <div class="container mx-auto max-w-[1200px] px-6 relative z-10">
+        <div class="text-center mb-16 fade-in">
+          <h2 id="advantages-heading" class="text-white text-4xl font-noto font-bold mb-4">Keunggulan Interpreter Kami</h2>
+          <p class="text-surface-container-highest max-w-xl mx-auto">Standar profesional yang menjamin komunikasi Anda berjalan lancar.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div class="bg-white/10 border border-white/20 rounded-xl p-6 text-center">
+            <p class="text-5xl font-noto font-black text-tertiary-container mb-3">98%</p>
+            <h4 class="font-bold text-white mb-2">Tingkat Retensi Pesan</h4>
+            <p class="text-surface-container-highest text-xs leading-relaxed">Akurasi penyampaian pesan yang terukur dalam setiap sesi</p>
+          </div>
+          <div class="bg-white/10 border border-white/20 rounded-xl p-6 text-center">
+            <div class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-4">
+              <span class="material-symbols-outlined text-tertiary-container" aria-hidden="true">school</span>
+            </div>
+            <h4 class="font-bold text-white mb-2">Latar Industri</h4>
+            <p class="text-surface-container-highest text-xs leading-relaxed">Interpreter kami memiliki latar belakang industri spesifik</p>
+          </div>
+          <div class="bg-white/10 border border-white/20 rounded-xl p-6 text-center">
+            <div class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-4">
+              <span class="material-symbols-outlined text-tertiary-container" aria-hidden="true">handshake</span>
+            </div>
+            <h4 class="font-bold text-white mb-2">Etiket Bisnis Jepang</h4>
+            <p class="text-surface-container-highest text-xs leading-relaxed">Paham keigo dan protokol formal bisnis Jepang</p>
+          </div>
+          <div class="bg-white/10 border border-white/20 rounded-xl p-6 text-center">
+            <div class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-4">
+              <span class="material-symbols-outlined text-tertiary-container" aria-hidden="true">support_agent</span>
+            </div>
+            <h4 class="font-bold text-white mb-2">Dukungan 24 Jam</h4>
+            <p class="text-surface-container-highest text-xs leading-relaxed">Tim kami siap membantu persiapan dan koordinasi acara</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         CTA BANNER
+         ========================================================= -->
+    <section class="py-xxl bg-bg-gray" aria-label="Hubungi kami">
+      <div class="container mx-auto max-w-[1200px] px-6 text-center">
+        <h2 class="text-primary text-4xl font-noto font-bold mb-6">Butuh Interpreter Segera?</h2>
+        <p class="text-on-surface-variant text-lg mb-10 max-w-xl mx-auto">
+          Kami dapat menyiapkan interpreter dalam waktu singkat untuk kebutuhan mendadak Anda.
+        </p>
+        <!-- TODO: Replace XXXXXXXXXX with real WhatsApp number -->
+        <a href="https://wa.me/6288291469464" class="inline-flex items-center gap-3 bg-secondary text-white px-10 py-5 rounded-full font-bold hover:bg-red-hover transition-all" rel="noopener noreferrer" target="_blank">
+          <span class="material-symbols-outlined" aria-hidden="true">chat</span>
+          Hubungi via WhatsApp
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script src="js/header-loader.js"></script>
+
+</body>
+</html>

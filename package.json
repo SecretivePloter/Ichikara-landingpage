@@ -1,0 +1,12 @@
+{
+  "name": "website-ichikara",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Website PT. Ichikara — static site (Vercel) + Supabase-powered admin content",
+  "scripts": {
+    "optimize:images": "node scripts/optimize-images.js"
+  },
+  "devDependencies": {
+    "sharp": "^0.33.5"
+  }
+}

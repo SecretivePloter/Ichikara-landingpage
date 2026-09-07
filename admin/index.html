@@ -1,0 +1,1635 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard — PT. Ichikara</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Serif+JP:wght@700&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary:        '#021a38',
+            secondary:      '#b02d21',
+            'red-hover':    '#A93226',
+            'border-light': '#E5E7EB',
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .font-noto { font-family: 'Noto Serif JP', serif; }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block; vertical-align: middle;
+    }
+
+    /* ── Rich text editor ── */
+    #rich-editor { min-height: 140px; outline: none; line-height: 1.7; }
+    #rich-editor:empty::before { content: attr(data-placeholder); color: #9ca3af; pointer-events: none; }
+
+    /* ── Story list item ── */
+    .story-item { border-left: 3px solid transparent; transition: background 0.15s, border-color 0.15s; }
+    .story-item:hover { background: #f9fafb; }
+    .story-item.active { background: #eff6ff; border-left-color: #b02d21; }
+
+    /* ── Nav tabs ── */
+    .nav-tab { border-bottom: 2px solid transparent; color: #9ca3af; white-space: nowrap; }
+    .nav-tab.active { border-bottom-color: #b02d21; color: #021a38; font-weight: 600; }
+    .nav-tab:hover:not(.active) { color: #6b7280; }
+
+    /* ── Editor sub-tabs ── */
+    .ed-tab { border-bottom: 2px solid transparent; color: #6b7280; }
+    .ed-tab.active { border-bottom-color: #b02d21; color: #021a38; font-weight: 600; }
+
+    /* ── Form fields ── */
+    .field { border: 1px solid #d1d5db; border-radius: 0.75rem; padding: 0.625rem 0.875rem;
+             font-size: 0.875rem; width: 100%; transition: border-color 0.15s, box-shadow 0.15s; }
+    .field:focus { outline: none; border-color: #b02d21; box-shadow: 0 0 0 3px rgba(176,45,33,0.1); }
+
+    /* ── Sync status pill (Supabase) ── */
+    #sync-status[data-state="local"]   { background:#f9fafb; border-color:#e5e7eb; color:#6b7280; }
+    #sync-status[data-state="synced"]  { background:#f0fdf4; border-color:#bbf7d0; color:#15803d; }
+    #sync-status[data-state="syncing"] { background:#fffbeb; border-color:#fde68a; color:#b45309; }
+    #sync-status[data-state="error"]   { background:#fef2f2; border-color:#fecaca; color:#b91c1c; }
+
+    /* ── Toolbar ── */
+    .toolbar-btn:hover { background: #f3f4f6; }
+
+    /* ── Asset card ── */
+    .asset-card { transition: box-shadow 0.2s, transform 0.2s; }
+    .asset-card:hover { box-shadow: 0 8px 30px rgba(0,0,0,0.12); transform: translateY(-2px); }
+    .asset-card.drag-over { outline: 3px dashed #b02d21; outline-offset: 2px; background: #fff5f5; }
+
+    /* ── Filter pill ── */
+    .pill { border: 1.5px solid transparent; }
+    .pill.active { border-color: #b02d21; background: #fff0ee; color: #b02d21; font-weight: 700; }
+
+    /* ── Featured story card ── */
+    .feat-card { border: 2px solid transparent; transition: border-color 0.15s, box-shadow 0.15s; }
+    .feat-card.selected { border-color: #b02d21; box-shadow: 0 0 0 3px rgba(176,45,33,0.15); }
+
+    /* ── Progress bar ── */
+    #prog-fill { transition: width 0.5s ease; }
+
+    /* ── Toast ── */
+    #toast { transition: opacity 0.3s, transform 0.3s; }
+    #toast.out { opacity: 0; transform: translateY(8px); }
+
+    /* ── Section sticky header ── */
+    .section-head { position: sticky; top: 0; z-index: 10; }
+
+    /* ── Scrollbar ── */
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 999px; }
+  </style>
+</head>
+
+<body class="bg-gray-50 text-gray-900" style="height:100dvh;display:flex;flex-direction:column;overflow:hidden;">
+
+  <!-- =========================================================
+       AUTH GATE — Supabase Auth (email + password)
+       ========================================================= -->
+  <div id="auth-gate" class="fixed inset-0 bg-primary z-[200] flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl p-10 w-full max-w-sm">
+      <div class="text-center mb-8">
+        <img src="../images/logo.png" alt="PT. Ichikara" class="h-10 w-auto mx-auto mb-5" onerror="this.style.display='none'">
+        <h1 class="text-xl font-bold text-primary">Admin Dashboard</h1>
+        <p class="text-gray-400 text-xs mt-1">PT. Ichikara — Area Terbatas</p>
+      </div>
+      <form id="auth-form">
+        <label class="block text-xs font-semibold text-gray-600 mb-2">Email Admin</label>
+        <input type="email" id="auth-email" class="field mb-4" placeholder="admin@ichikara.co.id" autocomplete="email" required>
+        <label class="block text-xs font-semibold text-gray-600 mb-2">Kata Sandi</label>
+        <input type="password" id="auth-input" class="field mb-1" placeholder="Masukkan kata sandi..." autocomplete="current-password" required>
+        <p id="auth-err" class="text-red-500 text-xs mb-3 hidden">Email atau kata sandi salah.</p>
+        <button type="submit" id="auth-btn" class="w-full bg-secondary hover:bg-red-hover text-white font-bold py-3 rounded-xl transition-colors text-sm mt-3">
+          Masuk
+        </button>
+      </form>
+      <p class="text-center text-gray-300 text-[10px] mt-6">Login diverifikasi oleh Supabase. Hubungi administrator jika lupa kata sandi.</p>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var SUPA_URL = 'https://pfvlxlfykdabrwijqqxa.supabase.co';
+      var SUPA_KEY = 'sb_publishable_C8EWE-TOsXBqzbH2aIjzcg_30Jx8Ove';
+      var gate     = document.getElementById('auth-gate');
+
+      window._sb = supabase.createClient(SUPA_URL, SUPA_KEY);
+
+      // Cek sesi yang sudah ada
+      window._sb.auth.getSession().then(function (res) {
+        if (res.data && res.data.session) {
+          gate.style.display = 'none';
+        }
+      });
+
+      document.getElementById('auth-form').addEventListener('submit', async function (e) {
+        e.preventDefault();
+        var email  = document.getElementById('auth-email').value.trim();
+        var pass   = document.getElementById('auth-input').value;
+        var errEl  = document.getElementById('auth-err');
+        var btn    = document.getElementById('auth-btn');
+
+        errEl.classList.add('hidden');
+        btn.disabled = true;
+        btn.textContent = 'Memeriksa...';
+
+        var result = await window._sb.auth.signInWithPassword({ email: email, password: pass });
+
+        if (result.error) {
+          errEl.classList.remove('hidden');
+          document.getElementById('auth-input').value = '';
+          document.getElementById('auth-input').focus();
+          btn.disabled = false;
+          btn.textContent = 'Masuk';
+        } else {
+          gate.style.display = 'none';
+        }
+      });
+    }());
+  </script>
+
+  <!-- =========================================================
+       TOP BAR — Row 1: Logo + Actions
+       ========================================================= -->
+  <header class="bg-primary text-white px-6 py-3.5 flex items-center justify-between flex-shrink-0 shadow-xl z-30">
+    <div class="flex items-center gap-4">
+      <img src="../images/logo.png" alt="PT. Ichikara" class="h-8 w-auto brightness-0 invert" onerror="this.style.display='none'">
+      <div>
+        <h1 class="font-bold text-base leading-none">Admin Dashboard</h1>
+        <p class="text-white/50 text-xs mt-0.5">PT. Ichikara</p>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-2">
+      <!-- Folder access button (shared for Assets + Clients tabs) -->
+      <button id="btn-open-folder" onclick="openFolder()"
+              class="flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-xs font-semibold transition-colors">
+        <span class="material-symbols-outlined text-[16px]">folder_open</span>
+        <span id="folder-label">Info Upload Gambar</span>
+      </button>
+
+      <!-- Status sinkron Supabase + Migrate data lokal -->
+      <div class="flex items-center gap-2">
+        <span id="sync-status" class="sync-pill flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs font-semibold bg-gray-50 border-gray-200 text-gray-600">
+          <span class="material-symbols-outlined text-[16px]">cloud_queue</span> Menyiapkan…
+        </span>
+        <button onclick="migrateLocalToRemote()"
+                class="flex items-center gap-1.5 px-3 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-xs transition-colors"
+                title="Pindahkan data lokal (localStorage) ke Supabase">
+          <span class="material-symbols-outlined text-[15px]">cloud_upload</span> Migrate
+        </button>
+      </div>
+
+      <div class="w-px h-5 bg-white/20 mx-1"></div>
+
+      <!-- Backup / Import for Stories -->
+      <button onclick="importBackup()" title="Import backup cerita"
+              class="flex items-center gap-1.5 px-3 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-xs transition-colors">
+        <span class="material-symbols-outlined text-[16px]">upload_file</span> Import
+      </button>
+      <button onclick="exportBackup()" title="Download backup cerita"
+              class="flex items-center gap-1.5 px-3 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-xs transition-colors">
+        <span class="material-symbols-outlined text-[16px]">save</span> Backup
+      </button>
+
+      <div class="w-px h-5 bg-white/20 mx-1"></div>
+
+      <!-- View website -->
+      <a href="../beranda.html" target="_blank"
+         class="flex items-center gap-1.5 px-3 py-2 text-xs text-white/70 hover:text-white hover:bg-white/10 rounded-lg transition-colors">
+        <span class="material-symbols-outlined text-[16px]">open_in_new</span> Lihat Website
+      </a>
+
+      <div class="w-px h-5 bg-white/20 mx-1"></div>
+
+      <!-- Logout -->
+      <button onclick="logout()"
+              class="flex items-center gap-1.5 px-3 py-2 text-xs text-white/70 hover:text-white hover:bg-white/10 rounded-lg transition-colors">
+        <span class="material-symbols-outlined text-[16px]">logout</span> Keluar
+      </button>
+    </div>
+  </header>
+
+  <!-- TOP BAR — Row 2: Tab Navigation -->
+  <div class="bg-white border-b border-border-light px-4 flex items-center flex-shrink-0 z-20 overflow-x-auto">
+    <button class="nav-tab active px-5 py-3.5 text-sm transition-all flex items-center gap-1.5" data-section="stories" onclick="showSection('stories')">
+      <span class="material-symbols-outlined text-[16px]">auto_stories</span> Kisah Sukses
+    </button>
+    <button class="nav-tab px-5 py-3.5 text-sm transition-all flex items-center gap-1.5" data-section="assets" onclick="showSection('assets')">
+      <span class="material-symbols-outlined text-[16px]">image</span> Gambar Website
+    </button>
+    <button class="nav-tab px-5 py-3.5 text-sm transition-all flex items-center gap-1.5" data-section="clients" onclick="showSection('clients')">
+      <span class="material-symbols-outlined text-[16px]">corporate_fare</span> Logo Klien
+    </button>
+    <button class="nav-tab px-5 py-3.5 text-sm transition-all flex items-center gap-1.5" data-section="settings" onclick="showSection('settings')">
+      <span class="material-symbols-outlined text-[16px]">tune</span> Pengaturan Beranda
+    </button>
+
+    <!-- Quick Export button -->
+    <div class="ml-auto flex-shrink-0 pl-4 py-2">
+      <button onclick="showExportModal()"
+              class="flex items-center gap-2 px-4 py-2 bg-secondary hover:bg-red-hover text-white rounded-lg text-xs font-bold transition-colors">
+        <span class="material-symbols-outlined text-[15px]">publish</span> Export HTML
+      </button>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       SECTION 1: Kisah Sukses (Stories)
+       ========================================================= -->
+  <div id="sec-stories" class="section-panel flex flex-1 overflow-hidden">
+
+    <!-- Left sidebar: story list -->
+    <aside class="w-72 bg-white border-r border-border-light flex flex-col flex-shrink-0">
+      <div class="p-3 border-b border-border-light">
+        <button onclick="newStory()"
+                class="w-full flex items-center justify-center gap-2 bg-primary hover:bg-blue-950 text-white py-2.5 rounded-xl font-semibold text-sm transition-colors">
+          <span class="material-symbols-outlined text-[18px]">add_circle</span> Tambah Cerita Baru
+        </button>
+      </div>
+      <div class="px-3 py-2 border-b border-border-light">
+        <select id="list-filter" onchange="renderList()"
+                class="w-full text-xs border border-gray-200 rounded-lg px-2.5 py-2 text-gray-600 focus:outline-none focus:border-secondary">
+          <option value="all">Semua Kategori</option>
+          <option value="achievement">Pencapaian</option>
+          <option value="activity">Aktivitas</option>
+          <option value="client-story">Kisah Klien</option>
+        </select>
+      </div>
+      <div id="story-list" class="flex-1 overflow-y-auto"></div>
+      <div class="px-4 py-2.5 border-t border-border-light">
+        <p id="story-count" class="text-xs text-gray-400 text-center">0 cerita</p>
+      </div>
+    </aside>
+
+    <!-- Right: editor -->
+    <main class="flex-1 flex flex-col overflow-hidden">
+
+      <!-- Empty state -->
+      <div id="empty-state" class="flex-1 flex flex-col items-center justify-center text-gray-400 p-8 text-center">
+        <span class="material-symbols-outlined text-7xl mb-4" style="color:#d1d5db;">edit_note</span>
+        <h2 class="text-xl font-semibold text-gray-500 mb-2">Pilih Cerita untuk Diedit</h2>
+        <p class="text-sm max-w-xs leading-relaxed">Klik cerita di panel kiri, atau buat cerita baru.</p>
+      </div>
+
+      <!-- Editor -->
+      <div id="editor-wrap" class="hidden flex-1 flex flex-col overflow-hidden">
+
+        <!-- Editor header -->
+        <div class="bg-white border-b border-border-light px-6 py-3 flex items-center justify-between flex-shrink-0">
+          <div>
+            <h2 id="ed-title" class="font-bold text-primary text-base leading-none">Cerita Baru</h2>
+            <p id="ed-sub" class="text-xs text-gray-400 mt-0.5">Isi detail di bawah</p>
+          </div>
+          <div class="flex gap-2">
+            <button onclick="cancelEdit()" class="px-4 py-2 text-sm text-gray-500 hover:text-gray-700 rounded-lg hover:bg-gray-100 transition-colors">Batal</button>
+            <button onclick="saveStory()"
+                    class="flex items-center gap-1.5 px-5 py-2 bg-secondary hover:bg-red-hover text-white rounded-lg text-sm font-bold transition-colors">
+              <span class="material-symbols-outlined text-[16px]">save</span> Simpan
+            </button>
+          </div>
+        </div>
+
+        <!-- Editor sub-tabs -->
+        <div class="bg-white border-b border-border-light px-6 flex gap-1 flex-shrink-0">
+          <button class="ed-tab active px-4 py-3 text-sm transition-all" data-etab="edit" onclick="switchEditorTab('edit')">Edit</button>
+          <button class="ed-tab px-4 py-3 text-sm transition-all" data-etab="preview" onclick="switchEditorTab('preview')">Preview Kartu</button>
+        </div>
+
+        <!-- Tab: Edit form -->
+        <div id="etab-edit" class="flex-1 overflow-y-auto">
+          <div class="max-w-3xl mx-auto px-6 py-6 space-y-6">
+
+            <!-- Image upload -->
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-3">
+                <span class="material-symbols-outlined text-[16px] text-gray-500 mr-1">image</span> Foto Artikel
+              </label>
+              <div class="flex gap-4 items-start">
+                <div id="img-box"
+                     class="relative w-44 h-28 rounded-xl overflow-hidden bg-gray-100 border-2 border-dashed border-gray-300 flex-shrink-0 flex items-center justify-center cursor-pointer hover:border-secondary transition-colors group"
+                     onclick="document.getElementById('img-input').click()">
+                  <div id="img-placeholder" class="text-center text-gray-400 group-hover:text-secondary transition-colors">
+                    <span class="material-symbols-outlined text-3xl block mb-1">add_photo_alternate</span>
+                    <span class="text-xs font-medium">Klik untuk pilih foto</span>
+                  </div>
+                  <img id="img-preview" src="" alt="" class="hidden absolute inset-0 w-full h-full object-cover">
+                  <div id="img-change-overlay" class="hidden absolute inset-0 bg-black/40 items-center justify-center">
+                    <span class="text-white text-xs font-bold">Ganti Foto</span>
+                  </div>
+                </div>
+                <input type="file" id="img-input" accept="image/*" class="hidden" onchange="handleImage(event)">
+
+                <div class="flex-1 space-y-3">
+                  <div>
+                    <label class="block text-xs font-semibold text-gray-600 mb-1">Foto artikel <span class="text-red-500">*</span></label>
+                    <input type="text" id="f-image" class="field" readonly placeholder="Pilih foto di kotak kiri" oninput="syncPreviewImg()">
+                    <p class="text-xs text-gray-400 mt-1.5 leading-relaxed">
+                      Klik <strong>kotak di kiri</strong> untuk memilih foto — otomatis diupload ke Supabase dan langsung tampil di website (real-time). Field ini terisi otomatis.
+                    </p>
+                  </div>
+                  <div>
+                    <label class="block text-xs font-semibold text-gray-600 mb-1">Deskripsi foto (alt text)</label>
+                    <input type="text" id="f-alt" class="field" placeholder="Deskripsi singkat isi foto">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <hr class="border-gray-200">
+
+            <!-- Judul -->
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-2">Judul Cerita <span class="text-red-500">*</span></label>
+              <input type="text" id="f-title" class="field" style="border-radius:0.75rem;font-size:1rem;padding:0.75rem 1rem;"
+                     placeholder="Contoh: 12 Siswa Lulus JLPT N3 — Angkatan Pertama 2026" oninput="syncPreview()">
+            </div>
+
+            <!-- Kategori + Tanggal -->
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Kategori <span class="text-red-500">*</span></label>
+                <select id="f-category" class="field" onchange="syncPreview()">
+                  <option value="achievement">Pencapaian</option>
+                  <option value="activity">Aktivitas</option>
+                  <option value="client-story">Kisah Klien</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Tanggal</label>
+                <input type="text" id="f-date" class="field" placeholder="Contoh: Juni 2026" oninput="syncPreview()">
+              </div>
+            </div>
+
+            <!-- Link -->
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-2">Link "Baca Selengkapnya"</label>
+              <input type="text" id="f-link" class="field" placeholder="#">
+              <p class="text-xs text-gray-400 mt-1.5">Biarkan <code class="bg-gray-100 px-1 rounded">#</code> jika belum ada halaman detail</p>
+            </div>
+
+            <hr class="border-gray-200">
+
+            <!-- Rich text editor -->
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-2">
+                <span class="material-symbols-outlined text-[16px] text-gray-500 mr-1">text_fields</span> Ringkasan Cerita
+              </label>
+              <p class="text-xs text-gray-400 mb-3">1–3 kalimat yang tampil di kartu website. Pilih teks lalu klik tombol format.</p>
+
+              <div class="flex items-center flex-wrap gap-1 bg-gray-50 border border-gray-300 border-b-0 rounded-t-xl px-3 py-2">
+                <button onclick="fmt('bold')" title="Bold" class="toolbar-btn w-8 h-8 rounded flex items-center justify-center font-bold text-gray-700 text-sm transition-colors">B</button>
+                <button onclick="fmt('italic')" title="Italic" class="toolbar-btn w-8 h-8 rounded flex items-center justify-center italic text-gray-700 text-sm transition-colors">I</button>
+                <button onclick="fmt('underline')" title="Garis bawah" class="toolbar-btn w-8 h-8 rounded flex items-center justify-center underline text-gray-700 text-sm transition-colors">U</button>
+                <div class="w-px h-5 bg-gray-300 mx-1"></div>
+                <div class="flex items-center gap-1.5">
+                  <span class="text-xs text-gray-500 font-medium">Ukuran:</span>
+                  <select id="fs-select" onchange="setSize(this.value)"
+                          class="text-xs border border-gray-300 rounded-lg px-2 py-1 bg-white focus:outline-none focus:border-secondary">
+                    <option value="">— pilih —</option>
+                    <option value="1">Sangat Kecil</option>
+                    <option value="2">Kecil</option>
+                    <option value="3">Normal</option>
+                    <option value="4">Besar</option>
+                    <option value="5">Sangat Besar</option>
+                    <option value="6">Ekstra Besar</option>
+                  </select>
+                </div>
+                <div class="w-px h-5 bg-gray-300 mx-1"></div>
+                <button onclick="fmt('justifyLeft')" title="Rata kiri" class="toolbar-btn w-8 h-8 rounded flex items-center justify-center transition-colors">
+                  <span class="material-symbols-outlined text-[17px] text-gray-600">format_align_left</span>
+                </button>
+                <button onclick="fmt('justifyCenter')" title="Tengah" class="toolbar-btn w-8 h-8 rounded flex items-center justify-center transition-colors">
+                  <span class="material-symbols-outlined text-[17px] text-gray-600">format_align_center</span>
+                </button>
+                <div class="w-px h-5 bg-gray-300 mx-1"></div>
+                <button onclick="fmt('removeFormat')" title="Hapus format" class="toolbar-btn w-8 h-8 rounded flex items-center justify-center transition-colors">
+                  <span class="material-symbols-outlined text-[17px] text-gray-600">format_clear</span>
+                </button>
+                <button onclick="insertLink()" title="Tambah link" class="toolbar-btn w-8 h-8 rounded flex items-center justify-center transition-colors">
+                  <span class="material-symbols-outlined text-[17px] text-gray-600">link</span>
+                </button>
+              </div>
+
+              <div id="rich-editor" contenteditable="true" data-placeholder="Tulis ringkasan cerita di sini..."
+                   class="w-full border border-gray-300 rounded-b-xl px-4 py-3 text-sm text-gray-700 bg-white"
+                   oninput="syncPreview()" onkeydown="handleEditorKey(event)"></div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Tab: Preview -->
+        <div id="etab-preview" class="hidden flex-1 overflow-y-auto bg-gray-100 p-8">
+          <p class="text-xs text-gray-400 text-center mb-6 uppercase tracking-widest font-semibold">Tampilan kartu di website</p>
+          <div class="max-w-xs mx-auto">
+            <div id="card-preview" class="bg-white rounded-2xl overflow-hidden shadow-lg border border-gray-200"></div>
+          </div>
+          <p class="text-xs text-gray-400 text-center mt-6">Warna dan font mungkin sedikit berbeda dengan tampilan asli website</p>
+        </div>
+
+      </div><!-- /editor-wrap -->
+    </main>
+  </div><!-- /sec-stories -->
+
+  <!-- =========================================================
+       SECTION 2: Gambar Website (Assets)
+       ========================================================= -->
+  <div id="sec-assets" class="section-panel hidden flex-col flex-1 overflow-hidden">
+
+    <!-- No-folder banner -->
+    <div id="assets-no-folder" class="bg-blue-50 border-b border-blue-200 px-6 py-3 flex items-center gap-3 flex-shrink-0">
+      <span class="material-symbols-outlined text-blue-600 flex-shrink-0">cloud_upload</span>
+      <p class="text-sm text-blue-800">
+        Klik kartu gambar di bawah untuk <strong>upload foto baru ke Supabase</strong> — langsung tampil di website tanpa deploy.
+        Gambar yang belum diupload memakai file bawaan di folder <code class="bg-blue-100 px-1 rounded">images/</code>.
+      </p>
+    </div>
+
+    <!-- Status bar -->
+    <div class="bg-white border-b border-border-light px-6 py-3 flex items-center justify-between gap-6 flex-shrink-0">
+      <div class="flex-1 max-w-sm">
+        <div class="flex justify-between text-xs font-semibold mb-1.5">
+          <span class="text-gray-600">Kelengkapan Gambar</span>
+          <span id="prog-label" class="text-primary">0 / 0</span>
+        </div>
+        <div class="h-2 bg-gray-100 rounded-full overflow-hidden">
+          <div id="prog-fill" class="h-full bg-secondary rounded-full" style="width:0%"></div>
+        </div>
+      </div>
+      <span class="flex items-center gap-5 text-xs">
+        <span class="flex items-center gap-1.5 text-green-600 font-semibold">
+          <span class="w-2.5 h-2.5 rounded-full bg-green-500 inline-block"></span>
+          <span id="count-ok">0</span> Custom (Supabase)
+        </span>
+        <span class="flex items-center gap-1.5 text-amber-600 font-semibold">
+          <span class="w-2.5 h-2.5 rounded-full bg-amber-400 inline-block"></span>
+          <span id="count-missing">0</span> File Repo
+        </span>
+      </span>
+      <div class="flex items-center gap-2">
+        <button class="pill active text-xs px-3.5 py-1.5 rounded-full transition-all" data-filter="all"     onclick="setAssetFilter('all')">Semua</button>
+        <button class="pill        text-xs px-3.5 py-1.5 rounded-full transition-all" data-filter="missing" onclick="setAssetFilter('missing')">File Repo</button>
+        <button class="pill        text-xs px-3.5 py-1.5 rounded-full transition-all" data-filter="ok"      onclick="setAssetFilter('ok')">Custom (Supabase)</button>
+      </div>
+      <button onclick="reloadStatus()" class="flex items-center gap-1.5 px-3 py-1.5 bg-gray-100 hover:bg-gray-200 rounded-lg text-xs font-semibold transition-colors">
+        <span class="material-symbols-outlined text-[15px]">refresh</span> Refresh
+      </button>
+    </div>
+
+    <!-- Asset grid -->
+    <div id="asset-grid-area" class="flex-1 overflow-y-auto px-6 py-6 space-y-10"></div>
+
+  </div><!-- /sec-assets -->
+
+  <!-- =========================================================
+       SECTION 3: Logo Klien (Clients)
+       ========================================================= -->
+  <div id="sec-clients" class="section-panel hidden flex-col flex-1 overflow-hidden">
+
+    <!-- No-folder banner -->
+    <div id="clients-no-folder" class="bg-blue-50 border-b border-blue-200 px-6 py-3 flex items-center gap-3 flex-shrink-0">
+      <span class="material-symbols-outlined text-blue-600 flex-shrink-0">cloud_upload</span>
+      <p class="text-sm text-blue-800">
+        Klik kartu logo di bawah untuk <strong>upload logo ke Supabase</strong> — langsung tampil di strip beranda tanpa deploy.
+        Logo yang belum diupload memakai file <code class="bg-blue-100 px-1 rounded">images/clients/client-N.png</code>.
+      </p>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="bg-white border-b border-border-light px-6 py-3 flex items-center justify-between flex-shrink-0">
+      <div>
+        <h2 class="font-semibold text-primary text-sm">Logo Klien — Strip Beranda</h2>
+        <p class="text-xs text-gray-400 mt-0.5">Disimpan di <code class="bg-gray-100 px-1 rounded text-[11px]">images/clients/client-N.png</code></p>
+      </div>
+      <div class="flex items-center gap-2">
+        <span class="text-xs text-gray-500 mr-2"><span id="client-count-label">8</span> slot aktif</span>
+        <button onclick="addClientSlot()"
+                class="flex items-center gap-1.5 px-3 py-2 bg-primary hover:bg-blue-950 text-white rounded-lg text-xs font-bold transition-colors">
+          <span class="material-symbols-outlined text-[15px]">add</span> Tambah Slot
+        </button>
+        <button onclick="removeClientSlot()"
+                class="flex items-center gap-1.5 px-3 py-2 bg-gray-100 hover:bg-red-50 text-gray-600 hover:text-red-600 rounded-lg text-xs font-bold transition-colors">
+          <span class="material-symbols-outlined text-[15px]">remove</span> Kurangi
+        </button>
+        <button onclick="saveClientsSettings()"
+                class="flex items-center gap-1.5 px-4 py-2 bg-secondary hover:bg-red-hover text-white rounded-lg text-xs font-bold transition-colors">
+          <span class="material-symbols-outlined text-[15px]">save</span> Simpan Jumlah
+        </button>
+      </div>
+    </div>
+
+    <!-- Client grid -->
+    <div class="flex-1 overflow-y-auto p-6">
+      <div class="bg-blue-50 border border-blue-200 rounded-xl p-4 text-sm text-blue-800 mb-6">
+        <div class="flex gap-2 items-start">
+          <span class="material-symbols-outlined text-blue-600 flex-shrink-0 text-[18px] mt-0.5">info</span>
+          <div>
+            <strong>Format logo:</strong> PNG transparan, tinggi minimal 60px. Klik kartu untuk upload — tersimpan di
+            Supabase dan langsung tampil di beranda tanpa deploy. Tombol <strong>Reset</strong> mengembalikan ke file repo.
+          </div>
+        </div>
+      </div>
+      <div id="client-grid" class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4"></div>
+    </div>
+
+  </div><!-- /sec-clients -->
+
+  <!-- =========================================================
+       SECTION 4: Pengaturan Beranda
+       ========================================================= -->
+  <div id="sec-settings" class="section-panel hidden flex-col flex-1 overflow-hidden">
+    <div class="flex-1 overflow-y-auto">
+      <div class="max-w-4xl mx-auto px-6 py-8 space-y-10">
+
+        <!-- A: Featured Stories -->
+        <div>
+          <div class="flex items-start justify-between gap-4 mb-6">
+            <div>
+              <h2 class="text-xl font-bold text-primary mb-1">Kisah Sukses di Halaman Beranda</h2>
+              <p class="text-sm text-gray-500">Pilih maksimal 3 cerita yang akan tampil di bagian preview Kisah Sukses pada halaman utama.</p>
+            </div>
+            <div class="flex items-center gap-3 flex-shrink-0">
+              <span id="featured-count-badge" class="px-3 py-1.5 bg-gray-100 rounded-full text-xs font-bold text-gray-600">0 / 3 dipilih</span>
+              <button onclick="saveBerandaSettings()"
+                      class="flex items-center gap-2 px-5 py-2.5 bg-secondary hover:bg-red-hover text-white rounded-lg text-sm font-bold transition-colors">
+                <span class="material-symbols-outlined text-[16px]">save</span> Simpan
+              </button>
+            </div>
+          </div>
+
+          <div id="featured-story-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+
+          <div id="featured-empty" class="hidden py-12 text-center text-gray-400">
+            <span class="material-symbols-outlined text-5xl block mb-3" style="color:#d1d5db">auto_stories</span>
+            <p class="font-semibold text-gray-500 mb-1">Belum ada cerita tersimpan</p>
+            <p class="text-sm">Buat cerita di tab <strong>Kisah Sukses</strong> terlebih dahulu, lalu kembali ke sini.</p>
+          </div>
+
+          <div class="mt-6 bg-green-50 border border-green-200 rounded-xl p-4 text-sm text-green-800 flex gap-3 items-start">
+            <span class="material-symbols-outlined text-green-600 flex-shrink-0 text-[18px] mt-0.5">check_circle</span>
+            <div>
+              Setelah klik <strong>Simpan</strong>, pengaturan langsung diterapkan ke website (Supabase, real-time) —
+              buka <a href="../beranda.html" target="_blank" class="font-bold underline">beranda.html</a> untuk melihat hasilnya.
+            </div>
+          </div>
+        </div>
+
+        <hr class="border-gray-200">
+
+        <!-- B: Client logo count -->
+        <div>
+          <h2 class="text-xl font-bold text-primary mb-1">Jumlah Slot Logo Klien</h2>
+          <p class="text-sm text-gray-500 mb-6">
+            Atur berapa banyak logo klien yang tampil di strip beranda.
+            Setiap slot = <code class="bg-gray-100 px-1.5 py-0.5 rounded text-xs">images/clients/client-N.png</code>
+          </p>
+          <div class="flex items-center gap-4">
+            <div class="flex items-center gap-1 bg-white border border-gray-200 rounded-xl p-1">
+              <button onclick="changeClientCount(-1)"
+                      class="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-gray-100 transition-colors font-bold text-gray-600 text-lg">−</button>
+              <input type="number" id="client-count-input" value="8" min="1" max="20"
+                     class="w-14 text-center text-xl font-bold border-none outline-none bg-transparent text-primary"
+                     onchange="syncClientCountFromInput()">
+              <button onclick="changeClientCount(1)"
+                      class="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-gray-100 transition-colors font-bold text-gray-600 text-lg">+</button>
+            </div>
+            <span class="text-sm text-gray-500">slot logo (1–20)</span>
+            <button onclick="saveClientsSettings()"
+                    class="flex items-center gap-2 px-5 py-2.5 bg-secondary hover:bg-red-hover text-white rounded-lg text-sm font-bold transition-colors">
+              <span class="material-symbols-outlined text-[16px]">save</span> Simpan
+            </button>
+          </div>
+          <p class="text-xs text-gray-400 mt-3">
+            Tip: Upload logo di tab <strong>Logo Klien</strong> setelah menyesuaikan jumlah slot di sini.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </div><!-- /sec-settings -->
+
+  <!-- =========================================================
+       EXPORT MODAL
+       ========================================================= -->
+  <div id="export-modal" class="hidden fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4" onclick="if(event.target===this)closeModal()">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[85vh] flex flex-col">
+      <div class="flex items-center justify-between px-6 py-4 border-b border-border-light flex-shrink-0">
+        <div>
+          <h2 class="font-bold text-primary text-lg">Export ke Website</h2>
+          <p class="text-xs text-gray-400 mt-0.5">Cara memperbarui halaman success-story.html secara manual</p>
+        </div>
+        <button onclick="closeModal()" class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+      <div class="p-6 overflow-y-auto flex-1 space-y-5">
+        <div class="bg-green-50 border border-green-200 rounded-xl p-4">
+          <div class="flex gap-3">
+            <span class="material-symbols-outlined text-green-600 flex-shrink-0">check_circle</span>
+            <div>
+              <h3 class="font-bold text-green-800 text-sm mb-1">Otomatis — Sudah Aktif!</h3>
+              <p class="text-green-700 text-xs leading-relaxed">
+                Halaman <strong>success-story.html</strong> &amp; <strong>beranda.html</strong> membaca data langsung dari Supabase.
+                Setiap cerita yang Anda simpan langsung tampil di website (real-time) tanpa perlu export.
+              </p>
+              <a href="../success-story.html" target="_blank" class="inline-flex items-center gap-1.5 text-xs font-bold text-green-700 hover:underline mt-2">
+                <span class="material-symbols-outlined text-[14px]">open_in_new</span> Buka success-story.html
+              </a>
+            </div>
+          </div>
+        </div>
+        <div>
+          <h3 class="font-semibold text-gray-700 text-sm mb-2 flex items-center gap-2">
+            <span class="material-symbols-outlined text-[16px] text-gray-500">code</span> Export HTML Manual (opsional)
+          </h3>
+          <p class="text-xs text-gray-500 mb-3 leading-relaxed">
+            Untuk cadangan atau deploy ke server — salin HTML ini lalu ganti isi story cards di <code class="bg-gray-100 px-1 rounded">success-story.html</code>.
+          </p>
+          <div class="relative">
+            <button onclick="copyHTML()"
+                    class="absolute top-2 right-2 flex items-center gap-1 bg-primary text-white text-xs px-3 py-1.5 rounded-lg hover:bg-blue-950 transition-colors z-10">
+              <span class="material-symbols-outlined text-[13px]">content_copy</span> Salin
+            </button>
+            <pre id="export-out" class="bg-gray-50 rounded-xl p-4 pt-10 text-xs overflow-x-auto border border-gray-200 leading-relaxed max-h-64 overflow-y-auto whitespace-pre-wrap text-gray-600"></pre>
+          </div>
+          <button onclick="downloadHTML()"
+                  class="mt-3 flex items-center gap-2 px-4 py-2 bg-secondary hover:bg-red-hover text-white rounded-lg text-xs font-bold transition-colors">
+            <span class="material-symbols-outlined text-[16px]">download</span> Download file HTML
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hidden inputs -->
+  <input type="file" id="backup-input"  accept=".json" class="hidden" onchange="doImport(event)">
+
+  <!-- Toast -->
+  <div id="toast" class="out fixed bottom-6 right-6 text-white px-5 py-3 rounded-xl shadow-2xl text-sm font-medium flex items-center gap-2 z-50 bg-primary pointer-events-none">
+    <span class="material-symbols-outlined text-[18px]" id="toast-icon">check_circle</span>
+    <span id="toast-msg">Tersimpan!</span>
+  </div>
+
+  <!-- =========================================================
+       JAVASCRIPT
+       ========================================================= -->
+  <script>
+
+  // ══════════════════════════════════════════════════════════════
+  // CONSTANTS
+  // ══════════════════════════════════════════════════════════════
+  const STORAGE_KEY  = 'ichikara-stories-v1';
+  const CLIENTS_KEY  = 'ichikara-clients-v1';
+  const SETTINGS_KEY = 'ichikara-beranda-settings';
+
+  const CATS = {
+    'achievement':  { label: 'Pencapaian',  badge: 'bg-red-100 text-red-700'        },
+    'activity':     { label: 'Aktivitas',   badge: 'bg-yellow-100 text-yellow-700'  },
+    'client-story': { label: 'Kisah Klien', badge: 'bg-blue-100 text-blue-700'      },
+  };
+  const EXPORT_BADGES = {
+    'achievement':  'bg-secondary/10 text-secondary',
+    'activity':     'bg-tertiary/10 text-tertiary',
+    'client-story': 'bg-primary/10 text-primary',
+  };
+
+  // Asset manifest — all images required by the website
+  const ASSET_SECTIONS = [
+    { id:'global', label:'Global — Semua Halaman', icon:'language', images:[
+      { file:'logo.png', label:'Logo PT. Ichikara', pages:['Semua halaman (header & footer)'], hint:'PNG transparan. Min 300px lebar × 100px tinggi. Versi putih otomatis dipakai di header.', ratio:'3:1' },
+    ]},
+    { id:'beranda', label:'Beranda', icon:'home', images:[
+      { file:'hero-beranda.jpg',         label:'Hero Beranda',                    pages:['beranda.html — Hero utama'],                      hint:'Foto profesional tim/kantor. Min 1600×800px, landscape.',          ratio:'2:1'  },
+      { file:'layanan-penerjemahan.jpg', label:'Foto Layanan Penerjemahan',       pages:['beranda.html — Layanan + Akses Cepat'],           hint:'Foto ilustrasi penerjemahan dokumen. Min 800×500px.',              ratio:'16:10'},
+      { file:'layanan-interpreter.jpg',  label:'Foto Layanan Interpreter',        pages:['beranda.html — Layanan + Akses Cepat'],           hint:'Foto interpreter dalam rapat bisnis. Min 800×500px.',             ratio:'16:10'},
+      { file:'layanan-kursus.jpg',       label:'Foto Layanan Kursus',             pages:['beranda.html — Layanan + Akses Cepat'],           hint:'Foto suasana kelas kursus bahasa Jepang. Min 800×500px.',         ratio:'16:10'},
+      { file:'layanan-tokutei.jpg',      label:'Foto Layanan Tokutei Ginou',      pages:['beranda.html — Layanan + Akses Cepat'],           hint:'Foto pekerja Indonesia di lingkungan kerja Jepang. Min 800×500px.', ratio:'16:10'},
+      { file:'story-otomotif.jpg',       label:'Story Mini: Otomotif',            pages:['beranda.html — Kisah Sukses (fallback)'],         hint:'Foto ekspansi manufaktur otomotif. Min 800×500px.',               ratio:'16:10'},
+      { file:'story-negosiasi.jpg',      label:'Story Mini: Negosiasi Bisnis',    pages:['beranda.html — Kisah Sukses (fallback)'],         hint:'Foto negosiasi bisnis lintas budaya. Min 800×500px.',             ratio:'16:10'},
+      { file:'story-aichi.jpg',          label:'Story Mini: Program Aichi/SSW',   pages:['beranda.html — Kisah Sukses (fallback)'],         hint:'Foto karir profesional di Jepang melalui SSW. Min 800×500px.',   ratio:'16:10'},
+      { file:'clients/client-1.png',     label:'Logo Klien 1',                    pages:['beranda.html — Strip Logo Klien'],                hint:'PNG transparan. Min 60px tinggi. Background transparan.',          ratio:'bebas'},
+      { file:'clients/client-2.png',     label:'Logo Klien 2',                    pages:['beranda.html — Strip Logo Klien'],                hint:'PNG transparan, min 60px tinggi.',                                  ratio:'bebas'},
+      { file:'clients/client-3.png',     label:'Logo Klien 3',                    pages:['beranda.html — Strip Logo Klien'],                hint:'PNG transparan, min 60px tinggi.',                                  ratio:'bebas'},
+      { file:'clients/client-4.png',     label:'Logo Klien 4',                    pages:['beranda.html — Strip Logo Klien'],                hint:'PNG transparan, min 60px tinggi.',                                  ratio:'bebas'},
+      { file:'clients/client-5.png',     label:'Logo Klien 5',                    pages:['beranda.html — Strip Logo Klien'],                hint:'PNG transparan, min 60px tinggi.',                                  ratio:'bebas'},
+      { file:'clients/client-6.png',     label:'Logo Klien 6',                    pages:['beranda.html — Strip Logo Klien'],                hint:'PNG transparan, min 60px tinggi.',                                  ratio:'bebas'},
+      { file:'clients/client-7.png',     label:'Logo Klien 7',                    pages:['beranda.html — Strip Logo Klien'],                hint:'PNG transparan, min 60px tinggi.',                                  ratio:'bebas'},
+      { file:'clients/client-8.png',     label:'Logo Klien 8',                    pages:['beranda.html — Strip Logo Klien'],                hint:'PNG transparan, min 60px tinggi.',                                  ratio:'bebas'},
+    ]},
+    { id:'penerjemah', label:'Jasa Penerjemah', icon:'translate', images:[
+      { file:'hero-penerjemah.jpg',      label:'Hero Jasa Penerjemah',  pages:['jasa-penerjemah.html'],               hint:'Foto penerjemahan dokumen. Min 1200×600px.',           ratio:'2:1'  },
+      { file:'flag-jp.png',              label:'Bendera Jepang',        pages:['jasa-penerjemah.html'],               hint:'Ikon bendera, PNG transparan, 64×64px square.',        ratio:'1:1'  },
+      { file:'flag-en.png',              label:'Bendera Inggris/USA',   pages:['jasa-penerjemah.html'],               hint:'Ikon bendera, PNG transparan, 64×64px.',               ratio:'1:1'  },
+      { file:'flag-id.png',              label:'Bendera Indonesia',     pages:['jasa-penerjemah.html'],               hint:'Ikon bendera, PNG transparan, 64×64px.',               ratio:'1:1'  },
+      { file:'flag-kr.png',              label:'Bendera Korea',         pages:['jasa-penerjemah.html'],               hint:'Ikon bendera, PNG transparan, 64×64px.',               ratio:'1:1'  },
+      { file:'flag-cn.png',              label:'Bendera China',         pages:['jasa-penerjemah.html'],               hint:'Ikon bendera, PNG transparan, 64×64px.',               ratio:'1:1'  },
+      { file:'keunggulan-penerjemah.jpg',label:'Ilustrasi Keunggulan',  pages:['jasa-penerjemah.html'],               hint:'Foto ilustrasi keunggulan layanan. Min 800×500px.',    ratio:'16:10'},
+      { file:'hero-dokumen.jpg',   label:'Hero Penerjemahan Dokumen',   pages:['jasa-penerjemah/dokumen-translation.html'],   hint:'Foto dokumen/kontrak resmi. Min 1200×600px.',   ratio:'2:1'  },
+      { file:'hero-elearning.jpg', label:'Hero Penerjemahan E-Learning',pages:['jasa-penerjemah/e-learning.html'],            hint:'Foto modul/kelas digital. Min 1200×600px.',     ratio:'2:1'  },
+      { file:'hero-video.jpg',     label:'Hero Penerjemahan Video',     pages:['jasa-penerjemah/video-translation.html'],     hint:'Foto studio/subtitle video. Min 1200×600px.',   ratio:'2:1'  },
+      { file:'hero-website.jpg',   label:'Hero Penerjemahan Website',   pages:['jasa-penerjemah/website-translation.html'],   hint:'Foto layar website multibahasa. Min 1200×600px.', ratio:'2:1'  },
+    ]},
+    { id:'interpreter', label:'Jasa Interpreter', icon:'record_voice_over', images:[
+      { file:'hero-interpreter.jpg',          label:'Hero Jasa Interpreter',  pages:['jasa-interpreter.html'], hint:'Foto interpreter dalam konferensi. Min 1200×600px.',  ratio:'2:1'  },
+      { file:'interpretasi-consecutive.jpg',  label:'Foto Interpretasi Konsekutif', pages:['jasa-interpreter.html'], hint:'One-on-one atau kelompok kecil. Min 800×500px.', ratio:'16:10'},
+      { file:'interpretasi-simultaneous.jpg', label:'Foto Interpretasi Simultan',   pages:['jasa-interpreter.html'], hint:'Bilik interpreter, headset. Min 800×500px.',     ratio:'16:10'},
+    ]},
+    { id:'kursus', label:'Kursus Bahasa', icon:'school', images:[
+      { file:'hero-kursus.jpg', label:'Hero Kursus',    pages:['kursus-bahasa.html'], hint:'Foto kelas bahasa Jepang. Min 1200×600px.',         ratio:'2:1' },
+      { file:'guru-1.jpg',      label:'Foto Pengajar 1', pages:['kursus-bahasa.html'], hint:'Portrait profesional, square, min 400×400px.',    ratio:'1:1' },
+      { file:'guru-2.jpg',      label:'Foto Pengajar 2', pages:['kursus-bahasa.html'], hint:'Portrait profesional, square, min 400×400px.',    ratio:'1:1' },
+      { file:'guru-3.jpg',      label:'Foto Pengajar 3', pages:['kursus-bahasa.html'], hint:'Portrait profesional, square, min 400×400px.',    ratio:'1:1' },
+      { file:'guru-4.jpg',      label:'Foto Pengajar 4', pages:['kursus-bahasa.html'], hint:'Portrait profesional, square, min 400×400px.',    ratio:'1:1' },
+      { file:'guru-5.jpg',      label:'Foto Pengajar 5', pages:['kursus-bahasa.html'], hint:'Portrait profesional, square, min 400×400px.',    ratio:'1:1' },
+    ]},
+    { id:'tentang', label:'Tentang Kami', icon:'apartment', images:[
+      { file:'kantor-ichikara.jpg',          label:'Foto Kantor / Tim Ichikara', pages:['tentang-kami.html'], hint:'Foto wide/cinematic kantor atau tim. Min 1600×600px, full-width.',  ratio:'8:3'  },
+      { file:'tentang-layanan-penerjemah.jpg',label:'Thumbnail Layanan Penerjemah',pages:['tentang-kami.html'], hint:'Card thumbnail. Min 600×400px.',                                 ratio:'3:2'  },
+      { file:'tentang-layanan-interpreter.jpg',label:'Thumbnail Layanan Interpreter',pages:['tentang-kami.html'], hint:'Card thumbnail. Min 600×400px.',                               ratio:'3:2'  },
+      { file:'tentang-layanan-kursus.jpg',   label:'Thumbnail Layanan Kursus',    pages:['tentang-kami.html'], hint:'Card thumbnail. Min 600×400px.',                                 ratio:'3:2'  },
+      { file:'tentang-layanan-ssw.jpg',      label:'Thumbnail Layanan SSW',       pages:['tentang-kami.html'], hint:'Card thumbnail. Min 600×400px.',                                 ratio:'3:2'  },
+    ]},
+    { id:'tokutei', label:'Tokutei Ginou (SSW)', icon:'work', images:[
+      { file:'hero-tokutei.jpg', label:'Hero Tokutei Ginou', pages:['tokutei-ginou.html'], hint:'Pekerja Indonesia di Jepang. Min 1200×600px.',                   ratio:'2:1' },
+      { file:'pamflet-ssw.jpg',  label:'Pamflet SSW',        pages:['tokutei-ginou.html'], hint:'Scan/foto pamflet resmi SSW. Portrait, min 600×800px.',           ratio:'3:4' },
+      { file:'cta-tokutei.jpg',  label:'Background CTA',     pages:['tokutei-ginou.html'], hint:'Background section CTA, akan di-overlay gelap. Min 1200×400px.', ratio:'3:1' },
+    ]},
+    { id:'stories', label:'Kisah Sukses', icon:'auto_stories', images:[
+      { file:'story-jlpt-n3-2026.jpg',         label:'Story: JLPT N3 2026',         pages:['success-story.html'], hint:'Siswa dan sertifikat JLPT. Min 800×500px.',             ratio:'16:10'},
+      { file:'story-klien-manufaktur.jpg',      label:'Story: Kunjungan Pabrik',     pages:['success-story.html'], hint:'Delegasi bisnis Jepang di pabrik. Min 800×500px.',      ratio:'16:10'},
+      { file:'story-seminar-ssw.jpg',           label:'Story: Seminar SSW',          pages:['success-story.html'], hint:'Suasana seminar Tokutei Ginou. Min 800×500px.',         ratio:'16:10'},
+      { file:'story-penerjemah-tersumpah.jpg',  label:'Story: Penerjemah Tersumpah', pages:['success-story.html'], hint:'Penerjemah dan dokumen resmi. Min 800×500px.',          ratio:'16:10'},
+      { file:'story-klien-hukum.jpg',           label:'Story: Kontrak Joint Venture',pages:['success-story.html'], hint:'Proses penandatanganan kontrak. Min 800×500px.',        ratio:'16:10'},
+      { file:'story-kelas-korporat.jpg',        label:'Story: Kelas Korporat',       pages:['success-story.html'], hint:'Kelas bahasa Jepang di perusahaan. Min 800×500px.',    ratio:'16:10'},
+    ]},
+  ];
+
+
+  // ══════════════════════════════════════════════════════════════
+  // STATE
+  // ══════════════════════════════════════════════════════════════
+  let stories       = [];
+  let currentId     = null;
+  let activeEdTab   = 'edit';
+  let  activeAFilter = 'all';
+  let  clientCount   = 8;
+  let  featuredIds   = [];   // up to 3 story IDs
+
+
+  // ══════════════════════════════════════════════════════════════
+  // TAB NAVIGATION
+  // ══════════════════════════════════════════════════════════════
+  function showSection(id) {
+    document.querySelectorAll('.section-panel').forEach(p => {
+      p.classList.add('hidden');
+      p.classList.remove('flex');
+    });
+    document.querySelectorAll('.nav-tab').forEach(t => t.classList.toggle('active', t.dataset.section === id));
+
+    const panel = document.getElementById('sec-' + id);
+    panel.classList.remove('hidden');
+    panel.classList.add('flex');
+
+    // Refresh dependent views
+    if (id === 'assets')   { renderAssetGrid(); updateProgress(); }
+    if (id === 'clients')  { renderClientGrid(); }
+    if (id === 'settings') { syncClientCountInput(); renderSettingsPicker(); }
+  }
+
+
+  // ══════════════════════════════════════════════════════════════
+  // STORY MANAGER
+  // ══════════════════════════════════════════════════════════════
+  // ══════════════════════════════════════════════════════════════
+  // DATA LAYER — Supabase `ichikara_web_content` (real-time)
+  // Lokal (localStorage) hanya sebagai fallback saat offline.
+  // Catatan: project Supabase ini DIBAGI dengan sistem absensi —
+  // kita hanya menulis/membaca baris section stories/clients/beranda.
+  // ══════════════════════════════════════════════════════════════
+  const SB_TABLE  = 'ichikara_web_content';
+  const SB_BUCKET = 'ichikara-web-media';
+  let  sbLocalMode = false;   // true = Supabase tak terjangkau, pakai localStorage
+  let  mediaOverrides = {};   // overrides gambar repo: { 'images/hero-beranda.jpg': urlPublik, ... }
+  let  _pendingUp  = 0;       // jumlah upsert Supabase yang sedang berjalan
+  let  _upDone     = null;    // callback setelah upsert selesai
+
+  function sb() { return window._sb; }
+
+  // Resolve path gambar untuk preview di admin:
+  // URL absolut apa adanya; selain itu cek override Supabase; selain itu file repo.
+  function resolveImg(path) {
+    if (!path) return '';
+    if (/^https?:\/\//i.test(path)) return path;
+    if (mediaOverrides[path]) return mediaOverrides[path];
+    return '../images/' + path; // relatif dari folder admin/
+  }
+
+  function setSync(state, label) {
+    const el = document.getElementById('sync-status'); if (!el) return;
+    el.dataset.state = state;
+    el.innerHTML = `<span class="material-symbols-outlined text-[16px]">${
+      state === 'synced'  ? 'cloud_done' : state === 'syncing' ? 'cloud_sync' :
+      state === 'error'   ? 'cloud_off'  : 'cloud_queue'}</span> ${label}`;
+  }
+
+  async function sbFetchJSON(section, fallback) {
+    const { data, error } = await sb().from(SB_TABLE).select('data').eq('section', section).maybeSingle();
+    if (error) throw error;
+    return (data && data.data) ? data.data : fallback;
+  }
+
+  async function sbUpsert(section, dataObj) {
+    _pendingUp++;
+    try {
+      const { error } = await sb().from(SB_TABLE)
+        .upsert({ section, data: dataObj, updated_at: new Date().toISOString() }, { onConflict: 'section' });
+      if (error) throw error;
+    } finally {
+      _pendingUp--;
+      if (_pendingUp === 0 && _upDone) { const f = _upDone; _upDone = null; f(); }
+    }
+  }
+
+  // Simpan satu section ke Supabase (fallback localStorage bila offline)
+  async function persistSection(section, dataObj, { localKey = null } = {}) {
+    if (localKey) { try { localStorage.setItem(localKey, JSON.stringify(dataObj)); } catch(e) {} }
+    setSync('syncing', 'Menyimpan…');
+    try {
+      await sbUpsert(section, dataObj);
+      setSync('synced', 'Tersinkron ke website');
+      return true;
+    } catch(e) {
+      sbLocalMode = true;
+      setSync('error', 'Offline — hanya tersimpan di browser ini');
+      return false;
+    }
+  }
+
+  // Baca data: Supabase dulu; fallback localStorage (agar bisa dipakai offline)
+  async function load() {
+    if (sb()) {
+      try {
+        const { data, error } = await sb().from(SB_TABLE).select('section,data');
+        if (error) throw error;
+        let gotStories = false;
+        (data || []).forEach(r => {
+          if (r.section === 'stories')    { stories = Array.isArray(r.data) ? r.data : []; gotStories = true; }
+          else if (r.section === 'clients')  { clientCount = (r.data && r.data.count) || clientCount; }
+          else if (r.section === 'beranda')  { featuredIds = (r.data && r.data.featuredIds) || []; }
+          else if (r.section === 'media')    { mediaOverrides = (r.data && r.data.overrides) || {}; }
+        });
+        setSync('synced', 'Tersinkron ke website');
+        if (gotStories) return;
+        // Tabel kosong → bawa data lokal (belum dimigrasi) agar tidak hilang
+        try { stories = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } catch(e) { stories = []; }
+      } catch(e) {
+        sbLocalMode = true;
+        setSync('error', 'Offline — hanya browser ini');
+      }
+    } else {
+      setSync('local', 'Mode lokal (tanpa Supabase)');
+    }
+    // Fallback / default dari localStorage
+    if (!stories.length) { try { stories = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } catch(e) { stories = []; } }
+    try { const cr = localStorage.getItem(CLIENTS_KEY); if (cr) { clientCount = JSON.parse(cr).count || clientCount; } } catch(e) {}
+    try { const sr = localStorage.getItem(SETTINGS_KEY); if (sr) { featuredIds = JSON.parse(sr).featuredIds || featuredIds; } } catch(e) {}
+  }
+
+  // Persist stories → upsert baris 'stories'
+  function persist() { return persistSection('stories', leanStories()); }
+  function leanStories() { return stories.map(s => { const c = {...s}; delete c._preview; return c; }); }
+
+  // Tombol Migrate: pindahkan data localStorage ke Supabase (sekali jalan)
+  async function migrateLocalToRemote() {
+    if (!sb()) { toast('Klien Supabase tidak tersedia.', 'error'); return; }
+    if (!confirm('Pindahkan data dari browser ini (localStorage) ke Supabase?\nData Supabase yang sudah ada akan digantikan.')) return;
+    setSync('syncing', 'Migrasi…');
+    try {
+      let s = [], c = {}, b = {};
+      try { s = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } catch(e) {}
+      try { c = JSON.parse(localStorage.getItem(CLIENTS_KEY) || '{}'); } catch(e) {}
+      try { b = JSON.parse(localStorage.getItem(SETTINGS_KEY) || '{}'); } catch(e) {}
+      const jobs = [];
+      if (Array.isArray(s) && s.length) jobs.push(sbUpsert('stories', s));
+      jobs.push(sbUpsert('clients', { count: c.count || clientCount || 8 }));
+      jobs.push(sbUpsert('beranda', { featuredIds: b.featuredIds || featuredIds || [] }));
+      await Promise.all(jobs);
+      setSync('synced', 'Tersinkron ke website');
+      toast('Data lokal berhasil dipindahkan ke Supabase.', 'success');
+      await load(); renderList(); renderSettingsPicker(); syncClientCountInput(); renderClientGrid();
+    } catch(e) { setSync('error', 'Gagal migrasi: ' + e.message); toast('Migrasi gagal: ' + e.message, 'error'); }
+  }
+
+  function renderList() {
+    const filter   = document.getElementById('list-filter').value;
+    const filtered = filter === 'all' ? stories : stories.filter(s => s.category === filter);
+    const el       = document.getElementById('story-list');
+    const countEl  = document.getElementById('story-count');
+    countEl.textContent = filtered.length + ' cerita';
+
+    if (!filtered.length) {
+      el.innerHTML = `<div class="p-6 text-center text-gray-400 text-sm">
+        <span class="material-symbols-outlined text-4xl block mb-2" style="color:#d1d5db">inbox</span>
+        Belum ada cerita. Tambahkan yang pertama!</div>`;
+      return;
+    }
+
+    el.innerHTML = filtered.map(s => {
+      const cat      = CATS[s.category] || CATS['achievement'];
+      const isActive = s.id === currentId;
+      const thumb    = s._preview || resolveImg(s.image);
+      return `<div class="story-item px-3 py-3 border-b border-gray-100 cursor-pointer flex gap-3 ${isActive?'active':''}"
+                   onclick="selectStory('${s.id}')">
+        <div class="w-14 h-11 rounded-lg overflow-hidden bg-gray-100 flex-shrink-0 flex items-center justify-center">
+          ${thumb ? `<img src="${thumb}" class="w-full h-full object-cover" alt="">` : `<span class="material-symbols-outlined text-gray-300 text-xl">image</span>`}
+        </div>
+        <div class="flex-1 min-w-0">
+          <p class="text-xs font-semibold text-gray-800 leading-snug line-clamp-2 mb-1">${s.title||'<span class="italic text-gray-400">Tanpa judul</span>'}</p>
+          <div class="flex items-center gap-1.5">
+            <span class="text-[10px] font-bold px-1.5 py-0.5 rounded-full ${cat.badge}">${cat.label}</span>
+            <span class="text-[10px] text-gray-400">${s.date||''}</span>
+          </div>
+        </div>
+        <div class="flex flex-col gap-0.5 flex-shrink-0">
+          <button onclick="event.stopPropagation();moveUp('${s.id}')"   title="Geser ke atas"  class="w-5 h-5 flex items-center justify-center rounded hover:bg-gray-200 text-gray-400 hover:text-gray-600 transition-colors"><span class="material-symbols-outlined text-[12px]">arrow_upward</span></button>
+          <button onclick="event.stopPropagation();moveDown('${s.id}')" title="Geser ke bawah" class="w-5 h-5 flex items-center justify-center rounded hover:bg-gray-200 text-gray-400 hover:text-gray-600 transition-colors"><span class="material-symbols-outlined text-[12px]">arrow_downward</span></button>
+          <button onclick="event.stopPropagation();delStory('${s.id}')" title="Hapus"          class="w-5 h-5 flex items-center justify-center rounded hover:bg-red-50 text-gray-400 hover:text-red-500 transition-colors"><span class="material-symbols-outlined text-[12px]">delete</span></button>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  function newStory() {
+    currentId = 'story-' + Date.now();
+    const s = { id: currentId, category: 'achievement', title: '', date: monthYear(), link: '#', image: '', imageAlt: '', excerpt: '', _preview: '' };
+    stories.unshift(s);
+    persist(); fillEditor(s); showEditor(); renderList();
+  }
+
+  function selectStory(id) {
+    currentId = id;
+    const s = stories.find(s => s.id === id);
+    if (!s) return;
+    fillEditor(s); showEditor(); renderList();
+  }
+
+  function cancelEdit() {
+    const s = stories.find(s => s.id === currentId);
+    if (s && !s.title && !s.excerpt) { stories = stories.filter(x => x.id !== currentId); persist(); }
+    currentId = null; hideEditor(); renderList();
+  }
+
+  function fillEditor(s) {
+    set('f-title',    s.title    || '');
+    set('f-date',     s.date     || '');
+    set('f-link',     s.link     || '#');
+    set('f-image',    s.image    || '');
+    set('f-alt',      s.imageAlt || '');
+    sel('f-category', s.category || 'achievement');
+    document.getElementById('rich-editor').innerHTML = s.excerpt || '';
+    const thumbSrc = s._preview || resolveImg(s.image);
+    if (thumbSrc) showThumb(thumbSrc); else clearThumb();
+    document.getElementById('ed-title').textContent = s.title || 'Cerita Baru';
+    document.getElementById('ed-sub').textContent   = CATS[s.category]?.label || '';
+    syncPreview(); switchEditorTab('edit');
+  }
+
+  function saveStory() {
+    if (!currentId) return;
+    if (uploadingImage) { toast('Tunggu beberapa detik — foto masih diupload…', 'info'); return; }
+    const idx = stories.findIndex(s => s.id === currentId);
+    if (idx === -1) return;
+    const title = document.getElementById('f-title').value.trim();
+    if (!title) { toast('Judul tidak boleh kosong!', 'error'); return; }
+    const imgVal = document.getElementById('f-image').value.trim();
+    if (!imgVal) { toast('Pilih foto dulu (klik kotak foto).', 'error'); return; }
+    stories[idx] = { ...stories[idx], title,
+      category: document.getElementById('f-category').value,
+      date:     document.getElementById('f-date').value.trim(),
+      link:     document.getElementById('f-link').value.trim() || '#',
+      image:    imgVal,
+      imageAlt: document.getElementById('f-alt').value.trim(),
+      excerpt:  document.getElementById('rich-editor').innerHTML,
+    };
+    persist().then(ok => { if (ok) toast('Cerita tersimpan & langsung tayang di website!', 'success'); });
+    renderList();
+    document.getElementById('ed-title').textContent = title;
+  }
+
+  function delStory(id) {
+    if (!confirm('Hapus cerita ini? Tindakan ini tidak dapat dibatalkan.')) return;
+    stories = stories.filter(s => s.id !== id);
+    persist();
+    // Bersihkan dari featuredIds (supaya beranda tidak menampilkan cerita terhapus)
+    if (featuredIds.indexOf(id) !== -1) {
+      featuredIds = featuredIds.filter(x => x !== id);
+      persistSection('beranda', { featuredIds }, { localKey: SETTINGS_KEY });
+      renderSettingsPicker();
+    }
+    if (currentId === id) { currentId = null; hideEditor(); }
+    renderList(); toast('Cerita dihapus dari website.', 'info');
+  }
+
+  function moveUp(id)   { const i = stories.findIndex(s => s.id === id); if (i<=0) return; [stories[i-1],stories[i]]=[stories[i],stories[i-1]]; persist(); renderList(); }
+  function moveDown(id) { const i = stories.findIndex(s => s.id === id); if (i>=stories.length-1) return; [stories[i],stories[i+1]]=[stories[i+1],stories[i]]; persist(); renderList(); }
+
+  let uploadingImage = false; // guard: foto sedang diupload ke Supabase
+
+  async function handleImage(ev) {
+    const file = ev.target.files[0]; if (!file) return;
+    // Preview lokal dulu (cepat), lalu upload ke Supabase Storage
+    const reader = new FileReader();
+    reader.onload = e => {
+      const src = e.target.result;
+      showThumb(src);
+      if (currentId) { const idx = stories.findIndex(s => s.id === currentId); if (idx !== -1) stories[idx]._preview = src; }
+      syncPreview();
+    };
+    reader.readAsDataURL(file);
+    ev.target.value = '';
+
+    if (!sb()) { toast('Supabase tidak tersedia — foto belum bisa diupload.', 'error'); return; }
+    uploadingImage = true;
+    setSync('syncing', 'Mengupload foto…');
+    try {
+      const url = await uploadImageStory(file);
+      const idx = currentId ? stories.findIndex(s => s.id === currentId) : -1;
+      if (idx !== -1) {
+        stories[idx].image = url;       // simpan URL publik (akan ikut tersimpan)
+        stories[idx]._preview = url;    // pakai URL resmi utk preview (bukan dataURL)
+        document.getElementById('f-image').value = url;
+        showThumb(url); syncPreview();
+      }
+      setSync('synced', 'Foto siap — klik Simpan untuk tayangkan');
+      toast('Foto terupload. Klik “Simpan” untuk menayangkannya.', 'success');
+    } catch(e) {
+      setSync('error', 'Gagal upload: ' + e.message);
+      toast('Gagal mengupload foto: ' + e.message, 'error');
+    } finally {
+      uploadingImage = false;
+    }
+  }
+
+  function syncPreviewImg() {
+    const val = document.getElementById('f-image').value.trim(); if (!val) return;
+    const s = currentId ? stories.find(s => s.id === currentId) : null;
+    if (s && s._preview) return;
+    const img = document.getElementById('img-preview');
+    img.src = resolveImg(val);
+    img.onload  = () => showThumb(img.src);
+    img.onerror = () => {};
+  }
+
+  function showThumb(src) {
+    document.getElementById('img-preview').src = src;
+    document.getElementById('img-preview').classList.remove('hidden');
+    document.getElementById('img-placeholder').classList.add('hidden');
+    document.getElementById('img-change-overlay').classList.remove('hidden');
+    document.getElementById('img-change-overlay').classList.add('flex');
+  }
+  function clearThumb() {
+    document.getElementById('img-preview').src = '';
+    document.getElementById('img-preview').classList.add('hidden');
+    document.getElementById('img-placeholder').classList.remove('hidden');
+    document.getElementById('img-change-overlay').classList.add('hidden');
+    document.getElementById('img-change-overlay').classList.remove('flex');
+  }
+
+  function fmt(cmd)   { document.getElementById('rich-editor').focus(); document.execCommand(cmd, false, null); syncPreview(); }
+  function setSize(v) { if (!v) return; document.getElementById('rich-editor').focus(); document.execCommand('fontSize', false, v); document.getElementById('fs-select').value = ''; syncPreview(); }
+  function insertLink() { const url = prompt('Masukkan URL link:'); if (!url) return; document.getElementById('rich-editor').focus(); document.execCommand('createLink', false, url); syncPreview(); }
+  function handleEditorKey(e) { if (e.key === 'Tab') { e.preventDefault(); document.execCommand('insertHTML', false, '&nbsp;&nbsp;&nbsp;&nbsp;'); } }
+
+  function switchEditorTab(tab) {
+    activeEdTab = tab;
+    document.getElementById('etab-edit').classList.toggle('hidden', tab !== 'edit');
+    document.getElementById('etab-preview').classList.toggle('hidden', tab !== 'preview');
+    document.querySelectorAll('.ed-tab').forEach(b => b.classList.toggle('active', b.dataset.etab === tab));
+    if (tab === 'preview') syncPreview();
+  }
+
+  function syncPreview() {
+    const title    = document.getElementById('f-title')?.value    || 'Judul Cerita';
+    const category = document.getElementById('f-category')?.value || 'achievement';
+    const date     = document.getElementById('f-date')?.value     || 'Bulan Tahun';
+    const excerpt  = document.getElementById('rich-editor')?.innerHTML || '<span style="color:#9ca3af">Ringkasan cerita...</span>';
+    const cat      = CATS[category] || CATS['achievement'];
+    const s        = currentId ? stories.find(s => s.id === currentId) : null;
+    const thumb    = s?._preview || (document.getElementById('f-image')?.value ? resolveImg(document.getElementById('f-image').value) : '');
+
+    document.getElementById('card-preview').innerHTML = `
+      <div style="height:180px;overflow:hidden;background:#f3f4f6;display:flex;align-items:center;justify-content:center;">
+        ${thumb ? `<img src="${thumb}" style="width:100%;height:100%;object-fit:cover;" alt="" onerror="this.style.display='none'">` : `<span class="material-symbols-outlined" style="font-size:48px;color:#d1d5db">image</span>`}
+      </div>
+      <div style="padding:20px">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+          <span style="font-size:11px;font-weight:700;padding:2px 10px;border-radius:999px" class="${cat.badge}">${cat.label}</span>
+          <span style="font-size:11px;color:#9ca3af">${date}</span>
+        </div>
+        <h3 style="font-family:'Noto Serif JP',serif;font-weight:700;color:#021a38;font-size:15px;line-height:1.4;margin-bottom:8px">${title}</h3>
+        <div style="color:#6b7280;font-size:13px;line-height:1.7;margin-bottom:14px">${excerpt}</div>
+        <span style="color:#b02d21;font-size:13px;font-weight:700">Baca Selengkapnya →</span>
+      </div>`;
+  }
+
+  function showEditor() {
+    document.getElementById('empty-state').classList.add('hidden');
+    document.getElementById('editor-wrap').classList.remove('hidden');
+    document.getElementById('editor-wrap').classList.add('flex');
+  }
+  function hideEditor() {
+    document.getElementById('empty-state').classList.remove('hidden');
+    document.getElementById('editor-wrap').classList.add('hidden');
+    document.getElementById('editor-wrap').classList.remove('flex');
+  }
+
+
+  // ══════════════════════════════════════════════════════════════
+  // EXPORT / BACKUP
+  // ══════════════════════════════════════════════════════════════
+  function showExportModal() { document.getElementById('export-out').textContent = genHTML(); document.getElementById('export-modal').classList.remove('hidden'); }
+  function closeModal()      { document.getElementById('export-modal').classList.add('hidden'); }
+
+  function genHTML() {
+    if (!stories.length) return '<!-- Belum ada cerita -->';
+    return stories.map(s => {
+      const cat   = CATS[s.category] || CATS['achievement'];
+      const badge = EXPORT_BADGES[s.category] || EXPORT_BADGES['achievement'];
+      return `<!-- CARD START -->
+<article class="story-card bg-white rounded-2xl overflow-hidden border border-border-light shadow-sm card-hover" data-category="${s.category}">
+  <div class="h-52 overflow-hidden">
+    <img src="${s.image ? 'images/'+s.image : 'images/placeholder.jpg'}" alt="${(s.imageAlt||s.title||'').replace(/"/g,'&quot;')}" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
+  </div>
+  <div class="p-6">
+    <div class="flex items-center gap-3 mb-4">
+      <span class="${badge} text-xs font-bold px-2.5 py-1 rounded-full">${cat.label}</span>
+      <span class="text-on-surface-variant text-xs">${s.date||''}</span>
+    </div>
+    <h2 class="text-primary font-noto font-bold text-lg leading-snug mb-3">${s.title||''}</h2>
+    <div class="text-on-surface-variant text-sm leading-relaxed mb-5">${s.excerpt||''}</div>
+    <a href="${s.link||'#'}" class="text-secondary font-bold text-sm flex items-center gap-1 hover:underline">
+      Baca Selengkapnya <span class="material-symbols-outlined text-sm" aria-hidden="true">chevron_right</span>
+    </a>
+  </div>
+</article>
+<!-- CARD END -->`;
+    }).join('\n\n');
+  }
+
+  function copyHTML()    { navigator.clipboard.writeText(document.getElementById('export-out').textContent).then(()=>toast('Disalin!','success')).catch(()=>toast('Gagal menyalin','error')); }
+  function downloadHTML(){ dl('success-story-cards.html', genHTML()); toast('File diunduh!', 'success'); }
+  function exportBackup(){ dl('ichikara-stories-'+dateSlug()+'.json', JSON.stringify({version:1,exportedAt:new Date().toISOString(),stories:stories.map(s=>{const c={...s};delete c._preview;return c;})},null,2)); toast('Backup diunduh!','success'); }
+  function importBackup(){ document.getElementById('backup-input').click(); }
+
+  function doImport(ev) {
+    const file = ev.target.files[0]; if (!file) return;
+    const reader = new FileReader();
+    reader.onload = e => {
+      try {
+        const data = JSON.parse(e.target.result);
+        if (!Array.isArray(data.stories)) throw new Error('Format tidak valid');
+        if (!confirm(`Import ${data.stories.length} cerita? Cerita saat ini (${stories.length}) akan diganti.`)) return;
+        stories = data.stories; persist(); currentId = null; hideEditor(); renderList();
+        toast(stories.length + ' cerita diimport!', 'success');
+      } catch(err) { toast('File backup tidak valid!', 'error'); }
+    };
+    reader.readAsText(file);
+    ev.target.value = '';
+  }
+
+
+  // Tombol "Info Upload Gambar" (dulunya "Buka Folder Gambar" — File System Access
+  // sudah digantikan upload ke Supabase). Menampilkan panduan singkat.
+  function openFolder() {
+    alert('Cara kerja baru: gambar tidak lagi disimpan ke folder komputer.\n\n' +
+      '• Foto cerita  → klik kotak foto di tab "Kisah Sukses" (otomatis ke Supabase).\n' +
+      '• Gambar lain  → klik kartu di tab "Gambar Website" (upload ke Supabase).\n' +
+      '• Logo klien   → klik kartu di tab "Logo Klien" (upload ke Supabase).\n\n' +
+      'Semua perubahan langsung tampil di website tanpa deploy.\nGambar lama di folder images/ tetap berlaku sebagai bawaan.');
+  }
+
+  function reloadStatus() {
+    // Data kini selalu baru dari Supabase; cukup re-render tampilan lokal.
+    renderAssetGrid(); updateProgress(); renderClientGrid();
+    toast('Status diperbarui (sumber: Supabase).', 'info');
+  }
+
+  // ══════════════════════════════════════════════════════════════
+  // SUPABASE STORAGE — upload gambar (bucket public `ichikara-web-media`)
+  // ══════════════════════════════════════════════════════════════
+
+  // Upload gambar story → return URL publik (disimpan di field image)
+  async function uploadImageStory(file) {
+    const id = currentId || 'story-' + Date.now();
+    const safe = (file.name || 'foto.jpg').replace(/[^a-zA-Z0-9._-]/g, '-').toLowerCase();
+    const path = 'stories/' + id + '-' + Date.now() + '-' + safe;
+    setSync('syncing', 'Mengupload foto…');
+    const { error } = await sb().storage.from(SB_BUCKET).upload(path, file, { upsert: true });
+    if (error) { setSync('error', 'Gagal upload: ' + error.message); throw error; }
+    const { data } = sb().storage.from(SB_BUCKET).getPublicUrl(path);
+    return data.publicUrl;
+  }
+
+  // ── Helper override media (baris section 'media') ──
+  async function setMediaOverride(key, url) {
+    const data = { overrides: {} };
+    try { data.overrides = (await sbFetchJSON('media', data)).overrides || {}; } catch(e) {}
+    data.overrides[key] = url;
+    setSync('syncing', 'Menyimpan gambar…');
+    try {
+      await sbUpsert('media', data);
+      mediaOverrides = data.overrides;
+      setSync('synced', 'Tersinkron ke website');
+    } catch(e) { setSync('error', 'Gagal simpan: ' + e.message); throw e; }
+  }
+
+  async function removeMediaOverride(key) {
+    const data = { overrides: {} };
+    try { data.overrides = (await sbFetchJSON('media', data)).overrides || {}; } catch(e) {}
+    delete data.overrides[key];
+    setSync('syncing', 'Menghapus override…');
+    try {
+      await sbUpsert('media', data);
+      mediaOverrides = data.overrides;
+      setSync('synced', 'Tersinkron ke website');
+    } catch(e) { setSync('error', 'Gagal: ' + e.message); throw e; }
+  }
+
+  // Status gambar: override Supabase (live) vs file bawaan repo
+  function assetStatus(file) {
+    const repoKey = 'images/' + file;
+    if (mediaOverrides[repoKey]) return { overridden: true, url: mediaOverrides[repoKey] };
+    return { overridden: false, url: '../images/' + file };
+  }
+
+  function updateProgress() {
+    const all     = ASSET_SECTIONS.flatMap(s => s.images.map(i => i.file));
+    const total   = all.length;
+    const ok      = all.filter(f => !!mediaOverrides['images/' + f]).length;
+    const pct     = total ? Math.round((ok/total)*100) : 0;
+    document.getElementById('prog-fill').style.width  = pct + '%';
+    document.getElementById('prog-label').textContent = ok + ' / ' + total;
+    document.getElementById('count-ok').textContent      = ok;
+    document.getElementById('count-missing').textContent = total - ok;
+  }
+
+  // Upload gambar ke Supabase Storage lalu simpan override (tanpa deploy)
+  let _uploadBusy = false;
+  async function pickAndWrite(targetFile) {
+    if (!sb()) { toast('Supabase tidak tersedia — upload tidak bisa dilakukan.', 'error'); return; }
+    if (_uploadBusy) return;
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/*';
+    input.onchange = async () => {
+      const file = input.files[0];
+      if (!file) return;
+      _uploadBusy = true; setSync('syncing', 'Mengupload ' + targetFile + '…');
+      try {
+        const safe = (file.name || 'foto.jpg').replace(/[^a-zA-Z0-9._-]/g, '-').toLowerCase();
+        const path = 'media/' + targetFile.replace(/\//g, '-') + '-' + Date.now() + '-' + safe;
+        const { error } = await sb().storage.from(SB_BUCKET).upload(path, file, { upsert: true });
+        if (error) throw error;
+        const { data } = sb().storage.from(SB_BUCKET).getPublicUrl(path);
+        await setMediaOverride('images/' + targetFile, data.publicUrl);
+        toast('Gambar terupload & langsung tampil di website!', 'success');
+        renderAssetGrid(); updateProgress(); renderClientGrid();
+      } catch(e) {
+        setSync('error', 'Gagal upload: ' + e.message);
+        toast('Gagal mengupload: ' + e.message, 'error');
+      } finally { _uploadBusy = false; }
+    };
+    input.click();
+  }
+
+  // Kembalikan gambar ke file bawaan repo (hapus override)
+  async function resetOverride(targetFile) {
+    if (!confirm('Kembalikan "' + targetFile + '" ke file bawaan repo?')) return;
+    try { await removeMediaOverride('images/' + targetFile); renderAssetGrid(); updateProgress(); renderClientGrid(); }
+    catch(e) { toast('Gagal: ' + e.message, 'error'); }
+  }
+
+
+  // ══════════════════════════════════════════════════════════════
+  // ASSET GRID
+  // ══════════════════════════════════════════════════════════════
+  function setAssetFilter(f) {
+    activeAFilter = f;
+    document.querySelectorAll('.pill').forEach(p => p.classList.toggle('active', p.dataset.filter === f));
+    renderAssetGrid();
+  }
+
+  function renderAssetGrid() {
+    const area = document.getElementById('asset-grid-area');
+    if (!area) return;
+    area.innerHTML = '';
+
+    ASSET_SECTIONS.forEach(sec => {
+      const visible = sec.images.filter(img => {
+        const st = assetStatus(img.file);
+        if (activeAFilter === 'ok')      return st.overridden;   // ada override Supabase
+        if (activeAFilter === 'missing') return !st.overridden;  // pakai file repo
+        return true;
+      });
+      if (!visible.length) return;
+
+      const hdr = document.createElement('div');
+      hdr.className = 'section-head bg-gray-50/90 backdrop-blur-sm pb-2';
+      hdr.innerHTML = `<div class="flex items-center gap-3">
+        <div class="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
+          <span class="material-symbols-outlined text-primary text-[18px]">${sec.icon}</span>
+        </div>
+        <h2 class="font-bold text-primary text-base">${sec.label}</h2>
+        <span class="text-xs text-gray-400">(${visible.length})</span>
+      </div>`;
+      area.appendChild(hdr);
+
+      const grid = document.createElement('div');
+      grid.className = 'grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 mb-2';
+
+      visible.forEach(img => {
+        const st    = assetStatus(img.file);
+        const card  = document.createElement('div');
+        card.className = 'asset-card bg-white rounded-2xl overflow-hidden border border-border-light relative group';
+        card.title = 'Klik untuk upload gambar baru (tanpa deploy)';
+        card.setAttribute('tabindex', '0');
+
+        card.addEventListener('click',     () => pickAndWrite(img.file));
+        card.addEventListener('keydown',   e => { if (e.key==='Enter'||e.key===' ') pickAndWrite(img.file); });
+        card.addEventListener('mouseenter',() => showHint(card, img.hint, img.pages));
+        card.addEventListener('mouseleave',  hideHint);
+
+        const thumb = `<img src="${st.url}" alt="${img.label}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy">`;
+
+        const badge = st.overridden
+          ? `<span class="flex items-center gap-1 text-green-600 text-[10px] font-bold"><span class="w-1.5 h-1.5 rounded-full bg-green-500 inline-block"></span>Custom (Supabase)</span>`
+          : `<span class="flex items-center gap-1 text-amber-600 text-[10px] font-bold"><span class="w-1.5 h-1.5 rounded-full bg-amber-400 inline-block"></span>File repo</span>`;
+
+        const actions = st.overridden
+          ? `<button onclick="event.stopPropagation();resetOverride('${img.file}')" class="text-[10px] font-bold text-gray-500 hover:text-red-600" title="Kembalikan ke file bawaan repo">Reset</button>`
+          : `<button class="text-[10px] font-bold text-secondary hover:underline">Upload</button>`;
+
+        card.innerHTML = `
+          <div class="h-36 bg-gray-100 overflow-hidden relative">
+            ${thumb}
+            <span class="absolute top-2 left-2 text-[9px] bg-black/40 text-white px-1.5 py-0.5 rounded font-mono">${img.ratio}</span>
+          </div>
+          <div class="p-3">
+            <p class="font-semibold text-primary text-xs leading-snug mb-1 line-clamp-2">${img.label}</p>
+            <p class="text-[10px] text-gray-400 font-mono mb-2 truncate">${img.file}</p>
+            <div class="flex items-center justify-between">${badge}${actions}</div>
+          </div>`;
+        grid.appendChild(card);
+      });
+
+      area.appendChild(grid);
+    });
+
+    if (!area.children.length) {
+      area.innerHTML = `<div class="flex flex-col items-center justify-center h-64 text-gray-400 text-center">
+        <span class="material-symbols-outlined text-5xl mb-3" style="color:#d1d5db">done_all</span>
+        <p class="font-semibold text-gray-500">Semua gambar sudah ada untuk filter ini!</p></div>`;
+    }
+  }
+
+
+  // ══════════════════════════════════════════════════════════════
+  // CLIENT LOGOS
+  // ══════════════════════════════════════════════════════════════
+  // (loadClientsSettings & loadBerandaSettings sudah digantikan oleh load() Supabase)
+
+  async function saveClientsSettings() {
+    document.getElementById('client-count-label').textContent = clientCount;
+    syncClientCountInput();
+    const ok = await persistSection('clients', { count: clientCount }, { localKey: CLIENTS_KEY });
+    toast(ok ? 'Jumlah slot logo tersimpan & langsung berlaku di beranda!' : 'Tersimpan lokal (offline).', ok ? 'success' : 'error');
+  }
+
+  function addClientSlot()    { if (clientCount >= 20) return; clientCount++; renderClientGrid(); }
+  function removeClientSlot() { if (clientCount <= 1)  return; clientCount--; renderClientGrid(); }
+
+  function changeClientCount(delta) {
+    clientCount = Math.min(20, Math.max(1, clientCount + delta));
+    syncClientCountInput();
+    renderClientGrid();
+  }
+
+  function syncClientCountInput() {
+    const inp = document.getElementById('client-count-input');
+    if (inp) inp.value = clientCount;
+    const lbl = document.getElementById('client-count-label');
+    if (lbl) lbl.textContent = clientCount;
+  }
+
+  function syncClientCountFromInput() {
+    const inp = document.getElementById('client-count-input');
+    clientCount = Math.min(20, Math.max(1, parseInt(inp.value) || 8));
+    inp.value = clientCount;
+    document.getElementById('client-count-label').textContent = clientCount;
+    renderClientGrid();
+  }
+
+  function renderClientGrid() {
+    const grid = document.getElementById('client-grid');
+    if (!grid) return;
+    grid.innerHTML = '';
+
+    for (let i = 1; i <= clientCount; i++) {
+      const filename = 'clients/client-' + i + '.png';
+      const st = assetStatus(filename);
+
+      const card = document.createElement('div');
+      card.className = 'asset-card bg-white rounded-2xl overflow-hidden border border-border-light cursor-pointer group relative';
+      card.title = 'Klik untuk upload logo klien ' + i;
+      card.addEventListener('click', () => pickAndWrite(filename));
+
+      const thumb = `<img src="${st.url}" alt="Logo klien ${i}"
+          class="w-full h-full object-contain p-2 group-hover:scale-105 transition-transform"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div style="display:none" class="w-full h-full flex flex-col items-center justify-center h-full text-gray-300">
+          <span class="material-symbols-outlined text-3xl">add_photo_alternate</span>
+        </div>`;
+
+      const actions = st.overridden
+        ? `<button onclick="event.stopPropagation();resetOverride('${filename}')" class="text-[9px] font-bold text-gray-400 hover:text-red-600" title="Kembalikan ke file repo">Reset</button>`
+        : '';
+
+      card.innerHTML = `
+        <div class="h-20 bg-gray-50 overflow-hidden relative">${thumb}</div>
+        <div class="px-2 py-2 text-center">
+          <p class="text-[10px] font-bold text-gray-500">Klien ${i}</p>
+          <p class="text-[9px] ${st.overridden ? 'text-green-600' : 'text-gray-400'} font-semibold mt-0.5">${st.overridden ? '✓ Custom (Supabase)' : 'File repo'}</p>
+          ${actions}
+        </div>`;
+      grid.appendChild(card);
+    }
+  }
+
+
+  // ══════════════════════════════════════════════════════════════
+  // BERANDA SETTINGS (Featured Stories)
+  // ══════════════════════════════════════════════════════════════
+  // (loadBerandaSettings sudah digantikan oleh load() Supabase)
+
+  async function saveBerandaSettings() {
+    const ok = await persistSection('beranda', { featuredIds }, { localKey: SETTINGS_KEY });
+    toast(ok ? 'Pengaturan beranda tersimpan & langsung berlaku!' : 'Tersimpan lokal (offline).', ok ? 'success' : 'error');
+  }
+
+  function toggleFeatured(id) {
+    const idx = featuredIds.indexOf(id);
+    if (idx === -1) {
+      if (featuredIds.length >= 3) { toast('Maksimal 3 cerita yang bisa dipilih.', 'error'); return; }
+      featuredIds.push(id);
+    } else {
+      featuredIds.splice(idx, 1);
+    }
+    renderSettingsPicker();
+  }
+
+  function renderSettingsPicker() {
+    const grid  = document.getElementById('featured-story-grid');
+    const empty = document.getElementById('featured-empty');
+    const badge = document.getElementById('featured-count-badge');
+    if (!grid) return;
+
+    badge.textContent = featuredIds.length + ' / 3 dipilih';
+    badge.className = 'px-3 py-1.5 rounded-full text-xs font-bold ' +
+      (featuredIds.length === 3 ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-600');
+
+    if (!stories.length) { grid.classList.add('hidden'); empty.classList.remove('hidden'); return; }
+    grid.classList.remove('hidden'); empty.classList.add('hidden');
+
+    grid.innerHTML = stories.map(s => {
+      const cat      = CATS[s.category] || CATS['achievement'];
+      const selected = featuredIds.includes(s.id);
+      const thumb    = s._preview || resolveImg(s.image);
+      return `<div class="feat-card bg-white rounded-xl overflow-hidden border cursor-pointer ${selected?'selected':''}"
+                   onclick="toggleFeatured('${s.id}')">
+        <div class="h-28 bg-gray-100 overflow-hidden flex items-center justify-center relative">
+          ${thumb ? `<img src="${thumb}" class="w-full h-full object-cover" alt="" onerror="this.style.display='none'">` : `<span class="material-symbols-outlined text-gray-300 text-3xl">image</span>`}
+          ${selected ? `<div class="absolute inset-0 bg-secondary/20 flex items-center justify-center">
+            <div class="w-8 h-8 rounded-full bg-secondary flex items-center justify-center">
+              <span class="material-symbols-outlined text-white text-[18px]">check</span>
+            </div></div>` : ''}
+        </div>
+        <div class="p-3">
+          <div class="flex items-center gap-2 mb-1.5">
+            <span class="text-[10px] font-bold px-1.5 py-0.5 rounded-full ${cat.badge}">${cat.label}</span>
+            <span class="text-[10px] text-gray-400">${s.date||''}</span>
+          </div>
+          <p class="text-xs font-semibold text-primary leading-snug line-clamp-2">${s.title||'Tanpa judul'}</p>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+
+  // ══════════════════════════════════════════════════════════════
+  // HINT TOOLTIP
+  // ══════════════════════════════════════════════════════════════
+  let _hintEl = null;
+  function showHint(card, hint, pages) {
+    hideHint();
+    _hintEl = document.createElement('div');
+    _hintEl.className = 'fixed z-50 bg-gray-900 text-white text-xs rounded-xl px-4 py-3 shadow-xl max-w-xs leading-relaxed pointer-events-none';
+    _hintEl.style.opacity = '0';
+    _hintEl.style.transition = 'opacity 0.15s';
+    _hintEl.innerHTML = `<p class="font-bold mb-1 text-yellow-300">Rekomendasi:</p>
+      <p class="mb-2">${hint}</p>
+      <p class="text-gray-400 text-[10px]">Dipakai di: ${pages.join(', ')}</p>
+      <p class="text-gray-500 text-[10px] mt-1">Drag &amp; Drop juga bisa langsung ke kartu ini</p>`;
+    document.body.appendChild(_hintEl);
+    const rect = card.getBoundingClientRect();
+    _hintEl.style.left = Math.min(rect.left, window.innerWidth - 280) + 'px';
+    _hintEl.style.top  = (rect.bottom + 8) + 'px';
+    requestAnimationFrame(() => { if (_hintEl) _hintEl.style.opacity = '1'; });
+  }
+  function hideHint() { if (_hintEl) { _hintEl.remove(); _hintEl = null; } }
+
+
+  // ══════════════════════════════════════════════════════════════
+  // UTILITIES
+  // ══════════════════════════════════════════════════════════════
+  function dl(name, content) {
+    const a = document.createElement('a');
+    a.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(content);
+    a.download = name; a.click();
+  }
+  function set(id, val) { const el = document.getElementById(id); if (el) el.value = val; }
+  function sel(id, val) { const el = document.getElementById(id); if (el) el.value = val; }
+  function logout() {
+    if (window._sb) {
+      window._sb.auth.signOut().then(function () { location.reload(); });
+    } else {
+      location.reload();
+    }
+  }
+
+  function humanSize(bytes) { if (!bytes) return ''; if (bytes<1024) return bytes+'B'; if (bytes<1048576) return (bytes/1024).toFixed(0)+'KB'; return (bytes/1048576).toFixed(1)+'MB'; }
+  function monthYear() { const m=['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'],d=new Date(); return m[d.getMonth()]+' '+d.getFullYear(); }
+  function dateSlug()  { return new Date().toISOString().slice(0,10); }
+
+  let _toastTimer;
+  function toast(msg, type = 'success') {
+    const el = document.getElementById('toast');
+    document.getElementById('toast-icon').textContent = type === 'error' ? 'error' : type === 'info' ? 'info' : 'check_circle';
+    document.getElementById('toast-msg').textContent  = msg;
+    el.style.background = type === 'error' ? '#dc2626' : '#021a38';
+    el.classList.remove('out');
+    clearTimeout(_toastTimer);
+    _toastTimer = setTimeout(() => el.classList.add('out'), 3200);
+  }
+
+
+  // ══════════════════════════════════════════════════════════════
+  // SEED DATA (first run)
+  // ══════════════════════════════════════════════════════════════
+  function seedIfEmpty() {
+    if (stories.length > 0) return;
+    stories = [
+      { id:'s1', category:'achievement',  date:'Juni 2026',     title:'12 Siswa Lulus JLPT N3 — Angkatan Pertama 2026',             excerpt:'Dua belas peserta program kursus reguler N3 berhasil lulus ujian JLPT resmi dengan nilai memuaskan.',                                                      image:'story-jlpt-n3-2026.jpg',         imageAlt:'Peserta kursus N3 bersama sertifikat kelulusan',   link:'#' },
+      { id:'s2', category:'client-story', date:'Mei 2026',      title:'Pendampingan Kunjungan Pabrik — Delegasi Jepang ke Karawang', excerpt:'Tim interpreter kami memfasilitasi kunjungan 3 hari delegasi eksekutif dari perusahaan otomotif Jepang ke fasilitas produksi di Karawang.',               image:'story-klien-manufaktur.jpg',      imageAlt:'Delegasi eksekutif Jepang dalam kunjungan pabrik', link:'#' },
+      { id:'s3', category:'activity',     date:'April 2026',    title:'Seminar Tokutei Ginou — "Siap Kerja di Jepang"',             excerpt:'Lebih dari 80 peserta menghadiri seminar gratis kami tentang persyaratan, proses, dan persiapan visa Tokutei Ginou ke Jepang.',                           image:'story-seminar-ssw.jpg',           imageAlt:'Peserta seminar Tokutei Ginou PT. Ichikara',       link:'#' },
+      { id:'s4', category:'achievement',  date:'Maret 2026',    title:'3 Penerjemah Baru Tersertifikasi Tersumpah',                 excerpt:'PT. Ichikara kini memiliki 3 penerjemah tersumpah bahasa Jepang baru yang tersertifikasi resmi.',                                                          image:'story-penerjemah-tersumpah.jpg', imageAlt:'Penerjemah tersumpah menerima sertifikasi',        link:'#' },
+      { id:'s5', category:'client-story', date:'Februari 2026', title:'Penerjemahan Kontrak JV Senilai Rp 50 Miliar',              excerpt:'Kami dipercaya menerjemahkan dan melegalisasi seluruh dokumen kontrak joint venture antara perusahaan Indonesia dan mitra Jepang mereka.',                  image:'story-klien-hukum.jpg',           imageAlt:'Proses legalisasi dokumen kontrak',                link:'#' },
+      { id:'s6', category:'activity',     date:'Januari 2026',  title:'Kelas Korporat Bahasa Jepang — 30 Karyawan Pabrik',         excerpt:'Program kursus in-house selama 3 bulan untuk 30 karyawan lini produksi agar dapat berkomunikasi langsung dengan supervisor dari Jepang.',                  image:'story-kelas-korporat.jpg',        imageAlt:'Kelas korporat bahasa Jepang',                     link:'#' },
+    ];
+    persist();
+  }
+
+
+  // ══════════════════════════════════════════════════════════════
+  // INIT (async — load() kini fetch dari Supabase, fallback localStorage)
+  (async function init() {
+    await load();
+    seedIfEmpty();
+    syncClientCountInput();
+    renderList();
+    renderSettingsPicker();
+    updateProgress();
+    renderAssetGrid();
+    renderClientGrid();
+    // Start on Stories tab
+    showSection('stories');
+  })();
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,5 @@
+_backup-images
+node_modules
+scripts
+*.log
+.DS_Store
