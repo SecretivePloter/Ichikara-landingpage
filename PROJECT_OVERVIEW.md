@@ -95,6 +95,7 @@ kode/
 | 7 | Panel admin — kelola story | `admin/index.html` | CRUD "Kisah Sukses" (judul, kategori, ringkasan, foto) → tabel `ichikara_web_content`; upload foto ke Supabase Storage; backup/import JSON; Export HTML (cadangan statis) |
 | 8 | Panel admin — gambar & logo klien | `admin/index.html` | Upload/mengganti SEMUA gambar website ke Supabase Storage (tanpa deploy), via override `media`; atur jumlah slot logo (1–20); Reset kembali ke file repo |
 | 9 | Panel admin — pengaturan beranda | `admin/index.html` | Pilih cerita yang di-featured (featuredIds) di beranda |
+| 9b | Panel admin — kelola Tim Pengajar | `admin/index.html` | CRUD pengajar (nama, spesialisasi, foto) untuk `kursus-bahasa.html` → tabel `ichikara_web_content` section `teachers`; upload foto ke Supabase Storage; tidak ada seed bawaan |
 | 10 | Animasi & interaksi | `js/header-loader.js`, `css/style.css` | Fade-in on scroll (IntersectionObserver), accordion FAQ, smooth scroll, `prefers-reduced-motion` |
 | 11 | Keamanan & SEO | `vercel.json`, `robots.txt` | Header keamanan (nosniff, X-Frame-Options, Referrer-Policy), noindex `/admin/`, robots disallow `/admin/` |
 
@@ -219,6 +220,7 @@ Kontrak data baris `ichikara_web_content`:
 | `clients` | `{ count: N }` (1–20) |
 | `beranda` | `{ featuredIds: [id, id, id] }` (maks 3) |
 | `media` | `{ overrides: { 'images/<nama-file>': 'https://…supabase.co/storage/…' } }` |
+| `teachers` | `[{ id, name, specialty, image (URL absolut storage), imageAlt }]` — Tim Pengajar di `kursus-bahasa.html`, TIDAK ada seed bawaan (array kosong = section disembunyikan di halaman publik) |
 
 Aturan gambar: field `image` story boleh URL absolut (upload storage) atau nama file repo lama (`images/…` tetap valid). Override `media` diprioritaskan oleh `imgSrc()` dan `applyMediaOverrides()`.
 

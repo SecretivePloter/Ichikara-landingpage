@@ -8,6 +8,20 @@ Log perubahan project. Format entri: **tanggal — ringkasan perubahan — file/
 
 ---
 
+## 2026-09-07 — Cek & perbaikan tampilan mobile sebelum deploy
+- Ditemukan 4 gambar lagi dengan pola sama seperti hero placeholder sebelumnya: `images/layanan-penerjemahan.jpg`, `layanan-interpreter.jpg`, `layanan-kursus.jpg`, `layanan-tokutei.jpg` (dipakai di 4 kartu "Layanan Kami" beranda.html) ternyata baked-in teks judul (bahkan ada typo "Translater") yang duplikat dengan `<h3>` di bawahnya — makin terlihat jelek/terpotong di layar mobile sempit.
+- Diganti gradient brand bersih (ink/merah/emas, tanpa teks) via `scripts/gen-hero-placeholders.js` (diperluas untuk menangani kedua kategori: hero 2:1 dan kartu layanan 16:10).
+- Verifikasi mobile (375px, resize_window preset mobile) untuk: beranda.html (marquee logo + kartu layanan), kursus-bahasa.html (semua tabel harga — scroll horizontal per-tabel via `overflow-x-auto`, tidak ada overflow di level halaman), tentang-kami.html (grid Visi & Misi). Semua `document.body.scrollWidth` = `window.innerWidth` (tidak ada horizontal scroll bocor ke halaman).
+- Terdampak: `images/layanan-*.jpg` (4 file), `scripts/gen-hero-placeholders.js`.
+
+## 2026-09-07 — Tim Pengajar kini fully admin-controlled + isi Tentang Kami ditulis ulang dari brosur
+- **Tab admin baru "Pengajar":** section Supabase baru `teachers` (`js/site-data.js`, `admin/index.html`). Admin sekarang bisa tambah/edit/hapus pengajar (nama, spesialisasi, foto — upload ke Supabase Storage bucket `ichikara-web-media/teachers/`), persis pola CRUD "Kisah Sukses" yang sudah ada. TIDAK ada seed data bawaan.
+- `kursus-bahasa.html`: 5 kartu "Sensei" hardcoded (nama karangan: Aiko/Hiro/Yuki/Kenji/Riko) dihapus, diganti render dinamis dari Supabase (`applyTeachers()`). Section `#pengajar` mulai `hidden` dan hanya muncul kalau admin sudah menambahkan minimal 1 pengajar — sama seperti pola `#kisah-sukses` di beranda.
+- Slot upload lama `guru-1.jpg`...`guru-5.jpg` dihapus dari manifest `admin/index.html` (foto pengajar sekarang dikelola per-orang di tab Pengajar, bukan slot file tetap).
+- **Tentang Kami** (`tentang-kami.html`): paragraf "Kisah PT. Ichikara" yang sebelumnya berisi klaim tak terverifikasi ("berdiri lebih dari satu dekade") dan cerita arti nama perusahaan yang dikarang ("一花 berarti satu bunga...") diganti deskripsi berbasis fakta brosur (bidang penerjemahan, pendidikan bahasa Jepang, program pra-pemagangan ke Jepang kerja sama pemerintah), ditulis naratif — bukan copy-paste brosur. Ditambahkan section baru **Visi & Misi** (1 pernyataan visi + 4 kartu misi) dari brosur, dengan penulisan ulang yang lebih menarik.
+- `PROJECT_OVERVIEW.md` diperbarui: kontrak data section `teachers` + baris modul admin.
+- Terdampak: `js/site-data.js`, `admin/index.html`, `kursus-bahasa.html`, `tentang-kami.html`, `PROJECT_OVERVIEW.md`.
+
 ## 2026-09-07 — Konten Kursus Bahasa Jepang diganti data asli dari brosur
 - **Sebelumnya:** `kursus-bahasa.html` isinya 100% fiktif — kartu "Program JLPT" generik, 3 kartu "Jenis Kelas" tanpa harga, dan tabel jadwal reguler karangan (hari/jam/status "Tersedia"/"Hampir Penuh" tidak nyata).
 - **Diganti dengan data brosur asli:** deskripsi "Program Bimbel" + 4 poin "Kelebihan Metode Bimbel"; tabel "Level of Learning" (Level 1–12 → Bab); "Courses Fee" (Registration/Guidebook/Deposit + tabel biaya per level JLPT N5–N3); tabel "Kelas Kecil" (Private/Semi Private/Grup Kecil + biaya buku); tabel "Kelas Reguler" 6–7 orang (Reguler 1–4, Minna no Nihongo 1); dua tabel "Kelas Perusahaan" 8–10 orang (jalur Reguler s.d N5 termasuk Paket Kelas N5 hemat + biaya transportasi per area, dan jalur Intensif Beginner1/Beginner2/Intermediate dengan rincian kosakata/kanji/jam belajar); section baru "Pencapaian Kursus Bahasa" (14 program in-house/expatriat nyata untuk Toyota, Showa, OMRON, Kyoraku, Sumco, Sugity, YKK Zipco, DMC Technology, Trimitra Indrahasta, Gonze, Aisan Nasmoco, Shiroki).
