@@ -39,10 +39,14 @@ const heroFiles = [
 ];
 
 // "Layanan" cards on beranda.html — plain white card, real <h3> title right
-// below the image, so the placeholder itself must carry NO text. One brand
-// tone per card for visual variety (still only the site's own 3 colors).
+// below the image, so the placeholder itself must carry NO title text. But a
+// FLAT color alone reads as "image missing" to visitors (no photo texture,
+// no icon) — so each card gets the same big kanji watermark treatment used
+// on the matching page's own hero (see .japanese-watermark in css/style.css:
+// 訳=jasa-penerjemah, 通=jasa-interpreter, 学=kursus-bahasa, 働=tokutei-ginou),
+// just at higher opacity since here it's the card's only visual content.
 const CARD_W = 1200, CARD_H = 750;
-function cardSvg(colorA, colorB) {
+function cardSvg(colorA, colorB, kanji) {
   return `
 <svg width="${CARD_W}" height="${CARD_H}" xmlns="http://www.w3.org/2000/svg">
   <defs>
@@ -52,14 +56,16 @@ function cardSvg(colorA, colorB) {
     </linearGradient>
   </defs>
   <rect width="${CARD_W}" height="${CARD_H}" fill="url(#g)"/>
+  <text x="${CARD_W / 2}" y="${CARD_H / 2 + 130}" font-family="Noto Serif JP, Yu Mincho, MS Mincho, serif"
+        font-size="560" font-weight="700" fill="#ffffff" fill-opacity="0.28" text-anchor="middle">${kanji}</text>
 </svg>`;
 }
 
 const cardFiles = [
-  { file: 'layanan-penerjemahan.jpg', colorA: '#1f1c1a', colorB: '#0a0a0a' }, // ink
-  { file: 'layanan-interpreter.jpg',  colorA: '#c0392b', colorB: '#8f2a1f' }, // red
-  { file: 'layanan-kursus.jpg',       colorA: '#b8960c', colorB: '#8c7209' }, // gold
-  { file: 'layanan-tokutei.jpg',      colorA: '#0a0a0a', colorB: '#8f2a1f' }, // ink → red
+  { file: 'layanan-penerjemahan.jpg', colorA: '#1f1c1a', colorB: '#0a0a0a', kanji: '訳' }, // ink
+  { file: 'layanan-interpreter.jpg',  colorA: '#c0392b', colorB: '#8f2a1f', kanji: '通' }, // red
+  { file: 'layanan-kursus.jpg',       colorA: '#b8960c', colorB: '#8c7209', kanji: '学' }, // gold
+  { file: 'layanan-tokutei.jpg',      colorA: '#0a0a0a', colorB: '#8f2a1f', kanji: '働' }, // ink → red
 ];
 
 (async () => {
@@ -67,8 +73,8 @@ const cardFiles = [
     await sharp(Buffer.from(heroSvg)).jpeg({ quality: 85 }).toFile(path.join(outDir, file));
     console.log('wrote', file);
   }
-  for (const { file, colorA, colorB } of cardFiles) {
-    await sharp(Buffer.from(cardSvg(colorA, colorB))).jpeg({ quality: 85 }).toFile(path.join(outDir, file));
+  for (const { file, colorA, colorB, kanji } of cardFiles) {
+    await sharp(Buffer.from(cardSvg(colorA, colorB, kanji))).jpeg({ quality: 85 }).toFile(path.join(outDir, file));
     console.log('wrote', file);
   }
 })();
