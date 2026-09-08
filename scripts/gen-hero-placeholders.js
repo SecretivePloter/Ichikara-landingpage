@@ -36,6 +36,7 @@ const heroFiles = [
   'hero-elearning.jpg',
   'hero-video.jpg',
   'hero-website.jpg',
+  'hero-rental-mobil.jpg',
 ];
 
 // "Layanan" cards on beranda.html — plain white card, real <h3> title right
@@ -66,6 +67,8 @@ const cardFiles = [
   { file: 'layanan-interpreter.jpg',  colorA: '#c0392b', colorB: '#8f2a1f', kanji: '通' }, // red
   { file: 'layanan-kursus.jpg',       colorA: '#b8960c', colorB: '#8c7209', kanji: '学' }, // gold
   { file: 'layanan-tokutei.jpg',      colorA: '#0a0a0a', colorB: '#8f2a1f', kanji: '働' }, // ink → red
+  { file: 'armada-avanza.jpg',        colorA: '#b8960c', colorB: '#8c7209', kanji: '車' }, // gold
+  { file: 'armada-innova.jpg',        colorA: '#1f1c1a', colorB: '#0a0a0a', kanji: '車' }, // ink
 ];
 
 (async () => {

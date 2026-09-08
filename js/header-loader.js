@@ -89,6 +89,10 @@
             <a href="' + BASE + 'kursus-bahasa.html"\
                class="flex items-center gap-2.5 px-4 py-2 text-sm text-on-surface hover:bg-surface-container hover:text-secondary transition-colors">\
               <span class="material-symbols-outlined text-base text-secondary flex-shrink-0" aria-hidden="true">menu_book</span>Kursus Bahasa Jepang</a>\
+            <div class="ma-divider mx-3 my-1.5"></div>\
+            <a href="' + BASE + 'rental-mobil.html"\
+               class="flex items-center gap-2.5 px-4 py-2 text-sm text-on-surface hover:bg-surface-container hover:text-secondary transition-colors">\
+              <span class="material-symbols-outlined text-base text-secondary flex-shrink-0" aria-hidden="true">directions_car</span>Rental Mobil</a>\
           </div>\
         </div>\
       </div>\
@@ -152,6 +156,9 @@
              class="text-sm text-on-surface px-2 py-2 rounded hover:bg-surface-container hover:text-secondary transition-colors">Program Tokutei Ginou</a>\
           <a href="' + BASE + 'kursus-bahasa.html"\
              class="text-sm text-on-surface px-2 py-2 rounded hover:bg-surface-container hover:text-secondary transition-colors">Kursus Bahasa Jepang</a>\
+          <div class="ma-divider my-1.5 mx-2"></div>\
+          <a href="' + BASE + 'rental-mobil.html"\
+             class="text-sm text-on-surface px-2 py-2 rounded hover:bg-surface-container hover:text-secondary transition-colors">Rental Mobil</a>\
         </div>\
       </div>\
 \
@@ -205,6 +212,7 @@
           <li><a href="' + BASE + 'jasa-interpreter.html" class="text-outline-variant text-sm hover:text-white transition-colors">Jasa Interpreter</a></li>\
           <li><a href="' + BASE + 'kursus-bahasa.html"    class="text-outline-variant text-sm hover:text-white transition-colors">Kursus Bahasa Jepang</a></li>\
           <li><a href="' + BASE + 'tokutei-ginou.html"    class="text-outline-variant text-sm hover:text-white transition-colors">Tokutei Ginou / SSW</a></li>\
+          <li><a href="' + BASE + 'rental-mobil.html"     class="text-outline-variant text-sm hover:text-white transition-colors">Rental Mobil</a></li>\
         </ul>\
       </div>\
 \
@@ -398,6 +406,7 @@
             'jasa-interpreter.html':    'nav-layanan',
             'kursus-bahasa.html':       'nav-layanan',
             'tokutei-ginou.html':       'nav-layanan',
+            'rental-mobil.html':        'nav-layanan',
             'dokumen-translation.html': 'nav-layanan',
             'e-learning.html':          'nav-layanan',
             'video-translation.html':   'nav-layanan',

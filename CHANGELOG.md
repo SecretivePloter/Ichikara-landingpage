@@ -8,6 +8,13 @@ Log perubahan project. Format entri: **tanggal — ringkasan perubahan — file/
 
 ---
 
+## 2026-09-08 — Halaman baru: Rental Mobil
+- **Halaman baru** `rental-mobil.html` (root-level, sejajar `kursus-bahasa.html`/`tokutei-ginou.html`) — data harga asli dari company profile PT. Ichikara: 2 unit (Toyota Avanza, Toyota Innova) × 3 periode sewa (harian 12 jam / bulanan / tahunan, tarif tahunan lebih hemat per bulan).
+- Foto armada masih **placeholder** (gradient + watermark kanji 車, pola sama seperti halaman layanan lain) — admin bisa upload foto unit asli lewat admin panel, tab "Gambar Website" > "Rental Mobil" (3 slot baru: hero, foto Avanza, foto Innova).
+- **Navigasi diperbarui**: ditambahkan ke dropdown Layanan (desktop + mobile) dan kolom Layanan di footer (`js/header-loader.js`), plus entri `navMap` supaya nav ter-highlight saat aktif di halaman ini.
+- `sitemap.xml` dan `scripts/gen-hero-placeholders.js` diperbarui untuk mencakup halaman/aset baru.
+- Terdampak: `rental-mobil.html` (baru), `js/header-loader.js`, `admin/index.html`, `sitemap.xml`, `scripts/gen-hero-placeholders.js`, `images/hero-rental-mobil.jpg` + `images/armada-avanza.jpg` + `images/armada-innova.jpg` (baru).
+
 ## 2026-09-08 — Logo diperbesar & rapat, favicon ditambahkan
 - **Logo diperketat** (`images/logo.png`): margin transparan berlebih di-trim (1200×591 → 1143×591) via `scripts/gen-logo-favicon.js`. Original dibackup ke `_backup-images/logo-original.png`.
 - **Ukuran tampil logo diperbesar**: header `h-10`→`h-14` (40px→56px), footer `h-8`→`h-10` (32px→40px), di `js/header-loader.js`.
