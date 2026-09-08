@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PT. Ichikara | Solusi Bahasa Jepang Terpercaya</title>
   <meta name="description" content="Solusi terpercaya untuk layanan penerjemahan, interpretasi, dan edukasi bahasa Jepang di Indonesia.">
+  <link rel="canonical" href="https://kode-vert.vercel.app/beranda.html">
 
   <!-- Fonts (loaded once — Material Symbols + Inter + Noto Serif JP) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -187,7 +188,7 @@
             <div class="p-8 flex flex-col gap-3 flex-1">
               <h3 class="text-primary text-2xl font-noto font-bold">Kursus Bahasa Jepang</h3>
               <p class="text-on-surface-variant leading-relaxed flex-1">
-                Belajar bahasa Jepang dengan metode terstruktur, dari N5 hingga N1, untuk individu maupun perusahaan.
+                Belajar bahasa Jepang dengan metode terstruktur, dari N5 hingga N3, untuk individu maupun perusahaan.
               </p>
               <span class="text-secondary font-bold text-sm flex items-center gap-1 mt-2">
                 Lihat Selengkapnya
@@ -288,76 +289,6 @@
 
   <!-- ===== FOOTER — injected by header-loader.js ===== -->
   <div id="site-footer"></div>
-
-  <!-- =========================================================
-       PAGE-SPECIFIC SCRIPT: Service tab switcher
-       Data is hardcoded — do NOT introduce user-supplied data
-       into innerHTML without sanitization (see security note).
-       ========================================================= -->
-  <script>
-    // Service tab data (hardcoded — safe for innerHTML usage)
-    var services = {
-      penerjemahan: [
-        { icon: 'description',    title: 'Penerjemahan Dokumen',  desc: 'Penerjemahan dokumen resmi, hukum, dan teknis dengan akurasi tinggi antara Bahasa Indonesia dan Jepang.' },
-        { icon: 'menu_book',      title: 'Penerjemahan Literatur', desc: 'Adaptasi konten buku, komik, dan materi kreatif dengan menjaga nuansa budaya asli tetap tersampaikan.' },
-        { icon: 'code',           title: 'Lokalisasi Situs',       desc: 'Optimasi konten web dan aplikasi agar relevan secara linguistik bagi pengguna di pasar Jepang atau Indonesia.' }
-      ],
-      interpreter: [
-        { icon: 'record_voice_over', title: 'Interpretasi Simultan',    desc: 'Layanan interpretasi langsung untuk konferensi atau acara besar dengan peralatan lengkap.' },
-        { icon: 'groups',            title: 'Pendamping Bisnis',        desc: 'Pendampingan dalam meeting atau kunjungan pabrik untuk memastikan komunikasi bisnis lancar.' },
-        { icon: 'forum',             title: 'Interpretasi Jarak Jauh',  desc: 'Layanan interpreter via video call untuk efisiensi waktu dan biaya operasional.' }
-      ],
-      kursus: [
-        { icon: 'school',  title: 'Persiapan JLPT',    desc: 'Kursus intensif untuk menghadapi ujian JLPT dari level N5 hingga N1 dengan pengajar berpengalaman.' },
-        { icon: 'work',    title: 'Business Japanese', desc: 'Edukasi etika kerja dan komunikasi formal Jepang khusus untuk tenaga profesional.' },
-        { icon: 'person',  title: 'Private Tutoring',  desc: 'Pembelajaran personal satu-lawan-satu yang disesuaikan dengan kecepatan belajar siswa.' }
-      ],
-      tokutei: [
-        { icon: 'engineering',    title: 'Pelatihan Keahlian',  desc: 'Program persiapan kompetensi teknis sesuai dengan bidang yang diminati di Jepang.' },
-        { icon: 'flight_takeup',  title: 'Bimbingan Keberangkatan', desc: 'Bantuan administratif dan pembekalan budaya sebelum bekerja di negeri Sakura.' },
-        { icon: 'check_circle',   title: 'Sertifikasi JFT-Basic', desc: 'Pelatihan khusus untuk lulus tes bahasa yang menjadi syarat utama visa Tokutei Ginou.' }
-      ]
-    };
-
-    function switchTab(categoryId) {
-      // Update tab button styles
-      ['penerjemahan', 'interpreter', 'kursus', 'tokutei'].forEach(function (id) {
-        var tab = document.getElementById('tab-' + id);
-        if (!tab) return;
-        if (id === categoryId) {
-          tab.classList.add('tab-active');
-          tab.classList.remove('text-outline');
-        } else {
-          tab.classList.remove('tab-active');
-          tab.classList.add('text-outline');
-        }
-      });
-
-      // Update card content
-      var container = document.getElementById('service-content');
-      if (!container) return;
-      container.style.opacity = '0';
-
-      setTimeout(function () {
-        var items = services[categoryId] || [];
-        // Data is hardcoded above — safe to use innerHTML here.
-        container.innerHTML = items.map(function (item) {
-          return '<div class="service-card bg-white p-8 rounded-xl border border-border-light">'
-            + '<div class="size-12 bg-surface-container rounded-lg flex items-center justify-center text-primary mb-6">'
-            + '<span class="material-symbols-outlined" aria-hidden="true">' + item.icon + '</span>'
-            + '</div>'
-            + '<h3 class="text-xl font-bold text-primary mb-4">' + item.title + '</h3>'
-            + '<p class="text-on-surface-variant text-sm leading-relaxed mb-6">' + item.desc + '</p>'
-            + '<a href="' + categoryId + '.html" class="text-secondary font-bold text-sm flex items-center gap-1 hover:underline">'
-            + 'Selengkapnya <span class="material-symbols-outlined text-sm" aria-hidden="true">chevron_right</span>'
-            + '</a>'
-            + '</div>';
-        }).join('');
-        container.style.opacity = '1';
-        container.style.transition = 'opacity 0.3s ease';
-      }, 250);
-    }
-  </script>
 
   <!-- =========================================================
        DYNAMIC BERANDA — Supabase `ichikara_web_content` (real-time)

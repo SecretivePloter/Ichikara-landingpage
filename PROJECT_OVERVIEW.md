@@ -86,7 +86,7 @@ kode/
 
 | # | Fitur | File terkait | Keterangan |
 |---|---|---|---|
-| 1 | Navigasi & header global | `js/header-loader.js`, `css/style.css` | Header fixed transparent→solid saat scroll, dropdown "Layanan", menu mobile hamburger, toggle bahasa ID/JP (cosmetik, belum berfungsi), CTA "Hubungi Kami" (WhatsApp) |
+| 1 | Navigasi & header global | `js/header-loader.js`, `css/style.css` | Header fixed transparent→solid saat scroll, dropdown "Layanan", menu mobile hamburger, CTA "Hubungi Kami" (WhatsApp) |
 | 2 | Footer global | `js/header-loader.js` | Footer hitam minimal, diinjeksi ke semua halaman |
 | 3 | Beranda dinamis | `beranda.html` + `js/site-data.js` | Baca `ichikara_web_content` dari Supabase (real-time) → render jumlah logo klien + cerita unggulan; fallback localStorage/statis |
 | 4 | Tab layanan di beranda | `beranda.html` (script inline) | 4 tab (penerjemahan/interpreter/kursus/tokutei), data hardcoded, swap konten via `switchTab()` |
@@ -254,10 +254,12 @@ Project Supabase `pfvlxlfykdabrwijqqxa` **sudah memuat data produksi sistem abse
 - `beranda.html` & `success-story.html` punya **fallback statis** jika localStorage kosong — jika Anda mengubah struktur data, fallback ini pun harus konsisten.
 
 ### 7.3 TODO / item yang belum beres
-- ❌ Nomor WhatsApp `wa.me/XXXXXXXXXX` masih placeholder di banyak file (cari string ini; ada komentar `TODO`).
-- ❌ Toggle bahasa ID/JP di header **hanya cosmetik** (tidak ada logika切换 halaman/terjemahan).
-- ❌ `robots.txt` merujuk `sitemap.xml` yang **tidak ada** di repo.
-- ℹ️ Tidak ada histori git (bukan git repository) — pertimbangkan `git init` untuk tracking perubahan ke depan.
+- ✅ Nomor WhatsApp sudah diganti nomor asli (`6288291469464`) di semua file — beberapa komentar HTML `<!-- TODO: Replace XXXXXXXXXX -->` masih tersisa sebagai jejak dev (tidak terlihat user/SEO, aman diabaikan atau dibersihkan kapan saja).
+- ✅ Toggle bahasa ID/JP di header **sudah dihapus** (2026-09-08) — sebelumnya cosmetik tanpa logika apa pun, berisiko menyesatkan klien Jepang. Kalau nanti ada versi bahasa Jepang sungguhan, bangun ulang dengan link ke halaman nyata.
+- ✅ `sitemap.xml` sudah dibuat, referensi di `robots.txt` sekarang valid.
+- ✅ Repo sudah jadi git repository, terhubung ke GitHub (`SecretivePloter/Ichikara-landingpage`) dan Vercel (auto-deploy tiap push ke `master`).
+- ❌ Belum ada `<link rel="canonical">`, Open Graph (`og:*`), Twitter Card, atau JSON-LD structured data di halaman manapun.
+- ❌ Tailwind CSS masih dimuat via CDN (`cdn.tailwindcss.com`) — tidak disarankan untuk production (lihat warning console browser); migrasi ke build/PostCSS/CLI adalah proyek teknis terpisah.
 
 ### 7.4 Konvensi penamaan
 - Nama file halaman: **kebab-case Bahasa Indonesia** (`beranda.html`, `tentang-kami.html`, `success-story.html`).
