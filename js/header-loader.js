@@ -25,7 +25,7 @@
 //   - To add a new nav item: add an <a> tag to BOTH sections and add an entry to navMap below
 //
 // LOGO SIZE:
-//   - Find class="hdr-logo h-10 w-auto" on the logo <img> and change h-10 (h-8=32px h-12=48px)
+//   - Find class="hdr-logo h-14 w-auto" on the logo <img> and change h-14 (h-10=40px h-16=64px)
 //
 // WHATSAPP NUMBER:
 //   - Search for "wa.me/6288291469464" and replace with the real number
@@ -52,7 +52,7 @@
     <a href="' + BASE + 'beranda.html" class="flex items-center gap-3 flex-shrink-0" aria-label="PT. Ichikara - Halaman Beranda">\
       <img src="' + BASE + 'images/logo.png"\
            alt="Logo PT. Ichikara"\
-           class="hdr-logo h-10 w-auto"\
+           class="hdr-logo h-14 w-auto"\
            onerror="this.style.display=\'none\'; document.getElementById(\'logo-fallback\').style.display=\'flex\';">\
       <span id="logo-fallback"\
             class="hidden hdr-link items-center font-noto font-bold text-xl"\
@@ -180,7 +180,7 @@
         <a href="' + BASE + 'beranda.html" class="flex items-center gap-3 mb-5" aria-label="PT. Ichikara - Halaman Beranda">\
           <img src="' + BASE + 'images/logo.png"\
                alt="Logo PT. Ichikara"\
-               class="h-8 w-auto brightness-0 invert"\
+               class="h-10 w-auto brightness-0 invert"\
                onerror="this.style.display=\'none\'; this.nextElementSibling.style.display=\'block\';">\
           <span class="hidden font-noto font-bold text-lg" aria-hidden="true">PT. Ichikara</span>\
         </a>\
