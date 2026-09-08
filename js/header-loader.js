@@ -104,12 +104,6 @@
     <!-- Right side: language toggle + CTA button + mobile hamburger -->\
     <div class="flex items-center gap-3">\
 \
-      <!-- Language toggle -->\
-      <div class="hidden sm:flex hdr-lang rounded-full p-1" role="group" aria-label="Pilih bahasa">\
-        <button class="hdr-lang-active px-3 py-1 rounded-full text-xs font-bold" aria-label="Bahasa Indonesia" aria-pressed="true">ID</button>\
-        <button class="hdr-lang-btn px-3 py-1 rounded-full text-xs font-medium" aria-label="日本語" aria-pressed="false">JP</button>\
-      </div>\
-\
       <!-- Primary CTA — pill — update WhatsApp number below -->\
       <a href="https://wa.me/6288291469464"\
          class="bg-secondary text-white px-5 py-2.5 rounded-full text-sm font-bold hover:bg-red-hover transition-colors"\
@@ -168,11 +162,6 @@
       <a href="' + BASE + 'success-story.html"\
          class="text-sm font-medium text-on-surface py-3 hover:text-secondary transition-colors">Kisah Sukses</a>\
 \
-      <!-- Language toggle (mobile) -->\
-      <div class="flex gap-2 pt-4" role="group" aria-label="Pilih bahasa">\
-        <button class="px-4 py-1.5 bg-primary text-white rounded-full text-xs font-bold" aria-label="Bahasa Indonesia">ID</button>\
-        <button class="px-4 py-1.5 border border-border-light rounded-full text-xs text-on-surface-variant" aria-label="日本語">JP</button>\
-      </div>\
     </nav>\
   </div>\
 </header>';
@@ -236,7 +225,11 @@
         <ul class="space-y-3">\
           <li class="flex gap-3 items-start">\
             <span class="material-symbols-outlined text-secondary text-[18px] mt-0.5 flex-shrink-0" aria-hidden="true">location_on</span>\
-            <span class="text-outline-variant text-sm">Jakarta, Indonesia</span>\
+            <span class="text-outline-variant text-sm">Komplek Ruko Melawai Blok A No.31, Lembah Hijau – Lippo Cikarang, Bekasi, Jawa Barat 17550</span>\
+          </li>\
+          <li class="flex gap-3 items-start">\
+            <span class="material-symbols-outlined text-secondary text-[18px] mt-0.5 flex-shrink-0" aria-hidden="true">call</span>\
+            <a href="tel:+622189906912" class="text-outline-variant text-sm hover:text-white transition-colors">021-8990 6912</a>\
           </li>\
           <li class="flex gap-3 items-start">\
             <span class="material-symbols-outlined text-secondary text-[18px] mt-0.5 flex-shrink-0" aria-hidden="true">mail</span>\

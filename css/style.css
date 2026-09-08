@@ -149,26 +149,6 @@ body {
     color: #1a1a1a;
 }
 
-/* Language toggle */
-.hdr-lang {
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    transition: border-color 0.25s ease;
-}
-#main-header.scrolled .hdr-lang {
-    border-color: rgba(10, 10, 10, 0.15);
-}
-.hdr-lang-btn {
-    color: rgba(255, 255, 255, 0.7);
-    transition: color 0.25s ease;
-}
-#main-header.scrolled .hdr-lang-btn {
-    color: #6b6660;
-}
-.hdr-lang-active {
-    background-color: #c0392b;
-    color: #ffffff !important;
-}
-
 /* Active nav link (set by header-loader.js based on current page) */
 .nav-active {
     color: #c0392b !important;
