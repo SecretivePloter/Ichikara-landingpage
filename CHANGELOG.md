@@ -8,6 +8,12 @@ Log perubahan project. Format entri: **tanggal — ringkasan perubahan — file/
 
 ---
 
+## 2026-09-08 — Logo diperbesar & rapat, favicon ditambahkan
+- **Logo diperketat** (`images/logo.png`): margin transparan berlebih di-trim (1200×591 → 1143×591) via `scripts/gen-logo-favicon.js`. Original dibackup ke `_backup-images/logo-original.png`.
+- **Ukuran tampil logo diperbesar**: header `h-10`→`h-14` (40px→56px), footer `h-8`→`h-10` (32px→40px), di `js/header-loader.js`.
+- **Favicon ditambahkan** (belum ada sama sekali sebelumnya): `favicon-16.png`, `favicon-32.png`, `apple-touch-icon.png` (180×180), `favicon-512.png` — di-crop otomatis dari ikon oval merah-biru logo (wordmark dibuang karena tidak terbaca di ukuran kecil), dipasang lewat `<link rel="icon">`/`<link rel="apple-touch-icon">` di `<head>` seluruh 11 halaman.
+- Terdampak: `images/logo.png`, `images/favicon-*.png` (baru), `images/apple-touch-icon.png` (baru), `js/header-loader.js`, `scripts/gen-logo-favicon.js` (baru), seluruh 11 file HTML halaman publik.
+
 ## 2026-09-08 — Pra-deploy domain utama: fix audit SEO/UX + data asli dari company profile
 - **Kode mati dihapus** (`beranda.html`): blok `<script>` `services`/`switchTab()`/`servicePages` (~75 baris) yang menghasilkan href salah (`penerjemahan.html` dll → 404) TIDAK PERNAH dipanggil dari HTML manapun — sudah digantikan grid statis "Layanan Unggulan Kami" yang linknya sudah benar sejak awal. Dihapus daripada ditambal karena memang tidak terpakai. **Koreksi atas audit sebelumnya:** temuan "Critical — 12 link 404 di beranda" ternyata bug di kode mati, TIDAK pernah dialami pengunjung nyata — severity sebenarnya jauh lebih rendah dari yang dilaporkan.
 - **Tombol bahasa "ID/JP" dihapus** dari `js/header-loader.js` (desktop & mobile) + CSS terkait (`.hdr-lang*`) di `css/style.css` — sebelumnya tidak ada `onclick`/listener sama sekali, murni dekoratif dan berisiko menyesatkan klien Jepang.
