@@ -8,6 +8,12 @@ Log perubahan project. Format entri: **tanggal — ringkasan perubahan — file/
 
 ---
 
+## 2026-09-09 — jasa-interpreter.html: diagram Metode Interpretasi jadi admin-uploadable
+- **Konteks**: halaman ini disebut user sebagai sumber revenue utama, minta kualitas visual ditingkatkan pakai ilustrasi yang lebih polished (referensi diberikan langsung di chat).
+- 2 diagram SVG buatan sendiri (Konsekutif/Simultan, dibuat sesi sebelumnya) diganti jadi `<img>` biasa yang mengarah ke `images/metode-konsekutif.jpg` dan `images/metode-simultan.jpg` — supaya bisa diganti kapan saja lewat admin panel tanpa perlu ubah kode/deploy.
+- Placeholder sementara (gradient + watermark kanji 通, pola sama seperti placeholder lain di situs) di-generate via `scripts/gen-hero-placeholders.js`. **User perlu upload ilustrasi asli** lewat Admin → Gambar Website → Jasa Interpreter (2 slot baru terdaftar di `admin/index.html`).
+- Terdampak: `jasa-interpreter.html`, `admin/index.html`, `scripts/gen-hero-placeholders.js`, `images/metode-konsekutif.jpg` + `images/metode-simultan.jpg` (baru).
+
 ## 2026-09-08 — Halaman baru: Rental Mobil
 - **Halaman baru** `rental-mobil.html` (root-level, sejajar `kursus-bahasa.html`/`tokutei-ginou.html`) — data harga asli dari company profile PT. Ichikara: 2 unit (Toyota Avanza, Toyota Innova) × 3 periode sewa (harian 12 jam / bulanan / tahunan, tarif tahunan lebih hemat per bulan).
 - Foto armada masih **placeholder** (gradient + watermark kanji 車, pola sama seperti halaman layanan lain) — admin bisa upload foto unit asli lewat admin panel, tab "Gambar Website" > "Rental Mobil" (3 slot baru: hero, foto Avanza, foto Innova).

@@ -69,6 +69,8 @@ const cardFiles = [
   { file: 'layanan-tokutei.jpg',      colorA: '#0a0a0a', colorB: '#8f2a1f', kanji: '働' }, // ink → red
   { file: 'armada-avanza.jpg',        colorA: '#b8960c', colorB: '#8c7209', kanji: '車' }, // gold
   { file: 'armada-innova.jpg',        colorA: '#1f1c1a', colorB: '#0a0a0a', kanji: '車' }, // ink
+  { file: 'metode-konsekutif.jpg',    colorA: '#1f1c1a', colorB: '#0a0a0a', kanji: '通' }, // ink
+  { file: 'metode-simultan.jpg',      colorA: '#c0392b', colorB: '#8f2a1f', kanji: '通' }, // red
 ];
 
 (async () => {
