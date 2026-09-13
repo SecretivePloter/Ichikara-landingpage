@@ -118,7 +118,7 @@
           Jika Anda pernah bekerja sama dengan PT. Ichikara dan ingin berbagi cerita, kami ingin mendengarnya!
         </p>
         <!-- TODO: Replace XXXXXXXXXX with real WhatsApp number -->
-        <a href="https://wa.me/6288291469464" class="inline-flex items-center gap-3 bg-secondary text-white px-10 py-5 rounded-full font-bold hover:bg-red-hover transition-all" rel="noopener noreferrer" target="_blank">
+        <a href="https://wa.me/6281318216260" class="inline-flex items-center gap-3 bg-secondary text-white px-10 py-5 rounded-full font-bold hover:bg-red-hover transition-all" rel="noopener noreferrer" target="_blank">
           <span class="material-symbols-outlined" aria-hidden="true">chat</span>
           Ceritakan Kepada Kami
         </a>
@@ -169,6 +169,10 @@
           var badge  = BADGES[s.category] || BADGES['achievement'];
           var label  = LABELS[s.category] || 'Pencapaian';
           var imgSrc = window.IchikaraSite ? window.IchikaraSite.imgSrc(s.image) : (s.image ? 'images/' + s.image : '');
+          var storyHref = (typeof s.link === 'string' && s.link.trim() && s.link.trim() !== '#') ? s.link.trim() : '';
+          var storyCta = storyHref
+            ? '<a href="' + esc(storyHref) + '" class="text-secondary font-bold text-sm flex items-center gap-1 hover:underline">Baca Selengkapnya <span class="material-symbols-outlined text-sm" aria-hidden="true">chevron_right</span></a>'
+            : '<span class="text-on-surface-variant text-sm">Ringkasan cerita</span>';
           return '<article class="story-card bg-white rounded-2xl overflow-hidden border border-border-light shadow-sm card-hover" data-category="' + esc(s.category) + '">'
             + '<div class="h-52 overflow-hidden bg-gray-100 flex items-center justify-center">'
             + (imgSrc
@@ -182,9 +186,7 @@
             + '</div>'
             + '<h2 class="text-primary font-noto font-bold text-lg leading-snug mb-3">' + esc(s.title || '') + '</h2>'
             + '<div class="text-on-surface-variant text-sm leading-relaxed mb-5">' + (s.excerpt || '') + '</div>'
-            + '<a href="' + esc(s.link || '#') + '" class="text-secondary font-bold text-sm flex items-center gap-1 hover:underline">'
-            + 'Baca Selengkapnya <span class="material-symbols-outlined text-sm" aria-hidden="true">chevron_right</span>'
-            + '</a>'
+            + storyCta
             + '</div>'
             + '</article>';
         }).join('');
