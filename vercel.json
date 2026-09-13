@@ -1,4 +1,13 @@
 {
+  "redirects": [
+    { "source": "/index.php/id/", "destination": "/", "permanent": true },
+    { "source": "/index.php/id", "destination": "/", "permanent": true },
+    { "source": "/index.php/id/tentang-kami", "destination": "/tentang-kami.html", "permanent": true },
+    { "source": "/index.php/id/pilar-bisnis/kursus-bahasa", "destination": "/kursus-bahasa.html", "permanent": true },
+    { "source": "/index.php/id/pilar-bisnis/interpreter", "destination": "/jasa-interpreter.html", "permanent": true },
+    { "source": "/index.php/id/pilar-bisnis/translater", "destination": "/jasa-penerjemah.html", "permanent": true },
+    { "source": "/index.php/id/kontak-kami", "destination": "/beranda.html#kontak", "permanent": true }
+  ],
   "rewrites": [
     { "source": "/", "destination": "/beranda.html" }
   ],
