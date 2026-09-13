@@ -254,7 +254,7 @@ Project Supabase `pfvlxlfykdabrwijqqxa` **sudah memuat data produksi sistem abse
 - `beranda.html` & `success-story.html` punya **fallback statis** jika localStorage kosong — jika Anda mengubah struktur data, fallback ini pun harus konsisten.
 
 ### 7.3 TODO / item yang belum beres
-- ✅ Nomor WhatsApp sudah diganti nomor asli (`6288291469464`) di semua file — beberapa komentar HTML `<!-- TODO: Replace XXXXXXXXXX -->` masih tersisa sebagai jejak dev (tidak terlihat user/SEO, aman diabaikan atau dibersihkan kapan saja).
+- ✅ Nomor WhatsApp sudah diganti nomor asli (`6281318216260`) di semua file — beberapa komentar HTML `<!-- TODO: Replace XXXXXXXXXX -->` masih tersisa sebagai jejak dev (tidak terlihat user/SEO, aman diabaikan atau dibersihkan kapan saja).
 - ✅ Toggle bahasa ID/JP di header **sudah dihapus** (2026-09-08) — sebelumnya cosmetik tanpa logika apa pun, berisiko menyesatkan klien Jepang. Kalau nanti ada versi bahasa Jepang sungguhan, bangun ulang dengan link ke halaman nyata.
 - ✅ `sitemap.xml` sudah dibuat, referensi di `robots.txt` sekarang valid.
 - ✅ Repo sudah jadi git repository, terhubung ke GitHub (`SecretivePloter/Ichikara-landingpage`) dan Vercel (auto-deploy tiap push ke `master`).

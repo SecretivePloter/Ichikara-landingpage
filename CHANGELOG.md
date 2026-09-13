@@ -35,7 +35,7 @@ Log perubahan project. Format entri: **tanggal — ringkasan perubahan — file/
 - **Canonical tag ditambahkan** ke `<head>` semua 11 halaman (sebelumnya tidak ada sama sekali di situs).
 - **Klaim N1 yang tidak sesuai kapasitas jual diperbaiki**: teks "N5 hingga N1" (beranda kartu Kursus, tab mati yang sudah dihapus) dan badge "Diakui industri"/"Expert level" pada kartu N2/N1 di `kursus-bahasa.html` diganti "Kelas privat — hubungi kami" — semua paket harga yang benar-benar dijual (Reguler/Perusahaan/Intensif) berhenti di N3, N1/N2 hanya tersedia lewat kelas privat custom.
 - **`jasa-interpreter.html` disusun ulang pakai data asli dari company profile PT. Ichikara (PDF resmi)**: ditambahkan tabel "Biaya Interpreter" (4 tarif harian Rp1,4–4,5 juta/8 jam + biaya transportasi Rp100rb + paket reguler bulanan Rp18 juta), section "Jenis Layanan" diganti kategori asli (Reguler/Project/Event), 4 statistik karangan ("98% Tingkat Retensi Pesan", "200+ Sesi Berhasil", dst — tidak ada sumbernya) dihapus dan diganti daftar "Pencapaian Jasa Interpreter" berisi 13 klien nyata (Toyota, Nissan, OMRON, Aisin, Advics, dll). 2 kartu "Metode Interpretasi" (Konsekutif/Simultan) diberi diagram SVG orisinal (bukan hasil scan) terinspirasi tata letak ilustrasi company profile. Slot upload foto `interpretasi-consecutive.jpg`/`interpretasi-simultaneous.jpg` yang sudah tidak dipakai dihapus dari `admin/index.html`.
-- **Dicatat, TIDAK diubah:** nomor WhatsApp di company profile (0813-1821-6260, "Arief san") berbeda dari nomor yang sudah live di situs (6288291469464). Tidak diganti sepihak — company profile ini dari 2020, nomor bisa saja sudah berubah. Perlu konfirmasi user nomor mana yang aktif sebelum ada perubahan.
+- **Dicatat, TIDAK diubah:** nomor WhatsApp di company profile (0813-1821-6260, "Arief san") berbeda dari nomor yang sudah live di situs (6281318216260). Tidak diganti sepihak — company profile ini dari 2020, nomor bisa saja sudah berubah. Perlu konfirmasi user nomor mana yang aktif sebelum ada perubahan.
 - Terdampak: `beranda.html`, `jasa-interpreter.html`, `kursus-bahasa.html`, `js/header-loader.js`, `css/style.css`, `admin/index.html`, `PROJECT_OVERVIEW.md`, `sitemap.xml` (baru).
 
 ## 2026-09-07 — Fix: kartu "Layanan" di beranda terlihat kosong/rusak
@@ -81,10 +81,10 @@ Log perubahan project. Format entri: **tanggal — ringkasan perubahan — file/
 ## 2026-08-29 — Deploy ke Vercel Production
 - Deploy via `npx vercel --prod` (project `kode`, org `secretiveploters-projects`).
 - URL production: **https://kode-vert.vercel.app** (Ready dalam 8s; presentasi langsung oleh vercel.json).
-- Cek hasil: semua halaman 200 (beranda, success-story, 12 halaman layanan), `js/site-data.js` & `js/header-loader.js` 200, `images/hero-beranda.jpg` 212KB & `pamflet-ssw.jpg` 299KB (kompresi live), WhatsApp `wa.me/6288291469464` sudah muncul di HTML production.
+- Cek hasil: semua halaman 200 (beranda, success-story, 12 halaman layanan), `js/site-data.js` & `js/header-loader.js` 200, `images/hero-beranda.jpg` 212KB & `pamflet-ssw.jpg` 299KB (kompresi live), WhatsApp `wa.me/6281318216260` sudah muncul di HTML production.
 - Catatan: `jasa-penerjemah/index.html` tidak ada (folder hanya berisi sub-halaman) — navigasi tidak mengacu ke sana, bukan bug.
 - Terdampak: seluruh website (deploy) — tanpa perubahan kode tambahan.
-- Nomor resmi: **+62 882-9146-9464** → `https://wa.me/6288291469464`.
+- Nomor resmi: **+62 882-9146-9464** → `https://wa.me/6281318216260`.
 - Diganti di 27 kemunculan / 12 file: 7 halaman root (beranda, jasa-penerjemah, jasa-interpreter, kursus-bahasa, success-story, tentang-kami, tokutei-ginou), 4 subhalaman `jasa-penerjemah/*`, dan `js/header-loader.js` (CTA header + footer).
 - Terdampak: semua halaman + `js/header-loader.js`. Tidak ada perubahan di folder referensi lama.
 - Catatan: komentar TODO di HTML tidak diubah — tidak memengaruhi runtime.

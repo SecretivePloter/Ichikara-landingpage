@@ -28,7 +28,7 @@
 //   - Find class="hdr-logo h-14 w-auto" on the logo <img> and change h-14 (h-10=40px h-16=64px)
 //
 // WHATSAPP NUMBER:
-//   - Search for "wa.me/6288291469464" and replace with the real number
+//   - Search for "wa.me/6281318216260" and replace with the real number
 //   - Format: https://wa.me/628XXXXXXXXX (country code, no + or spaces)
 // =============================================================================
 
@@ -109,7 +109,7 @@
     <div class="flex items-center gap-3">\
 \
       <!-- Primary CTA — pill — update WhatsApp number below -->\
-      <a href="https://wa.me/6288291469464"\
+      <a href="https://wa.me/6281318216260"\
          class="bg-secondary text-white px-5 py-2.5 rounded-full text-sm font-bold hover:bg-red-hover transition-colors"\
          aria-label="Hubungi kami via WhatsApp"\
          rel="noopener noreferrer"\
@@ -194,14 +194,6 @@
         <p class="text-outline-variant text-sm leading-relaxed mb-6 max-w-xs">\
           Penyedia layanan bahasa Jepang komprehensif di Indonesia. Berkomitmen pada akurasi, profesionalisme, dan pengembangan kompetensi global.\
         </p>\
-        <div class="flex gap-3">\
-          <a href="#" class="w-9 h-9 rounded-full border border-white/15 flex items-center justify-center hover:border-white/50 transition-all" aria-label="LinkedIn">\
-            <span class="material-symbols-outlined text-[18px]" aria-hidden="true">link</span>\
-          </a>\
-          <a href="#" class="w-9 h-9 rounded-full border border-white/15 flex items-center justify-center hover:border-white/50 transition-all" aria-label="Instagram">\
-            <span class="material-symbols-outlined text-[18px]" aria-hidden="true">photo_camera</span>\
-          </a>\
-        </div>\
       </div>\
 \
       <!-- Layanan column -->\
@@ -222,7 +214,6 @@
         <ul class="space-y-3">\
           <li><a href="' + BASE + 'tentang-kami.html"   class="text-outline-variant text-sm hover:text-white transition-colors">Tentang Kami</a></li>\
           <li><a href="' + BASE + 'success-story.html"  class="text-outline-variant text-sm hover:text-white transition-colors">Kisah Sukses</a></li>\
-          <li><a href="#"                               class="text-outline-variant text-sm hover:text-white transition-colors">Karir</a></li>\
           <li><a href="' + BASE + 'beranda.html#kontak" class="text-outline-variant text-sm hover:text-white transition-colors">Kontak</a></li>\
         </ul>\
       </div>\
@@ -245,7 +236,7 @@
           </li>\
           <li class="flex gap-3 items-start">\
             <span class="material-symbols-outlined text-secondary text-[18px] mt-0.5 flex-shrink-0" aria-hidden="true">chat</span>\
-            <a href="https://wa.me/6288291469464" class="text-outline-variant text-sm hover:text-white transition-colors" rel="noopener noreferrer" target="_blank">WhatsApp</a>\
+            <a href="https://wa.me/6281318216260" class="text-outline-variant text-sm hover:text-white transition-colors" rel="noopener noreferrer" target="_blank">WhatsApp</a>\
           </li>\
         </ul>\
       </div>\
