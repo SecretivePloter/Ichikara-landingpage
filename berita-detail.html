@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Berita | PT. Ichikara</title>
+  <meta id="article-description" name="description" content="Berita terbaru dari PT. Ichikara.">
+  <link id="article-canonical" rel="canonical" href="https://www.ichikara.co.id/berita-detail.html">
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Serif+JP:wght@600;700;900&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script src="js/tailwind-config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="js/site-data.js"></script>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="bg-background text-on-background font-inter overflow-x-clip" data-site-root="">
+  <div id="site-header"></div>
+
+  <main>
+    <section class="bg-primary text-white overflow-hidden" aria-label="Header berita">
+      <div class="max-w-[1200px] mx-auto px-6 pt-32 pb-12 lg:pt-36 lg:pb-16">
+        <nav class="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-white/65" aria-label="Breadcrumb">
+          <a href="beranda.html" class="hover:text-white transition-colors">Beranda</a>
+          <span aria-hidden="true">/</span>
+          <a href="success-story.html" class="hover:text-white transition-colors">Berita</a>
+          <span aria-hidden="true">/</span>
+          <span class="text-white" aria-current="page">Detail berita</span>
+        </nav>
+      </div>
+    </section>
+
+    <section class="py-10 lg:py-16" aria-live="polite">
+      <div class="max-w-[1200px] mx-auto px-6">
+        <div id="article-loading" class="py-20 text-center text-on-surface-variant">
+          <span class="material-symbols-outlined animate-pulse text-4xl" aria-hidden="true">article</span>
+          <p class="mt-4">Memuat berita...</p>
+        </div>
+
+        <div id="article-not-found" class="hidden max-w-2xl mx-auto text-center py-16">
+          <span class="material-symbols-outlined text-5xl text-on-surface-variant" aria-hidden="true">find_in_page</span>
+          <h1 class="font-noto text-3xl font-bold text-primary mt-5">Berita tidak ditemukan</h1>
+          <p class="text-on-surface-variant mt-3">Tautan ini mungkin sudah tidak berlaku atau berita telah dihapus.</p>
+          <a href="success-story.html" class="inline-flex items-center gap-2 mt-7 px-6 py-3 rounded-full bg-secondary text-white font-bold hover:bg-red-hover transition-colors">
+            Kembali ke Berita
+            <span class="material-symbols-outlined text-base" aria-hidden="true">arrow_forward</span>
+          </a>
+        </div>
+
+        <div id="article-layout" class="hidden lg:grid lg:grid-cols-[minmax(0,1fr)_290px] lg:gap-14 xl:gap-20 items-start">
+          <article class="min-w-0">
+            <div class="flex flex-wrap items-center gap-x-3 gap-y-2 mb-5">
+              <span id="article-category" class="bg-secondary/10 text-secondary text-xs font-bold px-3 py-1.5 rounded-full"></span>
+              <span id="article-date" class="text-on-surface-variant text-sm"></span>
+            </div>
+            <h1 id="article-title" class="font-noto font-bold text-primary text-3xl sm:text-4xl lg:text-5xl leading-tight"></h1>
+            <p id="article-lead" class="text-on-surface-variant text-lg leading-relaxed mt-6 max-w-3xl"></p>
+            <figure id="article-figure" class="mt-8 lg:mt-10"></figure>
+            <div id="article-body" class="mt-9 text-on-surface text-base lg:text-lg leading-8 space-y-6 max-w-3xl"></div>
+            <div id="article-source-wrap" class="hidden mt-10 pt-6 border-t border-border-light">
+              <a id="article-source" class="inline-flex items-center gap-2 text-secondary font-bold hover:underline" target="_blank" rel="noopener noreferrer">
+                Lihat sumber terkait
+                <span class="material-symbols-outlined text-base" aria-hidden="true">open_in_new</span>
+              </a>
+            </div>
+            <div class="mt-12 pt-8 border-t border-border-light">
+              <a href="success-story.html" class="inline-flex items-center gap-2 text-primary font-bold hover:text-secondary transition-colors">
+                <span class="material-symbols-outlined text-base" aria-hidden="true">arrow_back</span>
+                Kembali ke Berita
+              </a>
+            </div>
+          </article>
+
+          <aside class="mt-12 lg:mt-0 lg:sticky lg:top-28" aria-labelledby="latest-news-heading">
+            <div class="border-t-2 border-secondary pt-4">
+              <p class="label-kicker text-secondary mb-3">TERBARU</p>
+              <h2 id="latest-news-heading" class="font-noto text-2xl font-bold text-primary">Berita Terbaru</h2>
+            </div>
+            <div id="latest-news" class="mt-5 divide-y divide-border-light"></div>
+          </aside>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script>
+  (function () {
+    var STORAGE_KEY = 'ichikara-stories-v1';
+    var labels = { achievement: 'Pencapaian', activity: 'Aktivitas', 'client-story': 'Kisah Klien' };
+    var params = new URLSearchParams(window.location.search);
+    var requestedId = params.get('id');
+
+    function esc(value) {
+      return String(value || '')
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    }
+
+    function textFromHtml(value) {
+      var temp = document.createElement('div');
+      temp.innerHTML = String(value || '');
+      return (temp.textContent || temp.innerText || '').replace(/\s+/g, ' ').trim();
+    }
+
+    function articleId(story, index) {
+      return String(story && story.id ? story.id : 'story-' + index);
+    }
+
+    function articleHref(story, index) {
+      return 'berita-detail.html?id=' + encodeURIComponent(articleId(story, index));
+    }
+
+    function articleParagraphs(story) {
+      var source = String(story.content || '').trim() || textFromHtml(story.excerpt || '');
+      return source.split(/\n\s*\n/).map(function (paragraph) { return paragraph.trim(); }).filter(Boolean);
+    }
+
+    function renderLatest(stories, currentId) {
+      var latest = stories.filter(function (story, index) { return articleId(story, index) !== currentId; }).slice(0, 4);
+      var element = document.getElementById('latest-news');
+      if (!latest.length) {
+        element.innerHTML = '<p class="text-sm text-on-surface-variant py-5">Belum ada berita lain.</p>';
+        return;
+      }
+      element.innerHTML = latest.map(function (story, index) {
+        var originalIndex = stories.indexOf(story);
+        return '<a href="' + esc(articleHref(story, originalIndex >= 0 ? originalIndex : index)) + '" class="block py-5 group">'
+          + '<span class="text-xs text-on-surface-variant">' + esc(story.date || '') + '</span>'
+          + '<h3 class="font-noto font-bold text-primary leading-snug mt-1 group-hover:text-secondary transition-colors">' + esc(story.title || 'Berita PT. Ichikara') + '</h3>'
+          + '</a>';
+      }).join('');
+    }
+
+    function renderArticle(stories) {
+      var matchIndex = stories.findIndex(function (story, index) { return articleId(story, index) === String(requestedId || ''); });
+      document.getElementById('article-loading').classList.add('hidden');
+      if (matchIndex < 0) {
+        document.getElementById('article-not-found').classList.remove('hidden');
+        return;
+      }
+
+      var story = stories[matchIndex];
+      var title = story.title || 'Berita PT. Ichikara';
+      var lead = textFromHtml(story.excerpt || '');
+      var body = articleParagraphs(story);
+      var image = window.IchikaraSite ? window.IchikaraSite.imgSrc(story.image) : (story.image ? 'images/' + story.image : '');
+      var canonical = window.location.origin + window.location.pathname + '?id=' + encodeURIComponent(articleId(story, matchIndex));
+
+      document.title = title + ' | PT. Ichikara';
+      document.getElementById('article-description').setAttribute('content', lead || 'Berita terbaru dari PT. Ichikara.');
+      document.getElementById('article-canonical').setAttribute('href', canonical);
+      document.getElementById('article-category').textContent = labels[story.category] || 'Berita';
+      document.getElementById('article-date').textContent = story.date || '';
+      document.getElementById('article-title').textContent = title;
+      document.getElementById('article-lead').textContent = lead;
+      document.getElementById('article-body').innerHTML = body.length
+        ? body.map(function (paragraph) { return '<p>' + esc(paragraph) + '</p>'; }).join('')
+        : '<p>Isi berita akan segera diperbarui.</p>';
+
+      var figure = document.getElementById('article-figure');
+      figure.innerHTML = image
+        ? '<img src="' + esc(image) + '" alt="' + esc(story.imageAlt || title) + '" class="w-full max-h-[560px] object-cover rounded-2xl border border-border-light" loading="eager">'
+          + '<figcaption class="text-sm text-on-surface-variant mt-3">Dokumentasi PT. Ichikara</figcaption>'
+        : '';
+
+      var source = typeof story.link === 'string' ? story.link.trim() : '';
+      if (/^https?:\/\//i.test(source)) {
+        document.getElementById('article-source').setAttribute('href', source);
+        document.getElementById('article-source-wrap').classList.remove('hidden');
+      }
+
+      renderLatest(stories, articleId(story, matchIndex));
+      document.getElementById('article-layout').classList.remove('hidden');
+    }
+
+    function loadFromLocal() {
+      var stories = [];
+      try { stories = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } catch (error) {}
+      renderArticle(Array.isArray(stories) ? stories : []);
+    }
+
+    if (!requestedId) {
+      document.getElementById('article-loading').classList.add('hidden');
+      document.getElementById('article-not-found').classList.remove('hidden');
+    } else if (!window.IchikaraSite || !window.IchikaraSite.ready) {
+      loadFromLocal();
+    } else {
+      window.IchikaraSite.onContent(function (content) { renderArticle(content.stories || []); });
+      window.IchikaraSite.loadContent().catch(loadFromLocal);
+    }
+  }());
+  </script>
+  <script src="js/header-loader.js?v=20260914-berita"></script>
+</body>
+</html>

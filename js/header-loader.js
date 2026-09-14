@@ -102,7 +102,7 @@
       <a id="nav-kontak" href="' + BASE + 'beranda.html#kontak"\
          class="hdr-link text-sm font-medium tracking-wide">Kontak</a>\
       <a id="nav-kisah" href="' + BASE + 'success-story.html"\
-         class="hdr-link text-sm font-medium tracking-wide">Kisah Sukses</a>\
+         class="hdr-link text-sm font-medium tracking-wide">Berita</a>\
     </nav>\
 \
     <!-- Right side: language toggle + CTA button + mobile hamburger -->\
@@ -167,7 +167,7 @@
       <a href="' + BASE + 'beranda.html#kontak"\
          class="text-sm font-medium text-on-surface py-3 border-b border-border-light hover:text-secondary transition-colors">Kontak</a>\
       <a href="' + BASE + 'success-story.html"\
-         class="text-sm font-medium text-on-surface py-3 hover:text-secondary transition-colors">Kisah Sukses</a>\
+         class="text-sm font-medium text-on-surface py-3 hover:text-secondary transition-colors">Berita</a>\
 \
     </nav>\
   </div>\
@@ -213,7 +213,7 @@
         <h4 class="text-[11px] font-bold uppercase tracking-label mb-5 text-white/90">Perusahaan</h4>\
         <ul class="space-y-3">\
           <li><a href="' + BASE + 'tentang-kami.html"   class="text-outline-variant text-sm hover:text-white transition-colors">Tentang Kami</a></li>\
-          <li><a href="' + BASE + 'success-story.html"  class="text-outline-variant text-sm hover:text-white transition-colors">Kisah Sukses</a></li>\
+          <li><a href="' + BASE + 'success-story.html"  class="text-outline-variant text-sm hover:text-white transition-colors">Berita</a></li>\
           <li><a href="' + BASE + 'beranda.html#kontak" class="text-outline-variant text-sm hover:text-white transition-colors">Kontak</a></li>\
         </ul>\
       </div>\
@@ -404,6 +404,7 @@
             'website-translation.html': 'nav-layanan',
             'tentang-kami.html':        'nav-tentang',
             'success-story.html':       'nav-kisah',
+            'berita-detail.html':       'nav-kisah',
         };
 
         var activeId = navMap[filename];
