@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Dashboard — PT. Ichikara</title>
+  <title>Admin Dashboard  -  PT. Ichikara</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -99,14 +99,14 @@
 <body class="bg-gray-50 text-gray-900" style="height:100dvh;display:flex;flex-direction:column;overflow:hidden;">
 
   <!-- =========================================================
-       AUTH GATE — Supabase Auth (email + password)
+       AUTH GATE  -  Supabase Auth (email + password)
        ========================================================= -->
   <div id="auth-gate" class="fixed inset-0 bg-primary z-[200] flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl shadow-2xl p-10 w-full max-w-sm">
       <div class="text-center mb-8">
         <img src="../images/logo.png" alt="PT. Ichikara" class="h-10 w-auto mx-auto mb-5" onerror="this.style.display='none'">
         <h1 class="text-xl font-bold text-primary">Admin Dashboard</h1>
-        <p class="text-gray-400 text-xs mt-1">PT. Ichikara — Area Terbatas</p>
+        <p class="text-gray-400 text-xs mt-1">PT. Ichikara  -  Area Terbatas</p>
       </div>
       <form id="auth-form">
         <label class="block text-xs font-semibold text-gray-600 mb-2">Email Admin</label>
@@ -164,7 +164,7 @@
   </script>
 
   <!-- =========================================================
-       TOP BAR — Row 1: Logo + Actions
+       TOP BAR  -  Row 1: Logo + Actions
        ========================================================= -->
   <header class="bg-primary text-white px-6 py-3.5 flex items-center justify-between flex-shrink-0 shadow-xl z-30">
     <div class="flex items-center gap-4">
@@ -225,7 +225,7 @@
     </div>
   </header>
 
-  <!-- TOP BAR — Row 2: Tab Navigation -->
+  <!-- TOP BAR  -  Row 2: Tab Navigation -->
   <div class="bg-white border-b border-border-light px-4 flex items-center flex-shrink-0 z-20 overflow-x-auto">
     <button class="nav-tab active px-5 py-3.5 text-sm transition-all flex items-center gap-1.5" data-section="stories" onclick="showSection('stories')">
       <span class="material-symbols-outlined text-[16px]">auto_stories</span> Kisah Sukses
@@ -343,7 +343,7 @@
                     <label class="block text-xs font-semibold text-gray-600 mb-1">Foto artikel <span class="text-red-500">*</span></label>
                     <input type="text" id="f-image" class="field" readonly placeholder="Pilih foto di kotak kiri" oninput="syncPreviewImg()">
                     <p class="text-xs text-gray-400 mt-1.5 leading-relaxed">
-                      Klik <strong>kotak di kiri</strong> untuk memilih foto — otomatis diupload ke Supabase dan langsung tampil di website (real-time). Field ini terisi otomatis.
+                      Klik <strong>kotak di kiri</strong> untuk memilih foto  -  otomatis diupload ke Supabase dan langsung tampil di website (real-time). Field ini terisi otomatis.
                     </p>
                   </div>
                   <div>
@@ -360,7 +360,7 @@
             <div>
               <label class="block text-sm font-semibold text-gray-700 mb-2">Judul Cerita <span class="text-red-500">*</span></label>
               <input type="text" id="f-title" class="field" style="border-radius:0.75rem;font-size:1rem;padding:0.75rem 1rem;"
-                     placeholder="Contoh: 12 Siswa Lulus JLPT N3 — Angkatan Pertama 2026" oninput="syncPreview()">
+                     placeholder="Contoh: 12 Siswa Lulus JLPT N3  -  Angkatan Pertama 2026" oninput="syncPreview()">
             </div>
 
             <!-- Kategori + Tanggal -->
@@ -404,7 +404,7 @@
                   <span class="text-xs text-gray-500 font-medium">Ukuran:</span>
                   <select id="fs-select" onchange="setSize(this.value)"
                           class="text-xs border border-gray-300 rounded-lg px-2 py-1 bg-white focus:outline-none focus:border-secondary">
-                    <option value="">— pilih —</option>
+                    <option value=""> -  pilih  - </option>
                     <option value="1">Sangat Kecil</option>
                     <option value="2">Kecil</option>
                     <option value="3">Normal</option>
@@ -459,7 +459,7 @@
     <div id="assets-no-folder" class="bg-blue-50 border-b border-blue-200 px-6 py-3 flex items-center gap-3 flex-shrink-0">
       <span class="material-symbols-outlined text-blue-600 flex-shrink-0">cloud_upload</span>
       <p class="text-sm text-blue-800">
-        Klik kartu gambar di bawah untuk <strong>upload foto baru ke Supabase</strong> — langsung tampil di website tanpa deploy.
+        Klik kartu gambar di bawah untuk <strong>upload foto baru ke Supabase</strong>  -  langsung tampil di website tanpa deploy.
         Gambar yang belum diupload memakai file bawaan di folder <code class="bg-blue-100 px-1 rounded">images/</code>.
       </p>
     </div>
@@ -509,7 +509,7 @@
     <div id="clients-no-folder" class="bg-blue-50 border-b border-blue-200 px-6 py-3 flex items-center gap-3 flex-shrink-0">
       <span class="material-symbols-outlined text-blue-600 flex-shrink-0">cloud_upload</span>
       <p class="text-sm text-blue-800">
-        Klik kartu logo di bawah untuk <strong>upload logo ke Supabase</strong> — langsung tampil di strip beranda tanpa deploy.
+        Klik kartu logo di bawah untuk <strong>upload logo ke Supabase</strong>  -  langsung tampil di strip beranda tanpa deploy.
         Logo yang belum diupload memakai file <code class="bg-blue-100 px-1 rounded">images/clients/client-N.png</code>.
       </p>
     </div>
@@ -517,7 +517,7 @@
     <!-- Toolbar -->
     <div class="bg-white border-b border-border-light px-6 py-3 flex items-center justify-between flex-shrink-0">
       <div>
-        <h2 class="font-semibold text-primary text-sm">Logo Klien — Strip Beranda</h2>
+        <h2 class="font-semibold text-primary text-sm">Logo Klien  -  Strip Beranda</h2>
         <p class="text-xs text-gray-400 mt-0.5">Disimpan di <code class="bg-gray-100 px-1 rounded text-[11px]">images/clients/client-N.png</code></p>
       </div>
       <div class="flex items-center gap-2">
@@ -543,7 +543,7 @@
         <div class="flex gap-2 items-start">
           <span class="material-symbols-outlined text-blue-600 flex-shrink-0 text-[18px] mt-0.5">info</span>
           <div>
-            <strong>Format logo:</strong> PNG transparan, tinggi minimal 60px. Klik kartu untuk upload — tersimpan di
+            <strong>Format logo:</strong> PNG transparan, tinggi minimal 60px. Klik kartu untuk upload  -  tersimpan di
             Supabase dan langsung tampil di beranda tanpa deploy. Tombol <strong>Reset</strong> mengembalikan ke file repo.
           </div>
         </div>
@@ -554,9 +554,9 @@
   </div><!-- /sec-clients -->
 
   <!-- =========================================================
-       SECTION: Pengajar (Tim Pengajar — kursus-bahasa.html)
+       SECTION: Pengajar (Tim Pengajar  -  kursus-bahasa.html)
        Sama seperti Kisah Sukses: list kiri + editor kanan. TIDAK ada
-       seed data bawaan — daftar mulai kosong, admin tambahkan sensei
+       seed data bawaan  -  daftar mulai kosong, admin tambahkan sensei
        nyata satu per satu. Section "Tim Pengajar" di website otomatis
        tersembunyi kalau daftar ini kosong (lihat kursus-bahasa.html).
        ========================================================= -->
@@ -628,7 +628,7 @@
                 <div class="flex-1">
                   <input type="text" id="tf-image" class="field" readonly placeholder="Pilih foto di kotak kiri">
                   <p class="text-xs text-gray-400 mt-1.5 leading-relaxed">
-                    Klik <strong>foto bulat di kiri</strong> — otomatis diupload ke Supabase dan langsung tampil di website. Foto persegi/portrait paling pas.
+                    Klik <strong>foto bulat di kiri</strong>  -  otomatis diupload ke Supabase dan langsung tampil di website. Foto persegi/portrait paling pas.
                   </p>
                 </div>
               </div>
@@ -687,7 +687,7 @@
           <div class="mt-6 bg-green-50 border border-green-200 rounded-xl p-4 text-sm text-green-800 flex gap-3 items-start">
             <span class="material-symbols-outlined text-green-600 flex-shrink-0 text-[18px] mt-0.5">check_circle</span>
             <div>
-              Setelah klik <strong>Simpan</strong>, pengaturan langsung diterapkan ke website (Supabase, real-time) —
+              Setelah klik <strong>Simpan</strong>, pengaturan langsung diterapkan ke website (Supabase, real-time)  -
               buka <a href="../beranda.html" target="_blank" class="font-bold underline">beranda.html</a> untuk melihat hasilnya.
             </div>
           </div>
@@ -746,7 +746,7 @@
           <div class="flex gap-3">
             <span class="material-symbols-outlined text-green-600 flex-shrink-0">check_circle</span>
             <div>
-              <h3 class="font-bold text-green-800 text-sm mb-1">Otomatis — Sudah Aktif!</h3>
+              <h3 class="font-bold text-green-800 text-sm mb-1">Otomatis  -  Sudah Aktif!</h3>
               <p class="text-green-700 text-xs leading-relaxed">
                 Halaman <strong>success-story.html</strong> &amp; <strong>beranda.html</strong> membaca data langsung dari Supabase.
                 Setiap cerita yang Anda simpan langsung tampil di website (real-time) tanpa perlu export.
@@ -762,7 +762,7 @@
             <span class="material-symbols-outlined text-[16px] text-gray-500">code</span> Export HTML Manual (opsional)
           </h3>
           <p class="text-xs text-gray-500 mb-3 leading-relaxed">
-            Untuk cadangan atau deploy ke server — salin HTML ini lalu ganti isi story cards di <code class="bg-gray-100 px-1 rounded">success-story.html</code>.
+            Untuk cadangan atau deploy ke server  -  salin HTML ini lalu ganti isi story cards di <code class="bg-gray-100 px-1 rounded">success-story.html</code>.
           </p>
           <div class="relative">
             <button onclick="copyHTML()"
@@ -813,25 +813,25 @@
     'client-story': 'bg-primary/10 text-primary',
   };
 
-  // Asset manifest — all images required by the website
+  // Asset manifest  -  all images required by the website
   const ASSET_SECTIONS = [
-    { id:'global', label:'Global — Semua Halaman', icon:'language', images:[
+    { id:'global', label:'Global  -  Semua Halaman', icon:'language', images:[
       { file:'logo.png', label:'Logo PT. Ichikara', pages:['Semua halaman (header & footer)'], hint:'PNG transparan. Min 300px lebar × 100px tinggi. Versi putih otomatis dipakai di header.', ratio:'3:1' },
     ]},
     { id:'beranda', label:'Beranda', icon:'home', images:[
-      { file:'hero-beranda.jpg',         label:'Hero Beranda',                    pages:['beranda.html — Hero utama'],                      hint:'Foto profesional tim/kantor. Min 1600×800px, landscape.',          ratio:'2:1'  },
-      { file:'layanan-penerjemahan.jpg', label:'Foto Layanan Penerjemahan',       pages:['beranda.html — Layanan + Akses Cepat'],           hint:'Foto ilustrasi penerjemahan dokumen. Min 800×500px.',              ratio:'16:10'},
-      { file:'layanan-interpreter.jpg',  label:'Foto Layanan Interpreter',        pages:['beranda.html — Layanan + Akses Cepat'],           hint:'Foto interpreter dalam rapat bisnis. Min 800×500px.',             ratio:'16:10'},
-      { file:'layanan-kursus.jpg',       label:'Foto Layanan Kursus',             pages:['beranda.html — Layanan + Akses Cepat'],           hint:'Foto suasana kelas kursus bahasa Jepang. Min 800×500px.',         ratio:'16:10'},
-      { file:'layanan-tokutei.jpg',      label:'Foto Layanan Tokutei Ginou',      pages:['beranda.html — Layanan + Akses Cepat'],           hint:'Foto pekerja Indonesia di lingkungan kerja Jepang. Min 800×500px.', ratio:'16:10'},
-      { file:'clients/client-1.png',     label:'Logo Klien 1',                    pages:['beranda.html — Strip Logo Klien'],                hint:'PNG transparan. Min 60px tinggi. Background transparan.',          ratio:'bebas'},
-      { file:'clients/client-2.png',     label:'Logo Klien 2',                    pages:['beranda.html — Strip Logo Klien'],                hint:'PNG transparan, min 60px tinggi.',                                  ratio:'bebas'},
-      { file:'clients/client-3.png',     label:'Logo Klien 3',                    pages:['beranda.html — Strip Logo Klien'],                hint:'PNG transparan, min 60px tinggi.',                                  ratio:'bebas'},
-      { file:'clients/client-4.png',     label:'Logo Klien 4',                    pages:['beranda.html — Strip Logo Klien'],                hint:'PNG transparan, min 60px tinggi.',                                  ratio:'bebas'},
-      { file:'clients/client-5.png',     label:'Logo Klien 5',                    pages:['beranda.html — Strip Logo Klien'],                hint:'PNG transparan, min 60px tinggi.',                                  ratio:'bebas'},
-      { file:'clients/client-6.png',     label:'Logo Klien 6',                    pages:['beranda.html — Strip Logo Klien'],                hint:'PNG transparan, min 60px tinggi.',                                  ratio:'bebas'},
-      { file:'clients/client-7.png',     label:'Logo Klien 7',                    pages:['beranda.html — Strip Logo Klien'],                hint:'PNG transparan, min 60px tinggi.',                                  ratio:'bebas'},
-      { file:'clients/client-8.png',     label:'Logo Klien 8',                    pages:['beranda.html — Strip Logo Klien'],                hint:'PNG transparan, min 60px tinggi.',                                  ratio:'bebas'},
+      { file:'hero-beranda.jpg',         label:'Hero Beranda',                    pages:['beranda.html  -  Hero utama'],                      hint:'Foto profesional tim/kantor. Min 1600×800px, landscape.',          ratio:'2:1'  },
+      { file:'layanan-penerjemahan.jpg', label:'Foto Layanan Penerjemahan',       pages:['beranda.html  -  Layanan + Akses Cepat'],           hint:'Foto ilustrasi penerjemahan dokumen. Min 800×500px.',              ratio:'16:10'},
+      { file:'layanan-interpreter.jpg',  label:'Foto Layanan Interpreter',        pages:['beranda.html  -  Layanan + Akses Cepat'],           hint:'Foto interpreter dalam rapat bisnis. Min 800×500px.',             ratio:'16:10'},
+      { file:'layanan-kursus.jpg',       label:'Foto Layanan Kursus',             pages:['beranda.html  -  Layanan + Akses Cepat'],           hint:'Foto suasana kelas kursus bahasa Jepang. Min 800×500px.',         ratio:'16:10'},
+      { file:'layanan-tokutei.jpg',      label:'Foto Layanan Tokutei Ginou',      pages:['beranda.html  -  Layanan + Akses Cepat'],           hint:'Foto pekerja Indonesia di lingkungan kerja Jepang. Min 800×500px.', ratio:'16:10'},
+      { file:'clients/client-1.png',     label:'Logo Klien 1',                    pages:['beranda.html  -  Strip Logo Klien'],                hint:'PNG transparan. Min 60px tinggi. Background transparan.',          ratio:'bebas'},
+      { file:'clients/client-2.png',     label:'Logo Klien 2',                    pages:['beranda.html  -  Strip Logo Klien'],                hint:'PNG transparan, min 60px tinggi.',                                  ratio:'bebas'},
+      { file:'clients/client-3.png',     label:'Logo Klien 3',                    pages:['beranda.html  -  Strip Logo Klien'],                hint:'PNG transparan, min 60px tinggi.',                                  ratio:'bebas'},
+      { file:'clients/client-4.png',     label:'Logo Klien 4',                    pages:['beranda.html  -  Strip Logo Klien'],                hint:'PNG transparan, min 60px tinggi.',                                  ratio:'bebas'},
+      { file:'clients/client-5.png',     label:'Logo Klien 5',                    pages:['beranda.html  -  Strip Logo Klien'],                hint:'PNG transparan, min 60px tinggi.',                                  ratio:'bebas'},
+      { file:'clients/client-6.png',     label:'Logo Klien 6',                    pages:['beranda.html  -  Strip Logo Klien'],                hint:'PNG transparan, min 60px tinggi.',                                  ratio:'bebas'},
+      { file:'clients/client-7.png',     label:'Logo Klien 7',                    pages:['beranda.html  -  Strip Logo Klien'],                hint:'PNG transparan, min 60px tinggi.',                                  ratio:'bebas'},
+      { file:'clients/client-8.png',     label:'Logo Klien 8',                    pages:['beranda.html  -  Strip Logo Klien'],                hint:'PNG transparan, min 60px tinggi.',                                  ratio:'bebas'},
     ]},
     { id:'penerjemah', label:'Jasa Penerjemah', icon:'translate', images:[
       { file:'hero-penerjemah.jpg',      label:'Hero Jasa Penerjemah',  pages:['jasa-penerjemah.html'],               hint:'Foto penerjemahan dokumen. Min 1200×600px.',           ratio:'2:1'  },
@@ -848,12 +848,12 @@
     ]},
     { id:'interpreter', label:'Jasa Interpreter', icon:'record_voice_over', images:[
       { file:'hero-interpreter.jpg',    label:'Hero Jasa Interpreter',           pages:['jasa-interpreter.html'], hint:'Foto interpreter dalam konferensi. Min 1200×600px.', ratio:'2:1'  },
-      { file:'metode-konsekutif.jpg',   label:'Ilustrasi Interpretasi Konsekutif', pages:['jasa-interpreter.html — bagian "Metode Interpretasi"'], hint:'Diagram/ilustrasi alur konsekutif (Pembicara → Interpreter → Audiens). Min 1200×750px, landscape.', ratio:'16:10' },
-      { file:'metode-simultan.jpg',     label:'Ilustrasi Interpretasi Simultan',   pages:['jasa-interpreter.html — bagian "Metode Interpretasi"'], hint:'Diagram/ilustrasi alur simultan (bilik interpreter + audiens berheadset). Min 1200×750px, landscape.', ratio:'16:10' },
+      { file:'metode-konsekutif.jpg',   label:'Ilustrasi Interpretasi Konsekutif', pages:['jasa-interpreter.html  -  bagian "Metode Interpretasi"'], hint:'Diagram/ilustrasi alur konsekutif (Pembicara → Interpreter → Audiens). Min 1200×750px, landscape.', ratio:'16:10' },
+      { file:'metode-simultan.jpg',     label:'Ilustrasi Interpretasi Simultan',   pages:['jasa-interpreter.html  -  bagian "Metode Interpretasi"'], hint:'Diagram/ilustrasi alur simultan (bilik interpreter + audiens berheadset). Min 1200×750px, landscape.', ratio:'16:10' },
     ]},
     { id:'kursus', label:'Kursus Bahasa', icon:'school', images:[
       { file:'hero-kursus.jpg', label:'Hero Kursus',    pages:['kursus-bahasa.html'], hint:'Foto kelas bahasa Jepang. Min 1200×600px.',         ratio:'2:1' },
-      // Foto pengajar TIDAK lagi di sini — kelola nama+foto+spesialisasi di tab "Pengajar".
+      // Foto pengajar TIDAK lagi di sini  -  kelola nama+foto+spesialisasi di tab "Pengajar".
     ]},
     { id:'tentang', label:'Tentang Kami', icon:'apartment', images:[
       { file:'kantor-ichikara.jpg',          label:'Foto Kantor / Tim Ichikara', pages:['tentang-kami.html'], hint:'Foto wide/cinematic kantor atau tim. Min 1600×600px, full-width.',  ratio:'8:3'  },
@@ -922,9 +922,9 @@
   // STORY MANAGER
   // ══════════════════════════════════════════════════════════════
   // ══════════════════════════════════════════════════════════════
-  // DATA LAYER — Supabase `ichikara_web_content` (real-time)
+  // DATA LAYER  -  Supabase `ichikara_web_content` (real-time)
   // Lokal (localStorage) hanya sebagai fallback saat offline.
-  // Catatan: project Supabase ini DIBAGI dengan sistem absensi —
+  // Catatan: project Supabase ini DIBAGI dengan sistem absensi  -
   // kita hanya menulis/membaca baris section stories/clients/beranda.
   // ══════════════════════════════════════════════════════════════
   const SB_TABLE  = 'ichikara_web_content';
@@ -981,7 +981,7 @@
       return true;
     } catch(e) {
       sbLocalMode = true;
-      setSync('error', 'Offline — hanya tersimpan di browser ini');
+      setSync('error', 'Offline  -  hanya tersimpan di browser ini');
       return false;
     }
   }
@@ -1006,7 +1006,7 @@
         try { stories = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } catch(e) { stories = []; }
       } catch(e) {
         sbLocalMode = true;
-        setSync('error', 'Offline — hanya browser ini');
+        setSync('error', 'Offline  -  hanya browser ini');
       }
     } else {
       setSync('local', 'Mode lokal (tanpa Supabase)');
@@ -1119,7 +1119,7 @@
 
   function saveStory() {
     if (!currentId) return;
-    if (uploadingImage) { toast('Tunggu beberapa detik — foto masih diupload…', 'info'); return; }
+    if (uploadingImage) { toast('Tunggu beberapa detik  -  foto masih diupload…', 'info'); return; }
     const idx = stories.findIndex(s => s.id === currentId);
     if (idx === -1) return;
     const title = document.getElementById('f-title').value.trim();
@@ -1158,7 +1158,7 @@
 
 
   // ══════════════════════════════════════════════════════════════
-  // TEACHER MANAGER (Tim Pengajar — kursus-bahasa.html)
+  // TEACHER MANAGER (Tim Pengajar  -  kursus-bahasa.html)
   // Pola identik dengan Story Manager di atas: list kiri + editor
   // kanan, foto diupload ke Supabase Storage, data disimpan sebagai
   // baris section 'teachers'. Tidak ada seed bawaan.
@@ -1231,7 +1231,7 @@
 
   function saveTeacher() {
     if (!currentTeacherId) return;
-    if (uploadingTeacherImage) { toast('Tunggu beberapa detik — foto masih diupload…', 'info'); return; }
+    if (uploadingTeacherImage) { toast('Tunggu beberapa detik  -  foto masih diupload…', 'info'); return; }
     const idx = teachers.findIndex(t => t.id === currentTeacherId);
     if (idx === -1) return;
     const name = document.getElementById('tf-name').value.trim();
@@ -1241,7 +1241,7 @@
     teachers[idx] = { ...teachers[idx], name,
       specialty: document.getElementById('tf-specialty').value.trim(),
       image:     imgVal,
-      imageAlt:  'Foto ' + name + ' — Pengajar Bahasa Jepang PT. Ichikara',
+      imageAlt:  'Foto ' + name + '  -  Pengajar Bahasa Jepang PT. Ichikara',
     };
     persistTeachers().then(ok => { if (ok) toast('Pengajar tersimpan & langsung tayang di website!', 'success'); });
     renderTeacherList();
@@ -1298,7 +1298,7 @@
     reader.readAsDataURL(file);
     ev.target.value = '';
 
-    if (!sb()) { toast('Supabase tidak tersedia — foto belum bisa diupload.', 'error'); return; }
+    if (!sb()) { toast('Supabase tidak tersedia  -  foto belum bisa diupload.', 'error'); return; }
     uploadingTeacherImage = true;
     setSync('syncing', 'Mengupload foto…');
     try {
@@ -1310,7 +1310,7 @@
         document.getElementById('tf-image').value = url;
         showTeacherThumb(url);
       }
-      setSync('synced', 'Foto siap — klik Simpan untuk tayangkan');
+      setSync('synced', 'Foto siap  -  klik Simpan untuk tayangkan');
       toast('Foto terupload. Klik "Simpan" untuk menayangkannya.', 'success');
     } catch(e) {
       setSync('error', 'Gagal upload: ' + e.message);
@@ -1347,7 +1347,7 @@
     reader.readAsDataURL(file);
     ev.target.value = '';
 
-    if (!sb()) { toast('Supabase tidak tersedia — foto belum bisa diupload.', 'error'); return; }
+    if (!sb()) { toast('Supabase tidak tersedia  -  foto belum bisa diupload.', 'error'); return; }
     uploadingImage = true;
     setSync('syncing', 'Mengupload foto…');
     try {
@@ -1359,7 +1359,7 @@
         document.getElementById('f-image').value = url;
         showThumb(url); syncPreview();
       }
-      setSync('synced', 'Foto siap — klik Simpan untuk tayangkan');
+      setSync('synced', 'Foto siap  -  klik Simpan untuk tayangkan');
       toast('Foto terupload. Klik “Simpan” untuk menayangkannya.', 'success');
     } catch(e) {
       setSync('error', 'Gagal upload: ' + e.message);
@@ -1497,7 +1497,7 @@
   }
 
 
-  // Tombol "Info Upload Gambar" (dulunya "Buka Folder Gambar" — File System Access
+  // Tombol "Info Upload Gambar" (dulunya "Buka Folder Gambar"  -  File System Access
   // sudah digantikan upload ke Supabase). Menampilkan panduan singkat.
   function openFolder() {
     alert('Cara kerja baru: gambar tidak lagi disimpan ke folder komputer.\n\n' +
@@ -1514,7 +1514,7 @@
   }
 
   // ══════════════════════════════════════════════════════════════
-  // SUPABASE STORAGE — upload gambar (bucket public `ichikara-web-media`)
+  // SUPABASE STORAGE  -  upload gambar (bucket public `ichikara-web-media`)
   // ══════════════════════════════════════════════════════════════
 
   // Upload gambar story → return URL publik (disimpan di field image)
@@ -1575,7 +1575,7 @@
   // Upload gambar ke Supabase Storage lalu simpan override (tanpa deploy)
   let _uploadBusy = false;
   async function pickAndWrite(targetFile) {
-    if (!sb()) { toast('Supabase tidak tersedia — upload tidak bisa dilakukan.', 'error'); return; }
+    if (!sb()) { toast('Supabase tidak tersedia  -  upload tidak bisa dilakukan.', 'error'); return; }
     if (_uploadBusy) return;
     const input = document.createElement('input');
     input.type = 'file';
@@ -1887,19 +1887,19 @@
   function seedIfEmpty() {
     if (stories.length > 0) return;
     stories = [
-      { id:'s1', category:'achievement',  date:'Juni 2026',     title:'12 Siswa Lulus JLPT N3 — Angkatan Pertama 2026',             excerpt:'Dua belas peserta program kursus reguler N3 berhasil lulus ujian JLPT resmi dengan nilai memuaskan.',                                                      image:'story-jlpt-n3-2026.jpg',         imageAlt:'Peserta kursus N3 bersama sertifikat kelulusan',   link:'#' },
-      { id:'s2', category:'client-story', date:'Mei 2026',      title:'Pendampingan Kunjungan Pabrik — Delegasi Jepang ke Karawang', excerpt:'Tim interpreter kami memfasilitasi kunjungan 3 hari delegasi eksekutif dari perusahaan otomotif Jepang ke fasilitas produksi di Karawang.',               image:'story-klien-manufaktur.jpg',      imageAlt:'Delegasi eksekutif Jepang dalam kunjungan pabrik', link:'#' },
-      { id:'s3', category:'activity',     date:'April 2026',    title:'Seminar Tokutei Ginou — "Siap Kerja di Jepang"',             excerpt:'Lebih dari 80 peserta menghadiri seminar gratis kami tentang persyaratan, proses, dan persiapan visa Tokutei Ginou ke Jepang.',                           image:'story-seminar-ssw.jpg',           imageAlt:'Peserta seminar Tokutei Ginou PT. Ichikara',       link:'#' },
+      { id:'s1', category:'achievement',  date:'Juni 2026',     title:'12 Siswa Lulus JLPT N3  -  Angkatan Pertama 2026',             excerpt:'Dua belas peserta program kursus reguler N3 berhasil lulus ujian JLPT resmi dengan nilai memuaskan.',                                                      image:'story-jlpt-n3-2026.jpg',         imageAlt:'Peserta kursus N3 bersama sertifikat kelulusan',   link:'#' },
+      { id:'s2', category:'client-story', date:'Mei 2026',      title:'Pendampingan Kunjungan Pabrik  -  Delegasi Jepang ke Karawang', excerpt:'Tim interpreter kami memfasilitasi kunjungan 3 hari delegasi eksekutif dari perusahaan otomotif Jepang ke fasilitas produksi di Karawang.',               image:'story-klien-manufaktur.jpg',      imageAlt:'Delegasi eksekutif Jepang dalam kunjungan pabrik', link:'#' },
+      { id:'s3', category:'activity',     date:'April 2026',    title:'Seminar Tokutei Ginou  -  "Siap Kerja di Jepang"',             excerpt:'Lebih dari 80 peserta menghadiri seminar gratis kami tentang persyaratan, proses, dan persiapan visa Tokutei Ginou ke Jepang.',                           image:'story-seminar-ssw.jpg',           imageAlt:'Peserta seminar Tokutei Ginou PT. Ichikara',       link:'#' },
       { id:'s4', category:'achievement',  date:'Maret 2026',    title:'3 Penerjemah Baru Tersertifikasi Tersumpah',                 excerpt:'PT. Ichikara kini memiliki 3 penerjemah tersumpah bahasa Jepang baru yang tersertifikasi resmi.',                                                          image:'story-penerjemah-tersumpah.jpg', imageAlt:'Penerjemah tersumpah menerima sertifikasi',        link:'#' },
       { id:'s5', category:'client-story', date:'Februari 2026', title:'Penerjemahan Kontrak JV Senilai Rp 50 Miliar',              excerpt:'Kami dipercaya menerjemahkan dan melegalisasi seluruh dokumen kontrak joint venture antara perusahaan Indonesia dan mitra Jepang mereka.',                  image:'story-klien-hukum.jpg',           imageAlt:'Proses legalisasi dokumen kontrak',                link:'#' },
-      { id:'s6', category:'activity',     date:'Januari 2026',  title:'Kelas Korporat Bahasa Jepang — 30 Karyawan Pabrik',         excerpt:'Program kursus in-house selama 3 bulan untuk 30 karyawan lini produksi agar dapat berkomunikasi langsung dengan supervisor dari Jepang.',                  image:'story-kelas-korporat.jpg',        imageAlt:'Kelas korporat bahasa Jepang',                     link:'#' },
+      { id:'s6', category:'activity',     date:'Januari 2026',  title:'Kelas Korporat Bahasa Jepang  -  30 Karyawan Pabrik',         excerpt:'Program kursus in-house selama 3 bulan untuk 30 karyawan lini produksi agar dapat berkomunikasi langsung dengan supervisor dari Jepang.',                  image:'story-kelas-korporat.jpg',        imageAlt:'Kelas korporat bahasa Jepang',                     link:'#' },
     ];
     persist();
   }
 
 
   // ══════════════════════════════════════════════════════════════
-  // INIT (async — load() kini fetch dari Supabase, fallback localStorage)
+  // INIT (async  -  load() kini fetch dari Supabase, fallback localStorage)
   (async function init() {
     await load();
     seedIfEmpty();

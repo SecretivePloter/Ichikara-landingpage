@@ -10,12 +10,12 @@
   <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
 
-  <!-- Fonts (loaded once — Material Symbols + Inter + Noto Serif JP) -->
+  <!-- Fonts (loaded once  -  Material Symbols + Inter + Noto Serif JP) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Serif+JP:wght@600;700;900&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet">
 
-  <!-- Tailwind CDN — config loaded from js/tailwind-config.js -->
+  <!-- Tailwind CDN  -  config loaded from js/tailwind-config.js -->
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <script src="js/tailwind-config.js"></script>
   <!-- Konten dinamis: Supabase + loader bersama (lihat js/site-data.js) -->
@@ -28,7 +28,7 @@
 
 <body class="bg-background text-on-background font-inter" data-site-root="">
 
-  <!-- ===== HEADER — injected by header-loader.js ===== -->
+  <!-- ===== HEADER  -  injected by header-loader.js ===== -->
   <div id="site-header"></div>
 
   <main>
@@ -81,7 +81,7 @@
     </section>
 
     <!-- =========================================================
-         CLIENT STRIP — 2-row auto-scrolling marquee (row 1 → left,
+         CLIENT STRIP  -  2-row auto-scrolling marquee (row 1 → left,
          row 2 → right, pauses on hover). Jumlah logo diatur dari
          admin panel (lihat applyClients() di bawah); markup di sini
          adalah tampilan bawaan untuk 8 logo.
@@ -228,7 +228,7 @@
 
     <!-- =========================================================
          KISAH SUKSES (SUCCESS STORIES PREVIEW)
-         Fully admin-controlled — foto, teks, dan cerita mana yang tampil
+         Fully admin-controlled  -  foto, teks, dan cerita mana yang tampil
          semuanya diatur dari admin/index.html (tab Beranda > Cerita
          Unggulan). TIDAK ada konten bawaan/hardcoded di sini: kalau admin
          belum memilih cerita unggulan (dan belum ada cerita sama sekali),
@@ -257,7 +257,7 @@
     </section>
 
     <!-- =========================================================
-         CTA BANNER — solid black, one bold line, minimal.
+         CTA BANNER  -  solid black, one bold line, minimal.
          ========================================================= -->
     <section class="py-xxl bg-primary relative overflow-hidden" id="kontak" aria-label="Hubungi kami">
       <div class="absolute inset-0 flex items-center justify-center pointer-events-none" aria-hidden="true">
@@ -279,7 +279,7 @@
             Hubungi via WhatsApp
           </a>
           <a class="bg-white/0 border border-white/40 text-white px-9 py-4 rounded-full font-bold flex items-center gap-3 hover:bg-white/10 transition-all"
-             href="mailto:info@ichikara.co.id">
+             href="mailto:marketing@ichikara.co.id">
             <span class="material-symbols-outlined" aria-hidden="true">mail</span>
             Kirim Email
           </a>
@@ -290,11 +290,11 @@
 
   </main>
 
-  <!-- ===== FOOTER — injected by header-loader.js ===== -->
+  <!-- ===== FOOTER  -  injected by header-loader.js ===== -->
   <div id="site-footer"></div>
 
   <!-- =========================================================
-       DYNAMIC BERANDA — Supabase `ichikara_web_content` (real-time)
+       DYNAMIC BERANDA  -  Supabase `ichikara_web_content` (real-time)
        Client strip count + Featured stories.
        Sumber utama: Supabase (diset via admin/index.html).
        Fallback: localStorage (jika offline / file dibuka langsung)
@@ -322,7 +322,7 @@
     // ── Client logo count ────────────────────────────────
     // Renders a 2-row marquee: odd-numbered logos scroll left, even-numbered
     // scroll right. Each row's track is duplicated once (aria-hidden) so the
-    // CSS animation (translateX -100%) loops seamlessly — see .marquee-* in
+    // CSS animation (translateX -100%) loops seamlessly  -  see .marquee-* in
     // css/style.css.
     function logoTile(i, decorative) {
       var src = window.IchikaraSite
@@ -358,7 +358,7 @@
     // ── Featured stories ─────────────────────────────────
     // Section "Kisah Sukses Terbaru" mulai dalam keadaan hidden (lihat
     // class="hidden" di <section id="kisah-sukses">). Ditampilkan HANYA
-    // kalau admin sudah punya minimal 1 cerita untuk ditunjukkan — tidak
+    // kalau admin sudah punya minimal 1 cerita untuk ditunjukkan  -  tidak
     // pernah menampilkan placeholder statis. Real-time: kalau admin hapus
     // semua cerita, section ini otomatis sembunyi lagi tanpa reload.
     function applyStories(allStories, featuredIds) {
@@ -434,7 +434,7 @@
   }());
   </script>
 
-  <!-- Shared header/footer loader — must be last -->
+  <!-- Shared header/footer loader  -  must be last -->
   <script src="js/header-loader.js"></script>
 
 </body>

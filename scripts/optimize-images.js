@@ -1,5 +1,5 @@
 /*
- * optimize-images.js — Kompres & resize gambar website PT. Ichikara.
+ * optimize-images.js  -  Kompres & resize gambar website PT. Ichikara.
  *
  * AMAN: tidak menghapus apapun.
  *  - Original di-copy ke _backup-images/ SEBELUM dikompres (sekali saja).
@@ -16,7 +16,7 @@ const BACKUP_DIR = path.join(ROOT, '_backup-images');
 const MARKER = path.join(BACKUP_DIR, '.optimized-mark');
 
 // Batas dimensi & kualitas per kategori (lebar max, mempertahankan rasio)
-const JPEG_Q = 74; // kualitas mozjpeg — seimbang antara ukuran & ketajaman
+const JPEG_Q = 74; // kualitas mozjpeg  -  seimbang antara ukuran & ketajaman
 const MAX_W = {
   hero: 1920,      // hero full-bleed
   normal: 1600,    // konten biasa (layanan, tentang, story)
@@ -46,7 +46,7 @@ async function main() {
     fs.writeFileSync(MARKER, new Date().toISOString());
     console.log('[backup] original disimpan ke _backup-images/');
   } else {
-    console.log('[backup] sudah pernah dibackup — dilewati.');
+    console.log('[backup] sudah pernah dibackup  -  dilewati.');
   }
 
   // 2. Kompres
@@ -78,7 +78,7 @@ async function main() {
 
   for (const f of pngs) {
     const before = fs.statSync(f).size;
-    if (before < 500) continue; // file sangat kecil (ikon flag) — biarkan
+    if (before < 500) continue; // file sangat kecil (ikon flag)  -  biarkan
     let img = sharp(f).rotate();
     const meta = await img.metadata();
     if (meta.width && meta.width > 1200) img = img.resize({ width: 1200 });
@@ -92,7 +92,7 @@ async function main() {
       const pct = ((1 - after / before) * 100).toFixed(1);
       console.log(`${path.relative(IMG_DIR, f).padEnd(34)} ${fmt(before).padStart(8)} → ${fmt(after).padStart(8)}  (-${pct}%)`);
     } catch (e) {
-      // palette gagal (mis. foto PNG) — simpan versi asli
+      // palette gagal (mis. foto PNG)  -  simpan versi asli
       try { fs.unlinkSync(f + '.tmp'); } catch (_) {}
       console.log(`${path.relative(IMG_DIR, f).padEnd(34)} dilewati (${e.message})`);
     }

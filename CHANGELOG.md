@@ -1,6 +1,6 @@
-# CHANGELOG — Website PT. Ichikara
+# CHANGELOG  -  Website PT. Ichikara
 
-Log perubahan project. Format entri: **tanggal — ringkasan perubahan — file/modul terdampak**.
+Log perubahan project. Format entri: **tanggal  -  ringkasan perubahan  -  file/modul terdampak**.
 
 > **Aturan untuk coding agent:** SETIAP kali melakukan perubahan pada project ini, WAJIB
 > menambahkan entri baru di bawah ini (di bagian paling atas, terbaru dulu) SEBELUM
@@ -8,121 +8,121 @@ Log perubahan project. Format entri: **tanggal — ringkasan perubahan — file/
 
 ---
 
-## 2026-09-09 — jasa-interpreter.html: diagram Metode Interpretasi jadi admin-uploadable
+## 2026-09-09  -  jasa-interpreter.html: diagram Metode Interpretasi jadi admin-uploadable
 - **Konteks**: halaman ini disebut user sebagai sumber revenue utama, minta kualitas visual ditingkatkan pakai ilustrasi yang lebih polished (referensi diberikan langsung di chat).
-- 2 diagram SVG buatan sendiri (Konsekutif/Simultan, dibuat sesi sebelumnya) diganti jadi `<img>` biasa yang mengarah ke `images/metode-konsekutif.jpg` dan `images/metode-simultan.jpg` — supaya bisa diganti kapan saja lewat admin panel tanpa perlu ubah kode/deploy.
+- 2 diagram SVG buatan sendiri (Konsekutif/Simultan, dibuat sesi sebelumnya) diganti jadi `<img>` biasa yang mengarah ke `images/metode-konsekutif.jpg` dan `images/metode-simultan.jpg`  -  supaya bisa diganti kapan saja lewat admin panel tanpa perlu ubah kode/deploy.
 - Placeholder sementara (gradient + watermark kanji 通, pola sama seperti placeholder lain di situs) di-generate via `scripts/gen-hero-placeholders.js`. **User perlu upload ilustrasi asli** lewat Admin → Gambar Website → Jasa Interpreter (2 slot baru terdaftar di `admin/index.html`).
 - Terdampak: `jasa-interpreter.html`, `admin/index.html`, `scripts/gen-hero-placeholders.js`, `images/metode-konsekutif.jpg` + `images/metode-simultan.jpg` (baru).
 
-## 2026-09-08 — Halaman baru: Rental Mobil
-- **Halaman baru** `rental-mobil.html` (root-level, sejajar `kursus-bahasa.html`/`tokutei-ginou.html`) — data harga asli dari company profile PT. Ichikara: 2 unit (Toyota Avanza, Toyota Innova) × 3 periode sewa (harian 12 jam / bulanan / tahunan, tarif tahunan lebih hemat per bulan).
-- Foto armada masih **placeholder** (gradient + watermark kanji 車, pola sama seperti halaman layanan lain) — admin bisa upload foto unit asli lewat admin panel, tab "Gambar Website" > "Rental Mobil" (3 slot baru: hero, foto Avanza, foto Innova).
+## 2026-09-08  -  Halaman baru: Rental Mobil
+- **Halaman baru** `rental-mobil.html` (root-level, sejajar `kursus-bahasa.html`/`tokutei-ginou.html`)  -  data harga asli dari company profile PT. Ichikara: 2 unit (Toyota Avanza, Toyota Innova) × 3 periode sewa (harian 12 jam / bulanan / tahunan, tarif tahunan lebih hemat per bulan).
+- Foto armada masih **placeholder** (gradient + watermark kanji 車, pola sama seperti halaman layanan lain)  -  admin bisa upload foto unit asli lewat admin panel, tab "Gambar Website" > "Rental Mobil" (3 slot baru: hero, foto Avanza, foto Innova).
 - **Navigasi diperbarui**: ditambahkan ke dropdown Layanan (desktop + mobile) dan kolom Layanan di footer (`js/header-loader.js`), plus entri `navMap` supaya nav ter-highlight saat aktif di halaman ini.
 - `sitemap.xml` dan `scripts/gen-hero-placeholders.js` diperbarui untuk mencakup halaman/aset baru.
 - Terdampak: `rental-mobil.html` (baru), `js/header-loader.js`, `admin/index.html`, `sitemap.xml`, `scripts/gen-hero-placeholders.js`, `images/hero-rental-mobil.jpg` + `images/armada-avanza.jpg` + `images/armada-innova.jpg` (baru).
 
-## 2026-09-08 — Logo diperbesar & rapat, favicon ditambahkan
+## 2026-09-08  -  Logo diperbesar & rapat, favicon ditambahkan
 - **Logo diperketat** (`images/logo.png`): margin transparan berlebih di-trim (1200×591 → 1143×591) via `scripts/gen-logo-favicon.js`. Original dibackup ke `_backup-images/logo-original.png`.
 - **Ukuran tampil logo diperbesar**: header `h-10`→`h-14` (40px→56px), footer `h-8`→`h-10` (32px→40px), di `js/header-loader.js`.
-- **Favicon ditambahkan** (belum ada sama sekali sebelumnya): `favicon-16.png`, `favicon-32.png`, `apple-touch-icon.png` (180×180), `favicon-512.png` — di-crop otomatis dari ikon oval merah-biru logo (wordmark dibuang karena tidak terbaca di ukuran kecil), dipasang lewat `<link rel="icon">`/`<link rel="apple-touch-icon">` di `<head>` seluruh 11 halaman.
+- **Favicon ditambahkan** (belum ada sama sekali sebelumnya): `favicon-16.png`, `favicon-32.png`, `apple-touch-icon.png` (180×180), `favicon-512.png`  -  di-crop otomatis dari ikon oval merah-biru logo (wordmark dibuang karena tidak terbaca di ukuran kecil), dipasang lewat `<link rel="icon">`/`<link rel="apple-touch-icon">` di `<head>` seluruh 11 halaman.
 - Terdampak: `images/logo.png`, `images/favicon-*.png` (baru), `images/apple-touch-icon.png` (baru), `js/header-loader.js`, `scripts/gen-logo-favicon.js` (baru), seluruh 11 file HTML halaman publik.
 
-## 2026-09-08 — Pra-deploy domain utama: fix audit SEO/UX + data asli dari company profile
-- **Kode mati dihapus** (`beranda.html`): blok `<script>` `services`/`switchTab()`/`servicePages` (~75 baris) yang menghasilkan href salah (`penerjemahan.html` dll → 404) TIDAK PERNAH dipanggil dari HTML manapun — sudah digantikan grid statis "Layanan Unggulan Kami" yang linknya sudah benar sejak awal. Dihapus daripada ditambal karena memang tidak terpakai. **Koreksi atas audit sebelumnya:** temuan "Critical — 12 link 404 di beranda" ternyata bug di kode mati, TIDAK pernah dialami pengunjung nyata — severity sebenarnya jauh lebih rendah dari yang dilaporkan.
-- **Tombol bahasa "ID/JP" dihapus** dari `js/header-loader.js` (desktop & mobile) + CSS terkait (`.hdr-lang*`) di `css/style.css` — sebelumnya tidak ada `onclick`/listener sama sekali, murni dekoratif dan berisiko menyesatkan klien Jepang.
-- **Alamat & telepon footer diperbaiki** (`js/header-loader.js`) — sebelumnya cuma "Jakarta, Indonesia" (tidak akurat), diganti alamat resmi dari company profile: "Komplek Ruko Melawai Blok A No.31, Lembah Hijau – Lippo Cikarang, Bekasi, Jawa Barat 17550". Ditambahkan juga nomor kantor 021-8990 6912 (`tel:` link).
+## 2026-09-08  -  Pra-deploy domain utama: fix audit SEO/UX + data asli dari company profile
+- **Kode mati dihapus** (`beranda.html`): blok `<script>` `services`/`switchTab()`/`servicePages` (~75 baris) yang menghasilkan href salah (`penerjemahan.html` dll → 404) TIDAK PERNAH dipanggil dari HTML manapun  -  sudah digantikan grid statis "Layanan Unggulan Kami" yang linknya sudah benar sejak awal. Dihapus daripada ditambal karena memang tidak terpakai. **Koreksi atas audit sebelumnya:** temuan "Critical  -  12 link 404 di beranda" ternyata bug di kode mati, TIDAK pernah dialami pengunjung nyata  -  severity sebenarnya jauh lebih rendah dari yang dilaporkan.
+- **Tombol bahasa "ID/JP" dihapus** dari `js/header-loader.js` (desktop & mobile) + CSS terkait (`.hdr-lang*`) di `css/style.css`  -  sebelumnya tidak ada `onclick`/listener sama sekali, murni dekoratif dan berisiko menyesatkan klien Jepang.
+- **Alamat & telepon footer diperbaiki** (`js/header-loader.js`)  -  sebelumnya cuma "Jakarta, Indonesia" (tidak akurat), diganti alamat resmi dari company profile: "Komplek Ruko Melawai Blok A No.31, Lembah Hijau – Lippo Cikarang, Bekasi, Jawa Barat 17550". Ditambahkan juga nomor kantor 021-8990 6912 (`tel:` link).
 - **sitemap.xml dibuat** (11 halaman), membuat referensi `Sitemap:` di `robots.txt` valid (sebelumnya 404).
 - **Canonical tag ditambahkan** ke `<head>` semua 11 halaman (sebelumnya tidak ada sama sekali di situs).
-- **Klaim N1 yang tidak sesuai kapasitas jual diperbaiki**: teks "N5 hingga N1" (beranda kartu Kursus, tab mati yang sudah dihapus) dan badge "Diakui industri"/"Expert level" pada kartu N2/N1 di `kursus-bahasa.html` diganti "Kelas privat — hubungi kami" — semua paket harga yang benar-benar dijual (Reguler/Perusahaan/Intensif) berhenti di N3, N1/N2 hanya tersedia lewat kelas privat custom.
-- **`jasa-interpreter.html` disusun ulang pakai data asli dari company profile PT. Ichikara (PDF resmi)**: ditambahkan tabel "Biaya Interpreter" (4 tarif harian Rp1,4–4,5 juta/8 jam + biaya transportasi Rp100rb + paket reguler bulanan Rp18 juta), section "Jenis Layanan" diganti kategori asli (Reguler/Project/Event), 4 statistik karangan ("98% Tingkat Retensi Pesan", "200+ Sesi Berhasil", dst — tidak ada sumbernya) dihapus dan diganti daftar "Pencapaian Jasa Interpreter" berisi 13 klien nyata (Toyota, Nissan, OMRON, Aisin, Advics, dll). 2 kartu "Metode Interpretasi" (Konsekutif/Simultan) diberi diagram SVG orisinal (bukan hasil scan) terinspirasi tata letak ilustrasi company profile. Slot upload foto `interpretasi-consecutive.jpg`/`interpretasi-simultaneous.jpg` yang sudah tidak dipakai dihapus dari `admin/index.html`.
-- **Dicatat, TIDAK diubah:** nomor WhatsApp di company profile (0813-1821-6260, "Arief san") berbeda dari nomor yang sudah live di situs (6281318216260). Tidak diganti sepihak — company profile ini dari 2020, nomor bisa saja sudah berubah. Perlu konfirmasi user nomor mana yang aktif sebelum ada perubahan.
+- **Klaim N1 yang tidak sesuai kapasitas jual diperbaiki**: teks "N5 hingga N1" (beranda kartu Kursus, tab mati yang sudah dihapus) dan badge "Diakui industri"/"Expert level" pada kartu N2/N1 di `kursus-bahasa.html` diganti "Kelas privat  -  hubungi kami"  -  semua paket harga yang benar-benar dijual (Reguler/Perusahaan/Intensif) berhenti di N3, N1/N2 hanya tersedia lewat kelas privat custom.
+- **`jasa-interpreter.html` disusun ulang pakai data asli dari company profile PT. Ichikara (PDF resmi)**: ditambahkan tabel "Biaya Interpreter" (4 tarif harian Rp1,4–4,5 juta/8 jam + biaya transportasi Rp100rb + paket reguler bulanan Rp18 juta), section "Jenis Layanan" diganti kategori asli (Reguler/Project/Event), 4 statistik karangan ("98% Tingkat Retensi Pesan", "200+ Sesi Berhasil", dst  -  tidak ada sumbernya) dihapus dan diganti daftar "Pencapaian Jasa Interpreter" berisi 13 klien nyata (Toyota, Nissan, OMRON, Aisin, Advics, dll). 2 kartu "Metode Interpretasi" (Konsekutif/Simultan) diberi diagram SVG orisinal (bukan hasil scan) terinspirasi tata letak ilustrasi company profile. Slot upload foto `interpretasi-consecutive.jpg`/`interpretasi-simultaneous.jpg` yang sudah tidak dipakai dihapus dari `admin/index.html`.
+- **Dicatat, TIDAK diubah:** nomor WhatsApp di company profile (0813-1821-6260, "Arief san") berbeda dari nomor yang sudah live di situs (6281318216260). Tidak diganti sepihak  -  company profile ini dari 2020, nomor bisa saja sudah berubah. Perlu konfirmasi user nomor mana yang aktif sebelum ada perubahan.
 - Terdampak: `beranda.html`, `jasa-interpreter.html`, `kursus-bahasa.html`, `js/header-loader.js`, `css/style.css`, `admin/index.html`, `PROJECT_OVERVIEW.md`, `sitemap.xml` (baru).
 
-## 2026-09-07 — Fix: kartu "Layanan" di beranda terlihat kosong/rusak
-- **Laporan user:** setelah 4 placeholder foto layanan diganti gradient polos (lihat entri di bawah), kartu terlihat seperti gambar gagal tampil — dicek langsung ke production (`curl` + baca file JPG-nya), file-nya 200 OK dan valid, cuma warna solid tanpa elemen visual apa pun jadi tidak terbaca sebagai "gambar" oleh pengunjung.
-- **Fix:** `scripts/gen-hero-placeholders.js` diperbarui — tiap kartu sekarang punya watermark kanji besar (opacity 0.28) senada dengan kanji yang sudah dipakai di hero halaman terkait (訳=jasa-penerjemah, 通=jasa-interpreter, 学=kursus-bahasa, 働=tokutei-ginou), supaya jelas terlihat disengaja sambil menunggu admin upload foto asli lewat admin panel (slot sudah ada di tab "Gambar Website" > Beranda).
+## 2026-09-07  -  Fix: kartu "Layanan" di beranda terlihat kosong/rusak
+- **Laporan user:** setelah 4 placeholder foto layanan diganti gradient polos (lihat entri di bawah), kartu terlihat seperti gambar gagal tampil  -  dicek langsung ke production (`curl` + baca file JPG-nya), file-nya 200 OK dan valid, cuma warna solid tanpa elemen visual apa pun jadi tidak terbaca sebagai "gambar" oleh pengunjung.
+- **Fix:** `scripts/gen-hero-placeholders.js` diperbarui  -  tiap kartu sekarang punya watermark kanji besar (opacity 0.28) senada dengan kanji yang sudah dipakai di hero halaman terkait (訳=jasa-penerjemah, 通=jasa-interpreter, 学=kursus-bahasa, 働=tokutei-ginou), supaya jelas terlihat disengaja sambil menunggu admin upload foto asli lewat admin panel (slot sudah ada di tab "Gambar Website" > Beranda).
 - Terdampak: `images/layanan-*.jpg` (4 file), `scripts/gen-hero-placeholders.js`.
 
-## 2026-09-07 — Cek & perbaikan tampilan mobile sebelum deploy
-- Ditemukan 4 gambar lagi dengan pola sama seperti hero placeholder sebelumnya: `images/layanan-penerjemahan.jpg`, `layanan-interpreter.jpg`, `layanan-kursus.jpg`, `layanan-tokutei.jpg` (dipakai di 4 kartu "Layanan Kami" beranda.html) ternyata baked-in teks judul (bahkan ada typo "Translater") yang duplikat dengan `<h3>` di bawahnya — makin terlihat jelek/terpotong di layar mobile sempit.
+## 2026-09-07  -  Cek & perbaikan tampilan mobile sebelum deploy
+- Ditemukan 4 gambar lagi dengan pola sama seperti hero placeholder sebelumnya: `images/layanan-penerjemahan.jpg`, `layanan-interpreter.jpg`, `layanan-kursus.jpg`, `layanan-tokutei.jpg` (dipakai di 4 kartu "Layanan Kami" beranda.html) ternyata baked-in teks judul (bahkan ada typo "Translater") yang duplikat dengan `<h3>` di bawahnya  -  makin terlihat jelek/terpotong di layar mobile sempit.
 - Diganti gradient brand bersih (ink/merah/emas, tanpa teks) via `scripts/gen-hero-placeholders.js` (diperluas untuk menangani kedua kategori: hero 2:1 dan kartu layanan 16:10).
-- Verifikasi mobile (375px, resize_window preset mobile) untuk: beranda.html (marquee logo + kartu layanan), kursus-bahasa.html (semua tabel harga — scroll horizontal per-tabel via `overflow-x-auto`, tidak ada overflow di level halaman), tentang-kami.html (grid Visi & Misi). Semua `document.body.scrollWidth` = `window.innerWidth` (tidak ada horizontal scroll bocor ke halaman).
+- Verifikasi mobile (375px, resize_window preset mobile) untuk: beranda.html (marquee logo + kartu layanan), kursus-bahasa.html (semua tabel harga  -  scroll horizontal per-tabel via `overflow-x-auto`, tidak ada overflow di level halaman), tentang-kami.html (grid Visi & Misi). Semua `document.body.scrollWidth` = `window.innerWidth` (tidak ada horizontal scroll bocor ke halaman).
 - Terdampak: `images/layanan-*.jpg` (4 file), `scripts/gen-hero-placeholders.js`.
 
-## 2026-09-07 — Tim Pengajar kini fully admin-controlled + isi Tentang Kami ditulis ulang dari brosur
-- **Tab admin baru "Pengajar":** section Supabase baru `teachers` (`js/site-data.js`, `admin/index.html`). Admin sekarang bisa tambah/edit/hapus pengajar (nama, spesialisasi, foto — upload ke Supabase Storage bucket `ichikara-web-media/teachers/`), persis pola CRUD "Kisah Sukses" yang sudah ada. TIDAK ada seed data bawaan.
-- `kursus-bahasa.html`: 5 kartu "Sensei" hardcoded (nama karangan: Aiko/Hiro/Yuki/Kenji/Riko) dihapus, diganti render dinamis dari Supabase (`applyTeachers()`). Section `#pengajar` mulai `hidden` dan hanya muncul kalau admin sudah menambahkan minimal 1 pengajar — sama seperti pola `#kisah-sukses` di beranda.
+## 2026-09-07  -  Tim Pengajar kini fully admin-controlled + isi Tentang Kami ditulis ulang dari brosur
+- **Tab admin baru "Pengajar":** section Supabase baru `teachers` (`js/site-data.js`, `admin/index.html`). Admin sekarang bisa tambah/edit/hapus pengajar (nama, spesialisasi, foto  -  upload ke Supabase Storage bucket `ichikara-web-media/teachers/`), persis pola CRUD "Kisah Sukses" yang sudah ada. TIDAK ada seed data bawaan.
+- `kursus-bahasa.html`: 5 kartu "Sensei" hardcoded (nama karangan: Aiko/Hiro/Yuki/Kenji/Riko) dihapus, diganti render dinamis dari Supabase (`applyTeachers()`). Section `#pengajar` mulai `hidden` dan hanya muncul kalau admin sudah menambahkan minimal 1 pengajar  -  sama seperti pola `#kisah-sukses` di beranda.
 - Slot upload lama `guru-1.jpg`...`guru-5.jpg` dihapus dari manifest `admin/index.html` (foto pengajar sekarang dikelola per-orang di tab Pengajar, bukan slot file tetap).
-- **Tentang Kami** (`tentang-kami.html`): paragraf "Kisah PT. Ichikara" yang sebelumnya berisi klaim tak terverifikasi ("berdiri lebih dari satu dekade") dan cerita arti nama perusahaan yang dikarang ("一花 berarti satu bunga...") diganti deskripsi berbasis fakta brosur (bidang penerjemahan, pendidikan bahasa Jepang, program pra-pemagangan ke Jepang kerja sama pemerintah), ditulis naratif — bukan copy-paste brosur. Ditambahkan section baru **Visi & Misi** (1 pernyataan visi + 4 kartu misi) dari brosur, dengan penulisan ulang yang lebih menarik.
+- **Tentang Kami** (`tentang-kami.html`): paragraf "Kisah PT. Ichikara" yang sebelumnya berisi klaim tak terverifikasi ("berdiri lebih dari satu dekade") dan cerita arti nama perusahaan yang dikarang ("一花 berarti satu bunga...") diganti deskripsi berbasis fakta brosur (bidang penerjemahan, pendidikan bahasa Jepang, program pra-pemagangan ke Jepang kerja sama pemerintah), ditulis naratif  -  bukan copy-paste brosur. Ditambahkan section baru **Visi & Misi** (1 pernyataan visi + 4 kartu misi) dari brosur, dengan penulisan ulang yang lebih menarik.
 - `PROJECT_OVERVIEW.md` diperbarui: kontrak data section `teachers` + baris modul admin.
 - Terdampak: `js/site-data.js`, `admin/index.html`, `kursus-bahasa.html`, `tentang-kami.html`, `PROJECT_OVERVIEW.md`.
 
-## 2026-09-07 — Konten Kursus Bahasa Jepang diganti data asli dari brosur
-- **Sebelumnya:** `kursus-bahasa.html` isinya 100% fiktif — kartu "Program JLPT" generik, 3 kartu "Jenis Kelas" tanpa harga, dan tabel jadwal reguler karangan (hari/jam/status "Tersedia"/"Hampir Penuh" tidak nyata).
+## 2026-09-07  -  Konten Kursus Bahasa Jepang diganti data asli dari brosur
+- **Sebelumnya:** `kursus-bahasa.html` isinya 100% fiktif  -  kartu "Program JLPT" generik, 3 kartu "Jenis Kelas" tanpa harga, dan tabel jadwal reguler karangan (hari/jam/status "Tersedia"/"Hampir Penuh" tidak nyata).
 - **Diganti dengan data brosur asli:** deskripsi "Program Bimbel" + 4 poin "Kelebihan Metode Bimbel"; tabel "Level of Learning" (Level 1–12 → Bab); "Courses Fee" (Registration/Guidebook/Deposit + tabel biaya per level JLPT N5–N3); tabel "Kelas Kecil" (Private/Semi Private/Grup Kecil + biaya buku); tabel "Kelas Reguler" 6–7 orang (Reguler 1–4, Minna no Nihongo 1); dua tabel "Kelas Perusahaan" 8–10 orang (jalur Reguler s.d N5 termasuk Paket Kelas N5 hemat + biaya transportasi per area, dan jalur Intensif Beginner1/Beginner2/Intermediate dengan rincian kosakata/kanji/jam belajar); section baru "Pencapaian Kursus Bahasa" (14 program in-house/expatriat nyata untuk Toyota, Showa, OMRON, Kyoraku, Sumco, Sugity, YKK Zipco, DMC Technology, Trimitra Indrahasta, Gonze, Aisan Nasmoco, Shiroki).
-- Section "Alur Pembelajaran" (7 tahap) dan "Tim Pengajar" (5 foto) TIDAK diubah — brosur tidak memuat data ini, jadi dibiarkan seperti semula (di luar scope permintaan).
+- Section "Alur Pembelajaran" (7 tahap) dan "Tim Pengajar" (5 foto) TIDAK diubah  -  brosur tidak memuat data ini, jadi dibiarkan seperti semula (di luar scope permintaan).
 - Meta description & subjudul hero disesuaikan agar mencerminkan penawaran nyata (privat/semi privat/grup/reguler/perusahaan, N5–N3) alih-alih klaim generik "N5 hingga N1".
 - Terdampak: `kursus-bahasa.html`.
 
-## 2026-09-07 — Mini story "Kisah Sukses Terbaru" di beranda kini murni admin-controlled
-- **Masalah:** `#kisah-sukses` di `beranda.html` punya 3 kartu cerita HARDCODED di HTML statis (judul/foto fiktif — `images/story-otomotif.jpg`, `story-negosiasi.jpg`, `story-aichi.jpg` — yang tidak pernah ada di folder `images/`, jadi tampil sebagai gambar patah). Kartu ini tidak terhubung ke sistem admin sama sekali, jadi tetap muncul terus walau admin belum mengatur apa-apa.
-- **Fix:** 3 kartu statis dihapus dari `beranda.html`; `<section id="kisah-sukses">` sekarang mulai dengan class `hidden` dan HANYA dimunculkan oleh `applyStories()` kalau memang ada cerita untuk ditampilkan (dari `featuredIds` admin, atau fallback 3 cerita terbaru). Kalau admin belum punya cerita sama sekali, section otomatis tetap tersembunyi — tidak lagi menampilkan apa pun.
-- Slot upload usang `story-otomotif.jpg` / `story-negosiasi.jpg` / `story-aichi.jpg` dihapus dari manifest `admin/index.html` (tidak relevan lagi — foto+teks+pemilihan cerita sekarang 100% lewat tab Cerita di admin, sudah mendukung upload foto, rich-text excerpt, dan toggle "featured" per cerita).
+## 2026-09-07  -  Mini story "Kisah Sukses Terbaru" di beranda kini murni admin-controlled
+- **Masalah:** `#kisah-sukses` di `beranda.html` punya 3 kartu cerita HARDCODED di HTML statis (judul/foto fiktif  -  `images/story-otomotif.jpg`, `story-negosiasi.jpg`, `story-aichi.jpg`  -  yang tidak pernah ada di folder `images/`, jadi tampil sebagai gambar patah). Kartu ini tidak terhubung ke sistem admin sama sekali, jadi tetap muncul terus walau admin belum mengatur apa-apa.
+- **Fix:** 3 kartu statis dihapus dari `beranda.html`; `<section id="kisah-sukses">` sekarang mulai dengan class `hidden` dan HANYA dimunculkan oleh `applyStories()` kalau memang ada cerita untuk ditampilkan (dari `featuredIds` admin, atau fallback 3 cerita terbaru). Kalau admin belum punya cerita sama sekali, section otomatis tetap tersembunyi  -  tidak lagi menampilkan apa pun.
+- Slot upload usang `story-otomotif.jpg` / `story-negosiasi.jpg` / `story-aichi.jpg` dihapus dari manifest `admin/index.html` (tidak relevan lagi  -  foto+teks+pemilihan cerita sekarang 100% lewat tab Cerita di admin, sudah mendukung upload foto, rich-text excerpt, dan toggle "featured" per cerita).
 - Terdampak: `beranda.html`, `admin/index.html`.
 
-## 2026-09-07 — Sederhanakan menu, logo klien jadi marquee 2 baris, banner foto untuk sub-halaman penerjemah
-- **Menu Layanan disederhanakan:** dropdown desktop & mobile di `js/header-loader.js` sebelumnya berisi 5 link penerjemahan (Jasa Penerjemah, Dokumen, E-Learning, Video, Website) — kini hanya "Jasa Penerjemah" (4 sub-halaman tetap bisa diakses lewat kartu di `jasa-penerjemah.html`, tidak dihapus).
+## 2026-09-07  -  Sederhanakan menu, logo klien jadi marquee 2 baris, banner foto untuk sub-halaman penerjemah
+- **Menu Layanan disederhanakan:** dropdown desktop & mobile di `js/header-loader.js` sebelumnya berisi 5 link penerjemahan (Jasa Penerjemah, Dokumen, E-Learning, Video, Website)  -  kini hanya "Jasa Penerjemah" (4 sub-halaman tetap bisa diakses lewat kartu di `jasa-penerjemah.html`, tidak dihapus).
 - **Logo klien di beranda** (`#klien` di `beranda.html`): dari strip statis 56px jadi marquee 2 baris (baris atas geser kiri, baris bawah geser kanan, auto-loop, pause saat hover, edge-fade mask). Ukuran logo naik ke `h-20` (80px). CSS baru: bagian "11. Client logo marquee" di `css/style.css`. Fungsi `applyClients()` di `beranda.html` ditulis ulang agar tetap generate markup marquee dari jumlah slot admin (Supabase), bukan cuma strip datar.
-- **Catatan asset:** `images/clients/client-1.png` s/d `client-8.png` ternyata bukan logo transparan per-klien, tapi crop kolase (beberapa logo + caption per file, background putih solid) — jadi nyaris tak kelihatan di section putih. Bukan bug marquee; perlu diganti via admin (`admin/index.html` tab Logo Klien) dengan PNG transparan per logo.
-- **Banner/hero halaman:** `hero-interpreter.jpg`, `hero-kursus.jpg`, `hero-tokutei.jpg`, `hero-penerjemah.jpg` sebelumnya adalah foto stok dengan teks judul ter-bake (mis. "Interpreter (Penerjemah Lisan)") yang tumpang tindih dengan `<h1>` halaman — diganti gradient ink polos (skrip sekali-jalan `scripts/gen-hero-placeholders.js`, pakai `sharp`) supaya jadi placeholder netral sampai admin upload foto asli.
-- **4 sub-halaman `jasa-penerjemah/*.html`** (dokumen/e-learning/video/website-translation) sebelumnya TIDAK punya foto hero sama sekali (cuma watermark kanji di atas `bg-primary`) — ditambahkan `<img>` + overlay gradient + placeholder baru (`hero-dokumen.jpg`, `hero-elearning.jpg`, `hero-video.jpg`, `hero-website.jpg`), dan didaftarkan sebagai slot upload baru di `admin/index.html` (section `penerjemah`).
+- **Catatan asset:** `images/clients/client-1.png` s/d `client-8.png` ternyata bukan logo transparan per-klien, tapi crop kolase (beberapa logo + caption per file, background putih solid)  -  jadi nyaris tak kelihatan di section putih. Bukan bug marquee; perlu diganti via admin (`admin/index.html` tab Logo Klien) dengan PNG transparan per logo.
+- **Banner/hero halaman:** `hero-interpreter.jpg`, `hero-kursus.jpg`, `hero-tokutei.jpg`, `hero-penerjemah.jpg` sebelumnya adalah foto stok dengan teks judul ter-bake (mis. "Interpreter (Penerjemah Lisan)") yang tumpang tindih dengan `<h1>` halaman  -  diganti gradient ink polos (skrip sekali-jalan `scripts/gen-hero-placeholders.js`, pakai `sharp`) supaya jadi placeholder netral sampai admin upload foto asli.
+- **4 sub-halaman `jasa-penerjemah/*.html`** (dokumen/e-learning/video/website-translation) sebelumnya TIDAK punya foto hero sama sekali (cuma watermark kanji di atas `bg-primary`)  -  ditambahkan `<img>` + overlay gradient + placeholder baru (`hero-dokumen.jpg`, `hero-elearning.jpg`, `hero-video.jpg`, `hero-website.jpg`), dan didaftarkan sebagai slot upload baru di `admin/index.html` (section `penerjemah`).
 - Terdampak: `js/header-loader.js`, `beranda.html`, `css/style.css`, `jasa-penerjemah/dokumen-translation.html`, `jasa-penerjemah/e-learning.html`, `jasa-penerjemah/video-translation.html`, `jasa-penerjemah/website-translation.html`, `admin/index.html`, `images/hero-*.jpg` (8 file), `scripts/gen-hero-placeholders.js` (baru).
 
-## 2026-08-29 — Deploy ke Vercel Production
+## 2026-08-29  -  Deploy ke Vercel Production
 - Deploy via `npx vercel --prod` (project `kode`, org `secretiveploters-projects`).
 - URL production: **https://kode-vert.vercel.app** (Ready dalam 8s; presentasi langsung oleh vercel.json).
 - Cek hasil: semua halaman 200 (beranda, success-story, 12 halaman layanan), `js/site-data.js` & `js/header-loader.js` 200, `images/hero-beranda.jpg` 212KB & `pamflet-ssw.jpg` 299KB (kompresi live), WhatsApp `wa.me/6281318216260` sudah muncul di HTML production.
-- Catatan: `jasa-penerjemah/index.html` tidak ada (folder hanya berisi sub-halaman) — navigasi tidak mengacu ke sana, bukan bug.
-- Terdampak: seluruh website (deploy) — tanpa perubahan kode tambahan.
+- Catatan: `jasa-penerjemah/index.html` tidak ada (folder hanya berisi sub-halaman)  -  navigasi tidak mengacu ke sana, bukan bug.
+- Terdampak: seluruh website (deploy)  -  tanpa perubahan kode tambahan.
 - Nomor resmi: **+62 882-9146-9464** → `https://wa.me/6281318216260`.
 - Diganti di 27 kemunculan / 12 file: 7 halaman root (beranda, jasa-penerjemah, jasa-interpreter, kursus-bahasa, success-story, tentang-kami, tokutei-ginou), 4 subhalaman `jasa-penerjemah/*`, dan `js/header-loader.js` (CTA header + footer).
 - Terdampak: semua halaman + `js/header-loader.js`. Tidak ada perubahan di folder referensi lama.
-- Catatan: komentar TODO di HTML tidak diubah — tidak memengaruhi runtime.
+- Catatan: komentar TODO di HTML tidak diubah  -  tidak memengaruhi runtime.
 
-## 2026-08-29 — Optimasi performa: lazy-loading gambar non-hero
+## 2026-08-29  -  Optimasi performa: lazy-loading gambar non-hero
 - Ditambahkan `loading="lazy"` ke semua `<img>` non-hero di 7 halaman root (beranda, success-story, jasa-penerjemah, jasa-interpreter, kursus-bahasa, tokutei-ginou, tentang-kami).
 - Hero (`hero-*`, `kantor-ichikara`, `cta-tokutei`) dan logo sengaja TIDAK di-lazy (LCP/Critical image).
 - Terdampak: 7 halaman root + `scripts/add-lazy-loading.py` (tool sekali-jalan).
-- Total: 37 gambar non-hero kini lazy-load — penghematan bandwidth awal halaman cukup signifikan setelah kompresi.
+- Total: 37 gambar non-hero kini lazy-load  -  penghematan bandwidth awal halaman cukup signifikan setelah kompresi.
 
-## 2026-08-29 — Optimasi performa: kompresi & resize seluruh gambar
+## 2026-08-29  -  Optimasi performa: kompresi & resize seluruh gambar
 - Ditambahkan `scripts/optimize-images.js` (Node + sharp) + `package.json` (devDep `sharp`).
 - Semua gambar di `images/` dikompres: total 11.05 MB hemat (`images/` ±12 MB → kini ±1.4 MB).
   Contoh: `hero-beranda.jpg` 2.22 MB → 212 KB; `pamflet-ssw.jpg` 2.34 MB → 299 KB; `guru-1.jpg` 1.25 MB → 34 KB; `logo.png` 340 KB → 64 KB.
 - Original gambar di-backup ke `_backup-images/` (tidak dihapus). `flag-id.png` di-restore dari backup (kompresi malah membesarkan).
 - Ditambahkan `.vercelignore` (jangan upload `_backup-images`, `node_modules`, `scripts`) & update `.gitignore`.
 - Terdampak: semua file `images/**`, `scripts/optimize-images.js`, `package.json`, `.vercelignore`, `.gitignore`.
-- Catatan: kompresi `flag-id.png` dibatalkan karena fail — file ikon masih asli/512 B.
+- Catatan: kompresi `flag-id.png` dibatalkan karena fail  -  file ikon masih asli/512 B.
 
-## 2026-08-28 — Migrasi konten dinamis dari localStorage ke Supabase (real-time)
+## 2026-08-28  -  Migrasi konten dinamis dari localStorage ke Supabase (real-time)
 - **Fitur utama:** data website (stories, jumlah logo klien, featured beranda) kini disimpan di tabel Supabase `ichikara_web_content` dan gambar di bucket Storage `ichikara-web-media`. Perubahan di admin langsung tampil di semua halaman publik secara real-time (Supabase Realtime), tanpa deploy.
-- **File baru:** `js/site-data.js` — modul bersama halaman publik (`window.IchikaraSite`: `loadContent`, `onContent` real-time, `imgSrc`, `applyMediaOverrides`).
+- **File baru:** `js/site-data.js`  -  modul bersama halaman publik (`window.IchikaraSite`: `loadContent`, `onContent` real-time, `imgSrc`, `applyMediaOverrides`).
 - **Terdampak:**
-  - `admin/index.html` — `load()`/`persist()` kini fetch/upsert Supabase (fallback localStorage bila offline); form foto story = file picker → upload Storage (auto-fill URL); tab "Gambar Website" & "Logo Klien" = upload ke Supabase via override `media` + tombol Reset (menggantikan File System Access API yang hanya bisa menulis folder lokal); indikator status sinkron di top bar; tombol **Migrate** (sekali jalan) untuk memindah data localStorage lama ke Supabase; backup/import JSON & Export HTML tetap ada sebagai cadangan.
-  - `beranda.html`, `success-story.html`, + 9 halaman publik lain — muat Supabase UMD + `site-data.js` di `<head>`; renderer cerita & client strip pindah ke `onContent()` dengan fallback localStorage/statis.
-  - `js/header-loader.js` — tambahan `applyMediaOverrides()` via `onContent()`: SEMUA `<img>` di SEMUA halaman mengikuti gambar yang diupload admin (hero, logo, thumbnail) tanpa deploy.
-- **Catatan keamanan:** sesuai §6.1 PROJECT_OVERVIEW — hanya objek baru ber-prefix `ichikara_web_`/`ichikara-web-`; tidak ada satu pun perubahan pada data/tabel sistem absensi di project Supabase yang sama. Tabel & RLS dibuat oleh owner (SQL), kode hanya SELECT (publik) + upsert (admin terautentikasi).
+  - `admin/index.html`  -  `load()`/`persist()` kini fetch/upsert Supabase (fallback localStorage bila offline); form foto story = file picker → upload Storage (auto-fill URL); tab "Gambar Website" & "Logo Klien" = upload ke Supabase via override `media` + tombol Reset (menggantikan File System Access API yang hanya bisa menulis folder lokal); indikator status sinkron di top bar; tombol **Migrate** (sekali jalan) untuk memindah data localStorage lama ke Supabase; backup/import JSON & Export HTML tetap ada sebagai cadangan.
+  - `beranda.html`, `success-story.html`, + 9 halaman publik lain  -  muat Supabase UMD + `site-data.js` di `<head>`; renderer cerita & client strip pindah ke `onContent()` dengan fallback localStorage/statis.
+  - `js/header-loader.js`  -  tambahan `applyMediaOverrides()` via `onContent()`: SEMUA `<img>` di SEMUA halaman mengikuti gambar yang diupload admin (hero, logo, thumbnail) tanpa deploy.
+- **Catatan keamanan:** sesuai §6.1 PROJECT_OVERVIEW  -  hanya objek baru ber-prefix `ichikara_web_`/`ichikara-web-`; tidak ada satu pun perubahan pada data/tabel sistem absensi di project Supabase yang sama. Tabel & RLS dibuat oleh owner (SQL), kode hanya SELECT (publik) + upsert (admin terautentikasi).
 - **Syarat aktivasi:** bucket Storage `ichikara-web-media` (public) masih perlu dibuat di dashboard Supabase sebelum upload gambar berfungsi (data stories sudah berfungsi).
 
-## 2026-08-28 — Pendokumentasian batasan Supabase (shared dengan sistem absensi)
-- `PROJECT_OVERVIEW.md`: ditambahkan §6.1 — project Supabase `pfvlxlfykdabrwijqqxa`
+## 2026-08-28  -  Pendokumentasian batasan Supabase (shared dengan sistem absensi)
+- `PROJECT_OVERVIEW.md`: ditambahkan §6.1  -  project Supabase `pfvlxlfykdabrwijqqxa`
   BERSAMA dengan sistem absensi karyawan; aturan mutlak: hanya CREATE objek baru
   dengan prefix `ichikara_web_`, dilarang menyentuh objek lain.
 - Terdampak: `PROJECT_OVERVIEW.md` (dokumentasi saja, **tidak ada perubahan kode**).
 - Konteks: persiapan migrasi data dinamis website (stories/clients/beranda) dari
   localStorage ke Supabase (tabel `ichikara_web_content` + bucket `ichikara-web-media`).
 
-## 2026-08-28 — Initial documentation setup
+## 2026-08-28  -  Initial documentation setup
 - Dibuat `PROJECT_OVERVIEW.md` (dokumentasi struktur, arsitektur, alur kerja, konfigurasi,
   dan catatan perubahan) dan `CHANGELOG.md` (file ini) berdasarkan hasil audit kode.
 - Terdampak: root project (hanya dokumentasi, **tidak ada perubahan kode**).

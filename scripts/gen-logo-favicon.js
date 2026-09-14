@@ -8,7 +8,7 @@ const SRC = path.join(__dirname, '..', '_backup-images', 'logo-original.png');
 const OUT_DIR = path.join(__dirname, '..', 'images');
 
 (async () => {
-  // 1) Full lockup (icon + wordmark), trimmed tight — used in header/footer.
+  // 1) Full lockup (icon + wordmark), trimmed tight  -  used in header/footer.
   await sharp(SRC)
     .trim({ threshold: 10 })
     .png()
