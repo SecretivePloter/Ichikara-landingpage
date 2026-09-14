@@ -1,4 +1,4 @@
-# PROJECT_OVERVIEW — Website PT. Ichikara
+# PROJECT_OVERVIEW  -  Website PT. Ichikara
 
 > Dokumentasi ini dibuat oleh coding agent untuk membantu orientasi saat melakukan perubahan.
 > Terakhir diperbarui: 2026-08-28
@@ -7,7 +7,7 @@
 
 ## 1. Nama & Deskripsi Singkat
 
-**Website PT. Ichikara** — website landing page multi-halaman (Bahasa Indonesia) untuk perusahaan jasa bahasa Jepang di Indonesia.
+**Website PT. Ichikara**  -  website landing page multi-halaman (Bahasa Indonesia) untuk perusahaan jasa bahasa Jepang di Indonesia.
 
 Tujuan project: mempresentasikan dan menjual 4 layanan utama PT. Ichikara, yaitu:
 
@@ -29,7 +29,7 @@ Fitur tambahan: halaman **Kisah Sukses** (success stories) yang bisa dikelola vi
 | Bahasa | HTML, CSS, JavaScript (vanilla, ES5-style `var`/`function`) |
 | Framework UI | **Tailwind CSS via CDN** (tanpa build step) + `tailwind-config.js` custom |
 | Font/Icon | Google Fonts: Inter (body), Noto Serif JP (heading), Material Symbols Outlined (icon) |
-| Arsitektur | **Multi-page static site** — tidak ada backend, tidak ada build step |
+| Arsitektur | **Multi-page static site**  -  tidak ada backend, tidak ada build step |
 | "Database" | **localStorage browser** (data dikelola dari panel admin) |
 | Auth admin | **Supabase Auth** (email + password), library `supabase-js@2` via CDN |
 | Hosting | **Vercel** (konfigurasi di `vercel.json`) |
@@ -66,12 +66,12 @@ kode/
 │
 ├── js/
 │   ├── header-loader.js      # INJEKSI header & footer untuk SEMUA halaman (single source)
-│   └── tailwind-config.js    # Tema Tailwind (warna, font, spacing) — dimuat di semua halaman
+│   └── tailwind-config.js    # Tema Tailwind (warna, font, spacing)  -  dimuat di semua halaman
 │
 ├── images/                   # Foto hero, layanan, guru, story, logo, bendera bahasa
 │   └── clients/              # client-1.png … client-8.png (logo klien)
 │
-├── website-ichikara-variasi-minori/   # ⚠️ PROYEK VARIASI TERPISAH (React + Vite) — bukan bagian deploy utama
+├── website-ichikara-variasi-minori/   # ⚠️ PROYEK VARIASI TERPISAH (React + Vite)  -  bukan bagian deploy utama
 │
 ├── vercel.json               # Rewrite / → beranda.html + security headers + noindex /admin
 ├── robots.txt                # Disallow /admin/, Sitemap: https://kode-vert.vercel.app/sitemap.xml
@@ -91,11 +91,11 @@ kode/
 | 3 | Beranda dinamis | `beranda.html` + `js/site-data.js` | Baca `ichikara_web_content` dari Supabase (real-time) → render jumlah logo klien + cerita unggulan; fallback localStorage/statis |
 | 4 | Tab layanan di beranda | `beranda.html` (script inline) | 4 tab (penerjemahan/interpreter/kursus/tokutei), data hardcoded, swap konten via `switchTab()` |
 | 5 | Halaman kisah sukses | `success-story.html` + `js/site-data.js` | Render semua story dari Supabase (real-time), filter per kategori, fallback localStorage/statis |
-| 6 | Panel admin — login | `admin/index.html` | Auth gate email+password via Supabase Auth |
-| 7 | Panel admin — kelola story | `admin/index.html` | CRUD "Kisah Sukses" (judul, kategori, ringkasan, foto) → tabel `ichikara_web_content`; upload foto ke Supabase Storage; backup/import JSON; Export HTML (cadangan statis) |
-| 8 | Panel admin — gambar & logo klien | `admin/index.html` | Upload/mengganti SEMUA gambar website ke Supabase Storage (tanpa deploy), via override `media`; atur jumlah slot logo (1–20); Reset kembali ke file repo |
-| 9 | Panel admin — pengaturan beranda | `admin/index.html` | Pilih cerita yang di-featured (featuredIds) di beranda |
-| 9b | Panel admin — kelola Tim Pengajar | `admin/index.html` | CRUD pengajar (nama, spesialisasi, foto) untuk `kursus-bahasa.html` → tabel `ichikara_web_content` section `teachers`; upload foto ke Supabase Storage; tidak ada seed bawaan |
+| 6 | Panel admin  -  login | `admin/index.html` | Auth gate email+password via Supabase Auth |
+| 7 | Panel admin  -  kelola story | `admin/index.html` | CRUD "Kisah Sukses" (judul, kategori, ringkasan, foto) → tabel `ichikara_web_content`; upload foto ke Supabase Storage; backup/import JSON; Export HTML (cadangan statis) |
+| 8 | Panel admin  -  gambar & logo klien | `admin/index.html` | Upload/mengganti SEMUA gambar website ke Supabase Storage (tanpa deploy), via override `media`; atur jumlah slot logo (1–20); Reset kembali ke file repo |
+| 9 | Panel admin  -  pengaturan beranda | `admin/index.html` | Pilih cerita yang di-featured (featuredIds) di beranda |
+| 9b | Panel admin  -  kelola Tim Pengajar | `admin/index.html` | CRUD pengajar (nama, spesialisasi, foto) untuk `kursus-bahasa.html` → tabel `ichikara_web_content` section `teachers`; upload foto ke Supabase Storage; tidak ada seed bawaan |
 | 10 | Animasi & interaksi | `js/header-loader.js`, `css/style.css` | Fade-in on scroll (IntersectionObserver), accordion FAQ, smooth scroll, `prefers-reduced-motion` |
 | 11 | Keamanan & SEO | `vercel.json`, `robots.txt` | Header keamanan (nosniff, X-Frame-Options, Referrer-Policy), noindex `/admin/`, robots disallow `/admin/` |
 
@@ -113,9 +113,9 @@ Buka /admin/ → admin/index.html
       └─ gagal  → pesan error "Email atau kata sandi salah"
   (sesi tersimpan di Supabase; cek otomatis via getSession() saat load)
 ```
-> Login memverifikasi identitas; setelah masuk, semua penulisan data & upload gambar **langsung ke Supabase** (tabel + Storage) — bukan localStorage. (Sebelum 2026-08-28 data masih di localStorage; tombol **Migrate** di admin memindahkan data lama.)
+> Login memverifikasi identitas; setelah masuk, semua penulisan data & upload gambar **langsung ke Supabase** (tabel + Storage)  -  bukan localStorage. (Sebelum 2026-08-28 data masih di localStorage; tombol **Migrate** di admin memindahkan data lama.)
 
-### 5.2 Alur Input Data (Kisah Sukses) — alur utama
+### 5.2 Alur Input Data (Kisah Sukses)  -  alur utama
 ```
 admin/index.html (tab "Kisah Sukses")
   → Tambah/edit: judul, kategori, tanggal, link, ringkasan (rich text)
@@ -145,8 +145,8 @@ Gambar lain: tab "Gambar Website" → klik kartu → upload ke bucket (media/) �
 
 ### 5.4 Alur Kontak / CTA
 ```
-Semua tombol CTA → https://wa.me/XXXXXXXXXX  (⚠️ MASIH PLACEHOLDER — lihat §7.3)
-Atau → mailto:info@ichikara.co.id
+Semua tombol CTA → https://wa.me/XXXXXXXXXX  (⚠️ MASIH PLACEHOLDER  -  lihat §7.3)
+Atau → mailto:marketing@ichikara.co.id
 Tidak ada form backend sama sekali.
 ```
 
@@ -175,21 +175,21 @@ Tidak ada form backend sama sekali.
 
 ## 6. Konfigurasi & "Environment" Penting
 
-Project ini statis — **tidak ada `.env`**. Semua konfigurasi hardcoded:
+Project ini statis  -  **tidak ada `.env`**. Semua konfigurasi hardcoded:
 
 | Item | Lokasi | Nilai / Catatan |
 |---|---|---|
-| Supabase URL | `admin/index.html` (script auth) + `js/site-data.js` + semua halaman publik | `https://pfvlxlfykdabrwijqqxa.supabase.co` — ⚠️ **project ini BERSAMA dengan sistem absensi karyawan. Jangan pernah ALTER/DROP/UPDATE/DELETE objek apa pun yang bukan milik website. Objek website hanya boleh CREATE dengan nama unik ber-prefix `ichikara_web_` (tabel `ichikara_web_content`, bucket `ichikara-web-media`). Lihat §6.1. |
-| Tabel konten website | Supabase (dibuat 2026-08-28) | `public.ichikara_web_content` — PK `section` (`stories`/`clients`/`beranda`/`media`), kolom `data` JSONB, `updated_at`. RLS: anonymous SELECT, authenticated ALL. |
-| Bucket gambar website | Supabase Storage | `ichikara-web-media` (public) — folder internal: `stories/`, `clients/`, `media/`. |
+| Supabase URL | `admin/index.html` (script auth) + `js/site-data.js` + semua halaman publik | `https://pfvlxlfykdabrwijqqxa.supabase.co`  -  ⚠️ **project ini BERSAMA dengan sistem absensi karyawan. Jangan pernah ALTER/DROP/UPDATE/DELETE objek apa pun yang bukan milik website. Objek website hanya boleh CREATE dengan nama unik ber-prefix `ichikara_web_` (tabel `ichikara_web_content`, bucket `ichikara-web-media`). Lihat §6.1. |
+| Tabel konten website | Supabase (dibuat 2026-08-28) | `public.ichikara_web_content`  -  PK `section` (`stories`/`clients`/`beranda`/`media`), kolom `data` JSONB, `updated_at`. RLS: anonymous SELECT, authenticated ALL. |
+| Bucket gambar website | Supabase Storage | `ichikara-web-media` (public)  -  folder internal: `stories/`, `clients/`, `media/`. |
 | Konten dinamis | `js/site-data.js` (dimuat semua halaman publik di `<head>`) | `window.IchikaraSite`: `loadContent()`, `onContent(cb)` (real-time), `imgSrc(path)`, `applyMediaOverrides(content)`. Fallback: localStorage + konten statis HTML. |
-| Supabase Publishable Key | `admin/index.html` (script auth) | `sb_publishable_…` (key publik; login diverifikasi di project Supabase ini — akun email perlu dibuat di sana) |
-| Nomor WhatsApp | `js/header-loader.js` + banyak halaman | `https://wa.me/XXXXXXXXXX` — **placeholder, wajib diganti** (ada komentar `TODO: Replace XXXXXXXXXX`) |
-| Email kontak | `beranda.html`, footer | `info@ichikara.co.id` |
-| Key localStorage | `admin/index.html`, `beranda.html`, `success-story.html` | `ichikara-stories-v1`, `ichikara-clients-v1`, `ichikara-beranda-settings` — **kontrak antar file, jangan diubah sembarangan** |
+| Supabase Publishable Key | `admin/index.html` (script auth) | `sb_publishable_…` (key publik; login diverifikasi di project Supabase ini  -  akun email perlu dibuat di sana) |
+| Nomor WhatsApp | `js/header-loader.js` + banyak halaman | `https://wa.me/XXXXXXXXXX`  -  **placeholder, wajib diganti** (ada komentar `TODO: Replace XXXXXXXXXX`) |
+| Email kontak | `beranda.html`, footer | `marketing@ichikara.co.id` |
+| Key localStorage | `admin/index.html`, `beranda.html`, `success-story.html` | `ichikara-stories-v1`, `ichikara-clients-v1`, `ichikara-beranda-settings`  -  **kontrak antar file, jangan diubah sembarangan** |
 | Routing | `vercel.json` | `/` → `/beranda.html`; header keamanan; noindex + no-cache untuk `/admin/*` |
 | SEO | `robots.txt` | Disallow `/admin/`; sitemap (belum ada file-nya) |
-| Nama folder admin | — | `/admin/` — jika diganti, update `vercel.json` + `robots.txt` |
+| Nama folder admin |  -  | `/admin/`  -  jika diganti, update `vercel.json` + `robots.txt` |
 
 ### 6.0 Arsitektur Konten Dinamis (Supabase, sejak 2026-08-28)
 
@@ -206,7 +206,7 @@ admin/index.html (login Supabase Auth)
   └── tombol Migrate   → sekali jalan: pindahkan data localStorage lama → Supabase
 
 Halaman publik (semua 11 halaman)
-  ├── js/site-data.js (di <head>): window.IchikaraSite — 1 fetch + Realtime channel
+  ├── js/site-data.js (di <head>): window.IchikaraSite  -  1 fetch + Realtime channel
   ├── js/header-loader.js: onContent() → applyMediaOverrides() ke SEMUA <img> (hero, logo, dll)
   ├── beranda.html:       onContent() → client strip (count) + featured stories
   ├── success-story.html: onContent() → grid semua stories
@@ -220,7 +220,7 @@ Kontrak data baris `ichikara_web_content`:
 | `clients` | `{ count: N }` (1–20) |
 | `beranda` | `{ featuredIds: [id, id, id] }` (maks 3) |
 | `media` | `{ overrides: { 'images/<nama-file>': 'https://…supabase.co/storage/…' } }` |
-| `teachers` | `[{ id, name, specialty, image (URL absolut storage), imageAlt }]` — Tim Pengajar di `kursus-bahasa.html`, TIDAK ada seed bawaan (array kosong = section disembunyikan di halaman publik) |
+| `teachers` | `[{ id, name, specialty, image (URL absolut storage), imageAlt }]`  -  Tim Pengajar di `kursus-bahasa.html`, TIDAK ada seed bawaan (array kosong = section disembunyikan di halaman publik) |
 
 Aturan gambar: field `image` story boleh URL absolut (upload storage) atau nama file repo lama (`images/…` tetap valid). Override `media` diprioritaskan oleh `imgSrc()` dan `applyMediaOverrides()`.
 
@@ -230,9 +230,9 @@ Project Supabase `pfvlxlfykdabrwijqqxa` **sudah memuat data produksi sistem abse
 
 1. **Hanya CREATE objek baru** untuk website (tabel, bucket, policy). DILARANG `ALTER TABLE`, `DROP`, `UPDATE`, `DELETE`, atau mengubah policy/index/schema milik objek lain.
 2. **Gunakan nama unik ber-prefix** `ichikara_web_` (tabel) / `ichikara-web-` (bucket) untuk semua objek baru, agar tidak bentrok dengan sistem absensi.
-3. Kode website hanya boleh query tabel `ichikara_web_content` dan bucket `ichikara-web-media` — tidak boleh menyentuh tabel lain sama sekali.
+3. Kode website hanya boleh query tabel `ichikara_web_content` dan bucket `ichikara-web-media`  -  tidak boleh menyentuh tabel lain sama sekali.
 4. Jika perlu verifikasi struktur, gunakan query read-only (`information_schema`, `SELECT ... LIMIT 0`) dan jangan pernah menjalankan script yang mengubah data absensi.
-5. **JANGAN** menambah/menghapus data tabel `ichikara_web_content` langsung dari SQL Editor untuk kebutuhan konten — selalu lewat admin (biar `updated_at` konsisten). Exception: membersihkan baris `media.overrides` bila diperlukan.
+5. **JANGAN** menambah/menghapus data tabel `ichikara_web_content` langsung dari SQL Editor untuk kebutuhan konten  -  selalu lewat admin (biar `updated_at` konsisten). Exception: membersihkan baris `media.overrides` bila diperlukan.
 
 ---
 
@@ -248,24 +248,24 @@ Project Supabase `pfvlxlfykdabrwijqqxa` **sudah memuat data produksi sistem abse
 ### 7.2 Potensi breaking change
 - **Tailwind via CDN** = tidak ada purge/best build; class yang di-generate dari string (mis. `switchTab()` di beranda) aman selama class-nya muncul literal di kode JS.
 - **File System Access API** (admin assets: `showDirectoryPicker`) hanya jalan di Chrome/Edge & konteks secure (https/localhost).
-- **`localStorage` per browser** — admin di laptop A tidak akan memengaruhi pengunjung di perangkat lain. Sampaikan ini ke owner; jalur "resmi" publikasi konten dinamis saat ini = tombol **Export HTML** di admin lalu merge hasilnya ke `success-story.html`/`beranda.html`.
+- **`localStorage` per browser**  -  admin di laptop A tidak akan memengaruhi pengunjung di perangkat lain. Sampaikan ini ke owner; jalur "resmi" publikasi konten dinamis saat ini = tombol **Export HTML** di admin lalu merge hasilnya ke `success-story.html`/`beranda.html`.
 - Admin (`admin/index.html` + `assets.html`) memakai **palet warna sendiri** (navy `#021a38`, merah `#b02d21`) yang **berbeda** dari palet situs publik (`#0a0a0a` ink, `#c0392b`). Ubah warna situsnya tanpa mengubah admin = admin akan terlihat tidak senada (dan sebaliknya).
-- `css/style.css` memuat kelas legacy (`.accent-border-red`, dll.) yang sengaja dipertahankan — jangan dihapus sebelum yakin tidak terpakai.
-- `beranda.html` & `success-story.html` punya **fallback statis** jika localStorage kosong — jika Anda mengubah struktur data, fallback ini pun harus konsisten.
+- `css/style.css` memuat kelas legacy (`.accent-border-red`, dll.) yang sengaja dipertahankan  -  jangan dihapus sebelum yakin tidak terpakai.
+- `beranda.html` & `success-story.html` punya **fallback statis** jika localStorage kosong  -  jika Anda mengubah struktur data, fallback ini pun harus konsisten.
 
 ### 7.3 TODO / item yang belum beres
-- ✅ Nomor WhatsApp sudah diganti nomor asli (`6281318216260`) di semua file — beberapa komentar HTML `<!-- TODO: Replace XXXXXXXXXX -->` masih tersisa sebagai jejak dev (tidak terlihat user/SEO, aman diabaikan atau dibersihkan kapan saja).
-- ✅ Toggle bahasa ID/JP di header **sudah dihapus** (2026-09-08) — sebelumnya cosmetik tanpa logika apa pun, berisiko menyesatkan klien Jepang. Kalau nanti ada versi bahasa Jepang sungguhan, bangun ulang dengan link ke halaman nyata.
+- ✅ Nomor WhatsApp sudah diganti nomor asli (`6281318216260`) di semua file  -  beberapa komentar HTML `<!-- TODO: Replace XXXXXXXXXX -->` masih tersisa sebagai jejak dev (tidak terlihat user/SEO, aman diabaikan atau dibersihkan kapan saja).
+- ✅ Toggle bahasa ID/JP di header **sudah dihapus** (2026-09-08)  -  sebelumnya cosmetik tanpa logika apa pun, berisiko menyesatkan klien Jepang. Kalau nanti ada versi bahasa Jepang sungguhan, bangun ulang dengan link ke halaman nyata.
 - ✅ `sitemap.xml` sudah dibuat, referensi di `robots.txt` sekarang valid.
 - ✅ Repo sudah jadi git repository, terhubung ke GitHub (`SecretivePloter/Ichikara-landingpage`) dan Vercel (auto-deploy tiap push ke `master`).
 - ❌ Belum ada `<link rel="canonical">`, Open Graph (`og:*`), Twitter Card, atau JSON-LD structured data di halaman manapun.
-- ❌ Tailwind CSS masih dimuat via CDN (`cdn.tailwindcss.com`) — tidak disarankan untuk production (lihat warning console browser); migrasi ke build/PostCSS/CLI adalah proyek teknis terpisah.
+- ❌ Tailwind CSS masih dimuat via CDN (`cdn.tailwindcss.com`)  -  tidak disarankan untuk production (lihat warning console browser); migrasi ke build/PostCSS/CLI adalah proyek teknis terpisah.
 
 ### 7.4 Konvensi penamaan
 - Nama file halaman: **kebab-case Bahasa Indonesia** (`beranda.html`, `tentang-kami.html`, `success-story.html`).
 - Kelas utilitas: Tailwind + kelas semantik di `style.css` (`.service-card`, `.story-card`, `.fade-in`, `.tab-active`, `.accordion-item`, `.label-kicker`, `.ma-divider`).
-- Token desain: semua warna/font/spacing via `tailwind-config.js` (nama token ala Material: `primary`, `on-surface`, `surface-container`, dll.) — **jangan hardcode hex** di HTML, pakai token.
-- Gaya JS: ES5-style (`var`, `function`, IIFE) di file publik; admin memakai `const`/`let` + template modern — ikuti gaya file yang sedang diedit.
+- Token desain: semua warna/font/spacing via `tailwind-config.js` (nama token ala Material: `primary`, `on-surface`, `surface-container`, dll.)  -  **jangan hardcode hex** di HTML, pakai token.
+- Gaya JS: ES5-style (`var`, `function`, IIFE) di file publik; admin memakai `const`/`let` + template modern  -  ikuti gaya file yang sedang diedit.
 
 ---
 

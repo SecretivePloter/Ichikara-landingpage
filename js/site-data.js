@@ -1,5 +1,5 @@
 // =============================================================================
-// PT. Ichikara — Site Content Loader (Supabase)
+// PT. Ichikara  -  Site Content Loader (Supabase)
 // =============================================================================
 // Mengambil konten dinamis (stories, jumlah logo klien, pengaturan beranda,
 // override gambar) dari tabel Supabase `ichikara_web_content`, lalu
@@ -24,7 +24,7 @@
 //      (beranda, success-story) cukup panggil window.IchikaraSite.onContent().
 //
 // Jika Supabase tidak terjangkau, window.IchikaraSite tetap ada dengan
-// loadContent() yang reject — pemanggil cukup fallback ke localStorage/statis.
+// loadContent() yang reject  -  pemanggil cukup fallback ke localStorage/statis.
 // =============================================================================
 (function () {
   'use strict';
@@ -126,7 +126,7 @@
     (function fire() {
       loadContent()
         .then(function (c) { cb(c); })
-        .catch(function () { /* offline — pemanggil fallback sendiri */ });
+        .catch(function () { /* offline  -  pemanggil fallback sendiri */ });
     })();
     ensureSubscription();
     return function () {

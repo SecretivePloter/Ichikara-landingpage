@@ -1,10 +1,10 @@
 // =============================================================================
-// PT. Ichikara — Tailwind CSS Configuration
+// PT. Ichikara  -  Tailwind CSS Configuration
 // =============================================================================
 // This file is loaded ONCE by all pages, immediately after the Tailwind CDN
 // script. Do NOT use async or defer on this script tag.
 //
-// DESIGN DIRECTION: "Japanese Premium Minimal" (Ma / 間 — the beauty of empty space)
+// DESIGN DIRECTION: "Japanese Premium Minimal" (Ma / 間  -  the beauty of empty space)
 //   - Warm, near-black ink instead of corporate navy
 //   - Vivid red + saturated gold accents
 //   - Warm white / cream backgrounds
@@ -23,7 +23,7 @@ tailwind.config = {
         extend: {
 
             // -----------------------------------------------------------------
-            // Colors — Japanese Premium Minimal palette
+            // Colors  -  Japanese Premium Minimal palette
             // Primary   = Ink / near-black (#0a0a0a)
             // Secondary = Vivid red        (#c0392b)
             // Tertiary  = Saturated gold   (#b8960c)
@@ -72,7 +72,7 @@ tailwind.config = {
                 "surface-container-low":     "#faf7f2",
                 "surface-container":         "#f4efe8",
                 "surface-container-high":    "#ece6dd",
-                "surface-container-highest": "#e2dcd2", // light cream — used as text/detail on dark heroes
+                "surface-container-highest": "#e2dcd2", // light cream  -  used as text/detail on dark heroes
                 "inverse-surface":           "#2a2a2a",
                 "inverse-on-surface":        "#f5f2ec",
                 "surface-tint":              "#8a857d",
@@ -101,7 +101,7 @@ tailwind.config = {
             },
 
             // -----------------------------------------------------------------
-            // Border Radius — softer, more generous
+            // Border Radius  -  softer, more generous
             // -----------------------------------------------------------------
             borderRadius: {
                 DEFAULT: "0.5rem",  // 8px
@@ -128,7 +128,7 @@ tailwind.config = {
             },
 
             // -----------------------------------------------------------------
-            // Letter spacing — wider tracking for premium labels
+            // Letter spacing  -  wider tracking for premium labels
             // -----------------------------------------------------------------
             letterSpacing: {
                 label: "0.15em",

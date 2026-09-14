@@ -1,5 +1,5 @@
 // =============================================================================
-// PT. Ichikara — Header & Footer Loader
+// PT. Ichikara  -  Header & Footer Loader
 // =============================================================================
 // Injects the shared <header> and <footer> into every page from one place.
 // To update the header or footer SITE-WIDE, edit ONLY this file.
@@ -48,7 +48,7 @@
 <header id="main-header" class="fixed top-0 left-0 right-0 z-50" role="banner">\
   <div class="max-w-[1200px] mx-auto px-6 flex items-center justify-between h-20">\
 \
-    <!-- Logo — .hdr-logo inverts to white over the hero, full color when scrolled -->\
+    <!-- Logo  -  .hdr-logo inverts to white over the hero, full color when scrolled -->\
     <a href="' + BASE + 'beranda.html" class="flex items-center gap-3 flex-shrink-0" aria-label="PT. Ichikara - Halaman Beranda">\
       <img src="' + BASE + 'images/logo.png"\
            alt="Logo PT. Ichikara"\
@@ -108,7 +108,7 @@
     <!-- Right side: language toggle + CTA button + mobile hamburger -->\
     <div class="flex items-center gap-3">\
 \
-      <!-- Primary CTA — pill — update WhatsApp number below -->\
+      <!-- Primary CTA  -  pill  -  update WhatsApp number below -->\
       <a href="https://wa.me/6281318216260"\
          class="bg-secondary text-white px-5 py-2.5 rounded-full text-sm font-bold hover:bg-red-hover transition-colors"\
          aria-label="Hubungi kami via WhatsApp"\
@@ -174,7 +174,7 @@
 </header>';
 
     // =========================================================================
-    // FOOTER TEMPLATE — minimal solid black band, white logo, small type.
+    // FOOTER TEMPLATE  -  minimal solid black band, white logo, small type.
     // =========================================================================
     var FOOTER_HTML = '\
 <footer class="bg-footer-dark text-white pt-20 pb-10" role="contentinfo">\
@@ -232,7 +232,7 @@
           </li>\
           <li class="flex gap-3 items-start">\
             <span class="material-symbols-outlined text-secondary text-[18px] mt-0.5 flex-shrink-0" aria-hidden="true">mail</span>\
-            <a href="mailto:info@ichikara.co.id" class="text-outline-variant text-sm hover:text-white transition-colors">info@ichikara.co.id</a>\
+            <a href="mailto:marketing@ichikara.co.id" class="text-outline-variant text-sm hover:text-white transition-colors">marketing@ichikara.co.id</a>\
           </li>\
           <li class="flex gap-3 items-start">\
             <span class="material-symbols-outlined text-secondary text-[18px] mt-0.5 flex-shrink-0" aria-hidden="true">chat</span>\
@@ -273,7 +273,7 @@
     var footerContainer = document.getElementById('site-footer');
     if (footerContainer) {
         footerContainer.innerHTML = FOOTER_HTML;
-        // Auto-update copyright year — no manual update needed
+        // Auto-update copyright year  -  no manual update needed
         var yearEl = document.getElementById('footer-year');
         if (yearEl) yearEl.textContent = new Date().getFullYear();
     }
@@ -286,7 +286,7 @@
     // =========================================================================
     // Real-time image overrides (Supabase)
     // Applies admin-uploaded images (table `ichikara_web_content`, section
-    // 'media') to EVERY <img> on the page — hero, logo, thumbnails — as soon
+    // 'media') to EVERY <img> on the page  -  hero, logo, thumbnails  -  as soon
     // as the admin saves; no deploy needed. No-op when there are no overrides.
     // header-loader.js is the shared script loaded last on ALL pages, so this
     // gives site-wide real-time image updates without editing each page.

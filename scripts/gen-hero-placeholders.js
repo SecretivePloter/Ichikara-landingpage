@@ -39,10 +39,10 @@ const heroFiles = [
   'hero-rental-mobil.jpg',
 ];
 
-// "Layanan" cards on beranda.html — plain white card, real <h3> title right
+// "Layanan" cards on beranda.html  -  plain white card, real <h3> title right
 // below the image, so the placeholder itself must carry NO title text. But a
 // FLAT color alone reads as "image missing" to visitors (no photo texture,
-// no icon) — so each card gets the same big kanji watermark treatment used
+// no icon)  -  so each card gets the same big kanji watermark treatment used
 // on the matching page's own hero (see .japanese-watermark in css/style.css:
 // 訳=jasa-penerjemah, 通=jasa-interpreter, 学=kursus-bahasa, 働=tokutei-ginou),
 // just at higher opacity since here it's the card's only visual content.
