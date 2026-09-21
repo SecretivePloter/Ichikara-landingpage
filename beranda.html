@@ -200,25 +200,6 @@
             </div>
           </a>
 
-          <!-- Service 4: Tokutei Ginou -->
-          <a href="tokutei-ginou.html" class="service-card order-4 md:order-4 group bg-white rounded-2xl border border-border-light overflow-hidden flex flex-col fade-in">
-            <div class="h-60 overflow-hidden">
-              <img alt="Tenaga kerja Indonesia yang berhasil ditempatkan melalui program Tokutei Ginou"
-                   class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                   src="images/layanan-tokutei.jpg" loading="lazy">
-            </div>
-            <div class="p-8 flex flex-col gap-3 flex-1">
-              <h3 class="text-primary text-2xl font-noto font-bold">Tokutei Ginou / SSW</h3>
-              <p class="text-on-surface-variant leading-relaxed flex-1">
-                Wujudkan impian bekerja di Jepang bersama Ichikara, dari persiapan bahasa hingga penempatan kerja.
-              </p>
-              <span class="text-secondary font-bold text-sm flex items-center gap-1 mt-2">
-                Lihat Selengkapnya
-                <span class="material-symbols-outlined text-base group-hover:translate-x-1 transition-transform" aria-hidden="true">arrow_forward</span>
-              </span>
-            </div>
-          </a>
-
         </div>
       </div>
     </section>
@@ -365,6 +346,7 @@
       var section = document.getElementById('kisah-sukses');
       var grid    = document.getElementById('beranda-story-grid');
       if (!section || !grid) return;
+      allStories = (allStories || []).filter(function (story) { return String(story.id || '') !== 's3'; });
 
       var featured = (featuredIds || [])
         .map(function (id) { return allStories.find(function (s) { return s.id === id; }); })

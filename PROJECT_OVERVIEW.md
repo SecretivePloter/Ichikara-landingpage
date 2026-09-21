@@ -9,12 +9,11 @@
 
 **Website PT. Ichikara**  -  website landing page multi-halaman (Bahasa Indonesia) untuk perusahaan jasa bahasa Jepang di Indonesia.
 
-Tujuan project: mempresentasikan dan menjual 4 layanan utama PT. Ichikara, yaitu:
+Tujuan project: mempresentasikan dan menjual 3 layanan utama PT. Ichikara, yaitu:
 
 1. **Penerjemahan** (dokumen, e-learning, video, website)
 2. **Interpretasi** (simultan, consecutive, pendamping bisnis, jarak jauh)
 3. **Kursus Bahasa Jepang** (JLPT, Business Japanese, private)
-4. **Program Tokutei Ginou / SSW** (persiapan kerja di Jepang)
 
 Fitur tambahan: halaman **Kisah Sukses** (success stories) yang bisa dikelola via panel admin, strip logo klien, dan panel admin untuk mengelola konten dinamis.
 
@@ -47,7 +46,6 @@ kode/
 ├── jasa-penerjemah.html      # Halaman utama layanan penerjemahan
 ├── jasa-interpreter.html     # Halaman utama layanan interpreter
 ├── kursus-bahasa.html        # Halaman kursus bahasa Jepang
-├── tokutei-ginou.html        # Halaman program Tokutei Ginou / SSW
 ├── tentang-kami.html         # Halaman tentang perusahaan
 ├── success-story.html        # Halaman kisah sukses (dinyamati dari localStorage)
 │
@@ -89,7 +87,7 @@ kode/
 | 1 | Navigasi & header global | `js/header-loader.js`, `css/style.css` | Header fixed transparent→solid saat scroll, dropdown "Layanan", menu mobile hamburger, CTA "Hubungi Kami" (WhatsApp) |
 | 2 | Footer global | `js/header-loader.js` | Footer hitam minimal, diinjeksi ke semua halaman |
 | 3 | Beranda dinamis | `beranda.html` + `js/site-data.js` | Baca `ichikara_web_content` dari Supabase (real-time) → render jumlah logo klien + cerita unggulan; fallback localStorage/statis |
-| 4 | Tab layanan di beranda | `beranda.html` (script inline) | 4 tab (penerjemahan/interpreter/kursus/tokutei), data hardcoded, swap konten via `switchTab()` |
+| 4 | Kartu layanan di beranda | `beranda.html` | 3 kartu layanan aktif: penerjemahan, interpreter, dan kursus bahasa |
 | 5 | Halaman kisah sukses | `success-story.html` + `js/site-data.js` | Render semua story dari Supabase (real-time), filter per kategori, fallback localStorage/statis |
 | 6 | Panel admin  -  login | `admin/index.html` | Auth gate email+password via Supabase Auth |
 | 7 | Panel admin  -  kelola story | `admin/index.html` | CRUD "Kisah Sukses" (judul, kategori, ringkasan, foto) → tabel `ichikara_web_content`; upload foto ke Supabase Storage; backup/import JSON; Export HTML (cadangan statis) |

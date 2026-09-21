@@ -1,5 +1,9 @@
 {
   "redirects": [
+    { "source": "/tokutei-ginou.html", "destination": "/beranda.html", "permanent": false },
+    { "source": "/CHANGELOG.md", "destination": "/beranda.html", "permanent": false },
+    { "source": "/PROJECT_OVERVIEW.md", "destination": "/beranda.html", "permanent": false },
+    { "source": "/website-ichikara-variasi-minori/(.*)", "destination": "/beranda.html", "permanent": false },
     { "source": "/index.php/id/", "destination": "/", "permanent": true },
     { "source": "/index.php/id", "destination": "/", "permanent": true },
     { "source": "/index.php/id/tentang-kami", "destination": "/tentang-kami.html", "permanent": true },

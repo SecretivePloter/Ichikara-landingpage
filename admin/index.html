@@ -814,6 +814,8 @@
     'activity':     { label: 'Aktivitas',   badge: 'bg-yellow-100 text-yellow-700'  },
     'client-story': { label: 'Kisah Klien', badge: 'bg-blue-100 text-blue-700'      },
   };
+
+  function visibleStories() { return stories.filter(s => s.id !== 's3'); }
   const EXPORT_BADGES = {
     'achievement':  'bg-secondary/10 text-secondary',
     'activity':     'bg-tertiary/10 text-tertiary',
@@ -830,7 +832,6 @@
       { file:'layanan-penerjemahan.jpg', label:'Foto Layanan Penerjemahan',       pages:['beranda.html  -  Layanan + Akses Cepat'],           hint:'Foto ilustrasi penerjemahan dokumen. Min 800×500px.',              ratio:'16:10'},
       { file:'layanan-interpreter.jpg',  label:'Foto Layanan Interpreter',        pages:['beranda.html  -  Layanan + Akses Cepat'],           hint:'Foto interpreter dalam rapat bisnis. Min 800×500px.',             ratio:'16:10'},
       { file:'layanan-kursus.jpg',       label:'Foto Layanan Kursus',             pages:['beranda.html  -  Layanan + Akses Cepat'],           hint:'Foto suasana kelas kursus bahasa Jepang. Min 800×500px.',         ratio:'16:10'},
-      { file:'layanan-tokutei.jpg',      label:'Foto Layanan Tokutei Ginou',      pages:['beranda.html  -  Layanan + Akses Cepat'],           hint:'Foto pekerja Indonesia di lingkungan kerja Jepang. Min 800×500px.', ratio:'16:10'},
       { file:'clients/client-1.png',     label:'Logo Klien 1',                    pages:['beranda.html  -  Strip Logo Klien'],                hint:'PNG transparan. Min 60px tinggi. Background transparan.',          ratio:'bebas'},
       { file:'clients/client-2.png',     label:'Logo Klien 2',                    pages:['beranda.html  -  Strip Logo Klien'],                hint:'PNG transparan, min 60px tinggi.',                                  ratio:'bebas'},
       { file:'clients/client-3.png',     label:'Logo Klien 3',                    pages:['beranda.html  -  Strip Logo Klien'],                hint:'PNG transparan, min 60px tinggi.',                                  ratio:'bebas'},
@@ -867,12 +868,6 @@
       { file:'tentang-layanan-penerjemah.jpg',label:'Thumbnail Layanan Penerjemah',pages:['tentang-kami.html'], hint:'Card thumbnail. Min 600×400px.',                                 ratio:'3:2'  },
       { file:'tentang-layanan-interpreter.jpg',label:'Thumbnail Layanan Interpreter',pages:['tentang-kami.html'], hint:'Card thumbnail. Min 600×400px.',                               ratio:'3:2'  },
       { file:'tentang-layanan-kursus.jpg',   label:'Thumbnail Layanan Kursus',    pages:['tentang-kami.html'], hint:'Card thumbnail. Min 600×400px.',                                 ratio:'3:2'  },
-      { file:'tentang-layanan-ssw.jpg',      label:'Thumbnail Layanan SSW',       pages:['tentang-kami.html'], hint:'Card thumbnail. Min 600×400px.',                                 ratio:'3:2'  },
-    ]},
-    { id:'tokutei', label:'Tokutei Ginou (SSW)', icon:'work', images:[
-      { file:'hero-tokutei.jpg', label:'Hero Tokutei Ginou', pages:['tokutei-ginou.html'], hint:'Pekerja Indonesia di Jepang. Min 1200×600px.',                   ratio:'2:1' },
-      { file:'pamflet-ssw.jpg',  label:'Pamflet SSW',        pages:['tokutei-ginou.html'], hint:'Scan/foto pamflet resmi SSW. Portrait, min 600×800px.',           ratio:'3:4' },
-      { file:'cta-tokutei.jpg',  label:'Background CTA',     pages:['tokutei-ginou.html'], hint:'Background section CTA, akan di-overlay gelap. Min 1200×400px.', ratio:'3:1' },
     ]},
     { id:'rental', label:'Rental Mobil', icon:'directions_car', images:[
       { file:'hero-rental-mobil.jpg', label:'Hero Rental Mobil', pages:['rental-mobil.html'], hint:'Foto armada/unit mobil. Min 1600×800px.',   ratio:'2:1'  },
@@ -882,7 +877,6 @@
     { id:'stories', label:'Kisah Sukses', icon:'auto_stories', images:[
       { file:'story-jlpt-n3-2026.jpg',         label:'Story: JLPT N3 2026',         pages:['success-story.html'], hint:'Siswa dan sertifikat JLPT. Min 800×500px.',             ratio:'16:10'},
       { file:'story-klien-manufaktur.jpg',      label:'Story: Kunjungan Pabrik',     pages:['success-story.html'], hint:'Delegasi bisnis Jepang di pabrik. Min 800×500px.',      ratio:'16:10'},
-      { file:'story-seminar-ssw.jpg',           label:'Story: Seminar SSW',          pages:['success-story.html'], hint:'Suasana seminar Tokutei Ginou. Min 800×500px.',         ratio:'16:10'},
       { file:'story-penerjemah-tersumpah.jpg',  label:'Story: Penerjemah Tersumpah', pages:['success-story.html'], hint:'Penerjemah dan dokumen resmi. Min 800×500px.',          ratio:'16:10'},
       { file:'story-klien-hukum.jpg',           label:'Story: Kontrak Joint Venture',pages:['success-story.html'], hint:'Proses penandatanganan kontrak. Min 800×500px.',        ratio:'16:10'},
       { file:'story-kelas-korporat.jpg',        label:'Story: Kelas Korporat',       pages:['success-story.html'], hint:'Kelas bahasa Jepang di perusahaan. Min 800×500px.',    ratio:'16:10'},
@@ -1052,7 +1046,8 @@
 
   function renderList() {
     const filter   = document.getElementById('list-filter').value;
-    const filtered = filter === 'all' ? stories : stories.filter(s => s.category === filter);
+    const source = visibleStories();
+    const filtered = filter === 'all' ? source : source.filter(s => s.category === filter);
     const el       = document.getElementById('story-list');
     const countEl  = document.getElementById('story-count');
     countEl.textContent = filtered.length + ' cerita';
@@ -1805,10 +1800,11 @@
     badge.className = 'px-3 py-1.5 rounded-full text-xs font-bold ' +
       (featuredIds.length === 3 ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-600');
 
-    if (!stories.length) { grid.classList.add('hidden'); empty.classList.remove('hidden'); return; }
+    const visible = visibleStories();
+    if (!visible.length) { grid.classList.add('hidden'); empty.classList.remove('hidden'); return; }
     grid.classList.remove('hidden'); empty.classList.add('hidden');
 
-    grid.innerHTML = stories.map(s => {
+    grid.innerHTML = visible.map(s => {
       const cat      = CATS[s.category] || CATS['achievement'];
       const selected = featuredIds.includes(s.id);
       const thumb    = s._preview || resolveImg(s.image);
@@ -1898,7 +1894,6 @@
     stories = [
       { id:'s1', category:'achievement',  date:'Juni 2026',     title:'12 Siswa Lulus JLPT N3  -  Angkatan Pertama 2026',             excerpt:'Dua belas peserta program kursus reguler N3 berhasil lulus ujian JLPT resmi dengan nilai memuaskan.',                                                      image:'story-jlpt-n3-2026.jpg',         imageAlt:'Peserta kursus N3 bersama sertifikat kelulusan',   link:'#' },
       { id:'s2', category:'client-story', date:'Mei 2026',      title:'Pendampingan Kunjungan Pabrik  -  Delegasi Jepang ke Karawang', excerpt:'Tim interpreter kami memfasilitasi kunjungan 3 hari delegasi eksekutif dari perusahaan otomotif Jepang ke fasilitas produksi di Karawang.',               image:'story-klien-manufaktur.jpg',      imageAlt:'Delegasi eksekutif Jepang dalam kunjungan pabrik', link:'#' },
-      { id:'s3', category:'activity',     date:'April 2026',    title:'Seminar Tokutei Ginou  -  "Siap Kerja di Jepang"',             excerpt:'Lebih dari 80 peserta menghadiri seminar gratis kami tentang persyaratan, proses, dan persiapan visa Tokutei Ginou ke Jepang.',                           image:'story-seminar-ssw.jpg',           imageAlt:'Peserta seminar Tokutei Ginou PT. Ichikara',       link:'#' },
       { id:'s4', category:'achievement',  date:'Maret 2026',    title:'3 Penerjemah Baru Tersertifikasi Tersumpah',                 excerpt:'PT. Ichikara kini memiliki 3 penerjemah tersumpah bahasa Jepang baru yang tersertifikasi resmi.',                                                          image:'story-penerjemah-tersumpah.jpg', imageAlt:'Penerjemah tersumpah menerima sertifikasi',        link:'#' },
       { id:'s5', category:'client-story', date:'Februari 2026', title:'Penerjemahan Kontrak JV Senilai Rp 50 Miliar',              excerpt:'Kami dipercaya menerjemahkan dan melegalisasi seluruh dokumen kontrak joint venture antara perusahaan Indonesia dan mitra Jepang mereka.',                  image:'story-klien-hukum.jpg',           imageAlt:'Proses legalisasi dokumen kontrak',                link:'#' },
       { id:'s6', category:'activity',     date:'Januari 2026',  title:'Kelas Korporat Bahasa Jepang  -  30 Karyawan Pabrik',         excerpt:'Program kursus in-house selama 3 bulan untuk 30 karyawan lini produksi agar dapat berkomunikasi langsung dengan supervisor dari Jepang.',                  image:'story-kelas-korporat.jpg',        imageAlt:'Kelas korporat bahasa Jepang',                     link:'#' },
