@@ -141,6 +141,7 @@
     }
 
     function renderArticle(stories) {
+      stories = (stories || []).filter(function (story) { return String(story.id || '') !== 's3'; });
       var matchIndex = stories.findIndex(function (story, index) { return articleId(story, index) === String(requestedId || ''); });
       document.getElementById('article-loading').classList.add('hidden');
       if (matchIndex < 0) {

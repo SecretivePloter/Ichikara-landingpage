@@ -159,6 +159,7 @@
 
       /* ── Render all cards from a stories array ── */
       function renderStories(stories) {
+        stories = (stories || []).filter(function (story) { return String(story.id || '') !== 's3'; });
         if (!stories || !stories.length) {
           noStories.classList.remove('hidden');
           grid.innerHTML = '';

@@ -30,7 +30,6 @@ const heroSvg = `
 const heroFiles = [
   'hero-interpreter.jpg',
   'hero-kursus.jpg',
-  'hero-tokutei.jpg',
   'hero-penerjemah.jpg',
   'hero-dokumen.jpg',
   'hero-elearning.jpg',
@@ -43,8 +42,7 @@ const heroFiles = [
 // below the image, so the placeholder itself must carry NO title text. But a
 // FLAT color alone reads as "image missing" to visitors (no photo texture,
 // no icon)  -  so each card gets the same big kanji watermark treatment used
-// on the matching page's own hero (see .japanese-watermark in css/style.css:
-// 訳=jasa-penerjemah, 通=jasa-interpreter, 学=kursus-bahasa, 働=tokutei-ginou),
+// on the matching page's own hero (see .japanese-watermark in css/style.css).
 // just at higher opacity since here it's the card's only visual content.
 const CARD_W = 1200, CARD_H = 750;
 function cardSvg(colorA, colorB, kanji) {
@@ -66,7 +64,6 @@ const cardFiles = [
   { file: 'layanan-penerjemahan.jpg', colorA: '#1f1c1a', colorB: '#0a0a0a', kanji: '訳' }, // ink
   { file: 'layanan-interpreter.jpg',  colorA: '#c0392b', colorB: '#8f2a1f', kanji: '通' }, // red
   { file: 'layanan-kursus.jpg',       colorA: '#b8960c', colorB: '#8c7209', kanji: '学' }, // gold
-  { file: 'layanan-tokutei.jpg',      colorA: '#0a0a0a', colorB: '#8f2a1f', kanji: '働' }, // ink → red
   { file: 'armada-avanza.jpg',        colorA: '#b8960c', colorB: '#8c7209', kanji: '車' }, // gold
   { file: 'armada-innova.jpg',        colorA: '#1f1c1a', colorB: '#0a0a0a', kanji: '車' }, // ink
   { file: 'metode-konsekutif.jpg',    colorA: '#1f1c1a', colorB: '#0a0a0a', kanji: '通' }, // legacy placeholder
