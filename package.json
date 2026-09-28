@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.57.4",
+    "docx": "^9.8.0",
     "docxtemplater": "^3.67.5",
     "formidable": "^3.5.2",
     "pizzip": "^3.2.0",

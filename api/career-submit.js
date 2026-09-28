@@ -5,6 +5,7 @@ const formidable = require('formidable');
 const PizZip = require('pizzip');
 const Docxtemplater = require('docxtemplater');
 const sharp = require('sharp');
+const { buildCvDocument } = require('./cv-document');
 const { createClient } = require('@supabase/supabase-js');
 const { Resend } = require('resend');
 
@@ -16,7 +17,6 @@ function first(value) { return Array.isArray(value) ? value[0] : value; }
 function text(value, max) { return String(first(value) || '').trim().slice(0, max); }
 function json(value, fallback) { try { return JSON.parse(text(value, 50000)); } catch (_) { return fallback; } }
 function monthValue(value) { return /^\d{4}-(0[1-9]|1[0-2])$/.test(String(value || '')) ? String(value) : ''; }
-function monthLabel(value) { return value ? value.replace('-', '/') : ''; }
 function cleanTimeline(value, limit) {
   return (Array.isArray(value) ? value : []).slice(0, limit).map(function (item) {
     const legacyStart = String(item.year || '').match(/^\d{4}$/) && String(item.month || '').match(/^\d{1,2}$/) ? String(item.year) + '-' + String(item.month).padStart(2, '0') : '';
@@ -25,22 +25,57 @@ function cleanTimeline(value, limit) {
     return { startDate: startDate, endDate: endDate, year: startDate.slice(0, 4), month: startDate.slice(5, 7), detail: detail };
   }).filter(function (item) { return item.detail; });
 }
-function timelineDetail(row) {
-  if (!row.endDate) return row.detail;
-  return row.detail + '  |  Selesai: ' + monthLabel(row.endDate);
+function cleanQualifications(value, limit) {
+  return (Array.isArray(value) ? value : []).slice(0, limit).map(function (item) {
+    return { date: monthValue(item.date), detail: String(item.detail || '').trim().slice(0, 180) };
+  }).filter(function (item) { return item.detail; });
 }
-function templateData(fields, education, experience) {
+function datedRows(rows, limit) {
+  const entries = [];
+  rows.forEach(function (row, index) {
+    if (row.startDate && row.endDate && row.startDate === row.endDate) {
+      entries.push({ date: row.startDate, detail: row.detail + ' (Mulai dan selesai)', index: index });
+    } else {
+      if (row.endDate) entries.push({ date: row.endDate, detail: row.detail + ' (Selesai)', index: index });
+      if (row.startDate) entries.push({ date: row.startDate, detail: row.detail + ' (Mulai)', index: index });
+      if (!row.startDate && !row.endDate) entries.push({ date: '', detail: row.detail, index: index });
+    }
+  });
+  return entries.sort(function (a, b) {
+    if (a.date && b.date) return b.date.localeCompare(a.date);
+    if (a.date) return -1;
+    if (b.date) return 1;
+    return a.index - b.index;
+  }).slice(0, limit).map(function (row) {
+    return { year: row.date.slice(0, 4), month: row.date.slice(5, 7), detail: row.detail };
+  });
+}
+function qualificationRows(fields, certificates) {
+  const rows = [];
+  if (fields.jlptLevel) rows.push({ date: fields.jlptDate, detail: 'JLPT ' + fields.jlptLevel + ' (Lulus)' });
+  certificates.forEach(function (row) { rows.push(row); });
+  return rows.sort(function (a, b) {
+    if (a.date && b.date) return b.date.localeCompare(a.date);
+    if (a.date) return -1;
+    if (b.date) return 1;
+    return 0;
+  });
+}
+function templateData(fields, education, experience, certificates) {
   const now = new Date();
   const birth = new Date(fields.birthDate);
   const age = Number.isNaN(birth.getTime()) ? '' : Math.max(0, now.getUTCFullYear() - birth.getUTCFullYear() - ((now.getUTCMonth() < birth.getUTCMonth() || (now.getUTCMonth() === birth.getUTCMonth() && now.getUTCDate() < birth.getUTCDate())) ? 1 : 0));
   const data = {
     asOfDate: new Intl.DateTimeFormat('ja-JP', { year: 'numeric', month: '2-digit', day: '2-digit' }).format(now),
     fullName: fields.fullName, nameKatakana: fields.nameKatakana, birthDate: fields.birthDate, age: age, gender: fields.gender,
-    phone: fields.phone, email: fields.email, address: fields.address, qualificationYear: fields.jlptYear,
-    jlptLevel: fields.jlptLevel, certificates: fields.certificates, skills: fields.skills
+    phone: fields.phone, email: fields.email, address: fields.address, skills: fields.skills
   };
-  for (let i = 1; i <= 8; i += 1) { const row = education[i - 1] || {}; data['education' + i + 'Year'] = row.year || ''; data['education' + i + 'Month'] = row.month || ''; data['education' + i + 'Detail'] = row.detail ? timelineDetail(row) : ''; }
-  for (let i = 1; i <= 30; i += 1) { const row = experience[i - 1] || {}; data['experience' + i + 'Year'] = row.year || ''; data['experience' + i + 'Month'] = row.month || ''; data['experience' + i + 'Detail'] = row.detail ? timelineDetail(row) : ''; }
+  const educationEvents = datedRows(education, 8), experienceEvents = datedRows(experience, 30), qualificationEvents = qualificationRows(fields, certificates);
+  for (let i = 1; i <= 8; i += 1) { const row = educationEvents[i - 1] || {}; data['education' + i + 'Year'] = row.year || ''; data['education' + i + 'Month'] = row.month || ''; data['education' + i + 'Detail'] = row.detail || ''; }
+  for (let i = 1; i <= 30; i += 1) { const row = experienceEvents[i - 1] || {}; data['experience' + i + 'Year'] = row.year || ''; data['experience' + i + 'Month'] = row.month || ''; data['experience' + i + 'Detail'] = row.detail || ''; }
+  data.qualificationYear = qualificationEvents.map(function (row) { return row.date.slice(0, 4); }).join('\n');
+  data.qualificationMonth = qualificationEvents.map(function (row) { return row.date.slice(5, 7); }).join('\n');
+  data.qualificationDetail = qualificationEvents.map(function (row) { return row.detail; }).join('\n');
   return data;
 }
 async function renderPhoto(filePath, adjustment) {
@@ -56,6 +91,28 @@ async function renderPhoto(filePath, adjustment) {
 function photoFillXml(drawingPrefix, relationshipPrefix) {
   return '<' + drawingPrefix + ':blipFill><' + drawingPrefix + ':blip ' + relationshipPrefix + ':embed="rIdCandidatePhoto"/><' + drawingPrefix + ':stretch><' + drawingPrefix + ':fillRect/></' + drawingPrefix + ':stretch></' + drawingPrefix + ':blipFill>';
 }
+function prepareTemplateForGenerator(template) {
+  const zip = new PizZip(template);
+  let documentXml = zip.file('word/document.xml').asText();
+  const yearIndex = documentXml.indexOf('{qualificationYear}');
+  if (yearIndex < 0) throw new Error('Kolom tanggal sertifikat CV tidak ditemukan pada template.');
+  const firstCellEnd = documentXml.indexOf('</w:tc>', yearIndex);
+  const secondCellStart = documentXml.indexOf('<w:tc', firstCellEnd + 7);
+  const secondCellEnd = documentXml.indexOf('</w:tc>', secondCellStart);
+  if (firstCellEnd < 0 || secondCellStart < 0 || secondCellEnd < 0) throw new Error('Struktur kolom sertifikat CV tidak valid.');
+  const secondCell = documentXml.slice(secondCellStart, secondCellEnd + 7);
+  if (!secondCell.includes('{qualificationMonth}')) {
+    const paragraphEnd = secondCell.lastIndexOf('</w:p>');
+    if (paragraphEnd < 0) throw new Error('Kolom bulan sertifikat CV tidak valid.');
+    const withMonth = secondCell.slice(0, paragraphEnd) + '<w:r><w:t>{qualificationMonth}</w:t></w:r>' + secondCell.slice(paragraphEnd);
+    documentXml = documentXml.slice(0, secondCellStart) + withMonth + documentXml.slice(secondCellEnd + 7);
+  }
+  const qualificationText = /[^<>]*\{jlptLevel\}[^<>]*\{certificates\}/;
+  if (!qualificationText.test(documentXml)) throw new Error('Kolom keterangan sertifikat CV tidak ditemukan pada template.');
+  documentXml = documentXml.replace(qualificationText, '{qualificationDetail}');
+  zip.file('word/document.xml', documentXml);
+  return zip;
+}
 function insertCandidatePhoto(zip, photo) {
   const relationshipId = 'rIdCandidatePhoto';
   let documentXml = zip.file('word/document.xml').asText();
@@ -70,24 +127,22 @@ function insertCandidatePhoto(zip, photo) {
   const firstNoFill = new RegExp('<' + drawingPrefix + ':noFill\\s*/>');
   if (!firstNoFill.test(anchorXml)) throw new Error('Area foto CV tidak dapat diisi.');
   documentXml = documentXml.replace(anchorXml, anchorXml.replace(firstNoFill, photoFillXml(drawingPrefix, relationshipPrefix)));
+  const vmlPhotoPattern = /<([A-Za-z0-9_]+):rect\b([^>]*\bid="Rectangle 6"[^>]*)\/>/;
+  const vmlPhotoMatch = documentXml.match(vmlPhotoPattern);
+  if (!vmlPhotoMatch) throw new Error('Bingkai foto kompatibilitas CV tidak ditemukan pada template.');
+  const vmlAttributes = /\bfilled="[^"]*"/.test(vmlPhotoMatch[2]) ? vmlPhotoMatch[2].replace(/\bfilled="[^"]*"/, 'filled="t"') : vmlPhotoMatch[2] + ' filled="t"';
+  documentXml = documentXml.replace(vmlPhotoPattern, '<' + vmlPhotoMatch[1] + ':rect' + vmlAttributes + '><' + vmlPhotoMatch[1] + ':imagedata ' + relationshipPrefix + ':id="' + relationshipId + '"/></' + vmlPhotoMatch[1] + ':rect>');
   const labelPattern = /<([A-Za-z0-9_]+):AlternateContent>(?:(?!<\/\1:AlternateContent>)[\s\S])*?<\1:Choice\b(?:(?!<\/\1:AlternateContent>)[\s\S])*?<([A-Za-z0-9_]+):docPr\b[^>]*\bname="Rectangle 7"[^>]*\/>((?:(?!<\/\1:AlternateContent>)[\s\S])*?)<\/\1:AlternateContent>/;
   if (!labelPattern.test(documentXml)) throw new Error('Label bingkai foto CV tidak ditemukan pada template.');
   documentXml = documentXml.replace(labelPattern, '');
   let relationships = zip.file('word/_rels/document.xml.rels').asText();
-  relationships = relationships.replace('</Relationships>', '<Relationship Id="' + relationshipId + '" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="media/candidate-photo.png"/></Relationships>');
+  if (!relationships.includes('Id="' + relationshipId + '"')) relationships = relationships.replace('</Relationships>', '<Relationship Id="' + relationshipId + '" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="media/candidate-photo.png"/></Relationships>');
   zip.file('word/document.xml', documentXml);
   zip.file('word/_rels/document.xml.rels', relationships);
   zip.file('word/media/candidate-photo.png', photo);
 }
-async function renderCv(fields, education, experience, photo) {
-  const templatePath = path.join(process.cwd(), 'templates', 'cv-ichikara-template.docx');
-  const template = await fs.readFile(templatePath);
-  const doc = new Docxtemplater(new PizZip(template), { paragraphLoop: true, linebreaks: true, nullGetter: function () { return ''; } });
-  doc.render(templateData(fields, education, experience));
-  const output = doc.getZip().generate({ type: 'nodebuffer', compression: 'DEFLATE' });
-  const withPhoto = new PizZip(output);
-  insertCandidatePhoto(withPhoto, photo);
-  return withPhoto.generate({ type: 'nodebuffer', compression: 'DEFLATE' });
+async function renderCv(fields, education, experience, certificates, photo) {
+  return buildCvDocument(fields, datedRows(education, 8), datedRows(experience, 30), qualificationRows(fields, certificates), photo);
 }
 function configOrThrow() {
   const required = ['SUPABASE_URL', 'SUPABASE_SERVICE_ROLE_KEY', 'RESEND_API_KEY', 'CAREER_FROM_EMAIL', 'CAREER_SITE_URL'];
@@ -106,17 +161,18 @@ async function handler(req, res) {
     const candidate = {
       fullName: text(fields.fullName, 80), nameKatakana: text(fields.nameKatakana, 80), birthDate: text(fields.birthDate, 10), gender: text(fields.gender, 40),
       phone: text(fields.phone, 30), email: text(fields.email, 120).toLowerCase(), address: text(fields.address, 400),
-      jlptLevel: text(fields.jlptLevel, 4), jlptYear: text(fields.jlptYear, 4), certificates: text(fields.certificates, 600), skills: text(fields.skills, 600)
+      jlptLevel: text(fields.jlptLevel, 4), jlptDate: monthValue(text(fields.jlptDate, 7)), skills: text(fields.skills, 600)
     };
+    if (!candidate.jlptDate && /^\d{4}$/.test(text(fields.jlptYear, 4))) candidate.jlptDate = text(fields.jlptYear, 4) + '-01';
     const photoFile = first(files.photo);
     if (!candidate.fullName || !candidate.email || !candidate.phone || !candidate.birthDate || !candidate.address || !photoFile) return res.status(400).json({ error: 'Lengkapi seluruh data wajib dan foto kandidat.' });
     if (!['N1', 'N2'].includes(candidate.jlptLevel)) return res.status(400).json({ error: 'Minimal kualifikasi untuk posisi ini adalah JLPT N2.' });
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(candidate.email)) return res.status(400).json({ error: 'Format email belum benar.' });
-    const education = cleanTimeline(json(fields.education, []), 8), experience = cleanTimeline(json(fields.experience, []), 30);
+    const education = cleanTimeline(json(fields.education, []), 4), experience = cleanTimeline(json(fields.experience, []), 15), certificates = cleanQualifications(json(fields.certificates, []), 7);
     if (!education.length || !experience.length) return res.status(400).json({ error: 'Isi minimal satu riwayat pendidikan dan pengalaman kerja.' });
     const adjustment = json(fields.photoAdjustment, {});
     const processedPhoto = await renderPhoto(photoFile.filepath, adjustment);
-    const cvDocx = await renderCv(candidate, education, experience, processedPhoto);
+    const cvDocx = await renderCv(candidate, education, experience, certificates, processedPhoto);
     const applicationId = crypto.randomUUID(), accessToken = crypto.randomBytes(32).toString('base64url');
     const accessHash = crypto.createHash('sha256').update(accessToken).digest('hex');
     const photoPath = 'applications/' + applicationId + '/photo.png', cvPath = 'applications/' + applicationId + '/cv-ichikara.docx';
@@ -125,7 +181,7 @@ async function handler(req, res) {
     let upload = await sb.storage.from(bucket).upload(photoPath, processedPhoto, { contentType: 'image/png', upsert: false }); if (upload.error) throw upload.error;
     upload = await sb.storage.from(bucket).upload(cvPath, cvDocx, { contentType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', upsert: false }); if (upload.error) throw upload.error;
     const expires = new Date(Date.now() + ACCESS_DAYS * 86400000).toISOString();
-    const payload = { candidate: candidate, education: education, experience: experience, photoAdjustment: adjustment, version: 1 };
+    const payload = { candidate: candidate, education: education, experience: experience, certificates: certificates, photoAdjustment: adjustment, version: 2 };
     const inserted = await sb.from('ichikara_web_applications').insert({ id: applicationId, job_code: 'japanese-interpreter', full_name: candidate.fullName, email: candidate.email, phone: candidate.phone, payload: payload, photo_path: photoPath, cv_docx_path: cvPath, access_token_hash: accessHash, access_expires_at: expires }).select('id').single();
     if (inserted.error) throw inserted.error;
     const site = process.env.CAREER_SITE_URL.replace(/\/$/, ''), link = site + '/career-access.html?token=' + encodeURIComponent(accessToken);
@@ -140,4 +196,4 @@ async function handler(req, res) {
 
 module.exports = handler;
 module.exports.config = config;
-module.exports._internals = { cleanTimeline, renderCv, insertCandidatePhoto, templateData };
+module.exports._internals = { cleanTimeline, cleanQualifications, datedRows, qualificationRows, renderCv, insertCandidatePhoto, templateData, prepareTemplateForGenerator };
