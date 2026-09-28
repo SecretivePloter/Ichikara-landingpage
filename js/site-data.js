@@ -62,7 +62,7 @@
   var _listeners      = [];
 
   function emptyContent() {
-    return { stories: [], clients: { count: 8 }, beranda: { featuredIds: [] }, media: { overrides: {} }, teachers: [] };
+    return { stories: [], clients: { count: 8 }, beranda: { featuredIds: [] }, media: { overrides: {} }, teachers: [], career: {} };
   }
 
   // Ambil semua section dalam satu request (di-cache).
@@ -77,6 +77,7 @@
         else if (row.section === 'clients') out.clients = row.data || out.clients;
         else if (row.section === 'beranda') out.beranda = row.data || out.beranda;
         else if (row.section === 'teachers') out.teachers = Array.isArray(row.data) ? row.data : [];
+        else if (row.section === 'career') out.career = row.data || out.career;
         else if (row.section === 'media') {
           out.media = row.data || out.media;
           mediaOverrides = out.media.overrides || {};

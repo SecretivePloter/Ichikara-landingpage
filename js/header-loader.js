@@ -60,7 +60,7 @@
     </a>\
 \
     <!-- Desktop Navigation -->\
-    <nav class="hidden md:flex items-center gap-9" aria-label="Navigasi utama">\
+    <nav class="hidden md:flex items-center gap-5" aria-label="Navigasi utama">\
 \
       <a id="nav-beranda" href="' + BASE + 'beranda.html"\
          class="hdr-link text-sm font-medium tracking-wide">Beranda</a>\
@@ -102,6 +102,8 @@
          class="hdr-link text-sm font-medium tracking-wide">Kontak</a>\
       <a id="nav-kisah" href="' + BASE + 'success-story.html"\
          class="hdr-link text-sm font-medium tracking-wide">Berita</a>\
+      <a id="nav-career" href="' + BASE + 'career.html"\
+         class="hdr-link text-sm font-medium tracking-wide">Career</a>\
     </nav>\
 \
     <!-- Right side: language toggle + CTA button + mobile hamburger -->\
@@ -166,6 +168,8 @@
          class="text-sm font-medium text-on-surface py-3 border-b border-border-light hover:text-secondary transition-colors">Kontak</a>\
       <a href="' + BASE + 'success-story.html"\
          class="text-sm font-medium text-on-surface py-3 hover:text-secondary transition-colors">Berita</a>\
+      <a href="' + BASE + 'career.html"\
+         class="text-sm font-medium text-on-surface py-3 hover:text-secondary transition-colors">Career</a>\
 \
     </nav>\
   </div>\
@@ -212,6 +216,7 @@
         <ul class="space-y-3">\
           <li><a href="' + BASE + 'tentang-kami.html"   class="text-outline-variant text-sm hover:text-white transition-colors">Tentang Kami</a></li>\
           <li><a href="' + BASE + 'success-story.html"  class="text-outline-variant text-sm hover:text-white transition-colors">Berita</a></li>\
+          <li><a href="' + BASE + 'career.html"         class="text-outline-variant text-sm hover:text-white transition-colors">Career</a></li>\
           <li><a href="' + BASE + 'beranda.html#kontak" class="text-outline-variant text-sm hover:text-white transition-colors">Kontak</a></li>\
         </ul>\
       </div>\
@@ -301,9 +306,10 @@
     function initHeaderScroll() {
         var header = document.getElementById('main-header');
         if (!header) return;
+        var forceLight = document.body.dataset.headerLight === 'true';
 
         function onScroll() {
-            header.classList.toggle('scrolled', window.scrollY > 20);
+            header.classList.toggle('scrolled', forceLight || window.scrollY > 20);
         }
         onScroll(); // set correct state on load (e.g. when refreshed mid-page)
         window.addEventListener('scroll', onScroll, { passive: true });
@@ -403,6 +409,7 @@
             'tentang-kami.html':        'nav-tentang',
             'success-story.html':       'nav-kisah',
             'berita-detail.html':       'nav-kisah',
+            'career.html':              'nav-career',
         };
 
         var activeId = navMap[filename];

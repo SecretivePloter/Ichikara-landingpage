@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="robots" content="noindex, nofollow">
+  <title>Akses CV | PT. Ichikara</title><link rel="icon" type="image/png" href="images/favicon-32.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Serif+JP:wght@600;700&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script><script src="js/tailwind-config.js"></script><link rel="stylesheet" href="css/style.css">
+</head>
+<body class="grid min-h-screen place-items-center bg-surface-container-low px-6 font-inter text-on-surface">
+  <main class="w-full max-w-lg rounded-2xl border border-border-light bg-white p-8 text-center shadow-sm md:p-10" aria-live="polite">
+    <img src="images/logo.png" alt="PT. Ichikara" class="mx-auto h-11 w-auto"><div id="state" class="mt-8"><span class="material-symbols-outlined animate-pulse text-4xl text-secondary" aria-hidden="true">progress_activity</span><h1 class="mt-4 font-noto text-2xl font-bold text-primary">Menyiapkan CV Anda</h1><p class="mt-3 text-sm leading-relaxed text-on-surface-variant">Mohon tunggu sebentar.</p></div>
+  </main>
+  <script>
+    (async function () { var state = document.getElementById('state'), token = new URLSearchParams(location.search).get('token'); if (!token) { state.innerHTML = '<span class="material-symbols-outlined text-4xl text-error">link_off</span><h1 class="mt-4 font-noto text-2xl font-bold text-primary">Tautan tidak lengkap</h1><p class="mt-3 text-sm text-on-surface-variant">Gunakan tautan asli dari email PT. Ichikara.</p>'; return; } try { var res = await fetch('/api/career-access?token=' + encodeURIComponent(token), { cache: 'no-store' }), data = await res.json(); if (!res.ok) throw new Error(data.error); state.innerHTML = '<span class="material-symbols-outlined text-4xl text-secondary">description</span><h1 class="mt-4 font-noto text-2xl font-bold text-primary">CV siap diunduh</h1><p class="mt-3 text-sm leading-relaxed text-on-surface-variant">Halo ' + escapeHtml(data.fullName) + ', file Word CV Anda tersedia melalui tautan aman di bawah.</p><a class="mt-7 inline-flex items-center gap-2 rounded-full bg-secondary px-6 py-3 text-sm font-bold text-white hover:bg-red-hover" href="' + data.downloadUrl + '">Unduh CV Word <span class="material-symbols-outlined text-base">download</span></a><p class="mt-5 text-xs text-outline">Jangan membagikan tautan ini kepada orang lain.</p>'; } catch (error) { state.innerHTML = '<span class="material-symbols-outlined text-4xl text-error">error</span><h1 class="mt-4 font-noto text-2xl font-bold text-primary">CV belum dapat diakses</h1><p class="mt-3 text-sm leading-relaxed text-on-surface-variant">' + escapeHtml(error.message || 'Silakan minta tautan baru kepada PT. Ichikara.') + '</p>'; } function escapeHtml(v) { var div = document.createElement('div'); div.textContent = v || ''; return div.innerHTML; } }());
+  </script>
+</body></html>
