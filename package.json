@@ -6,7 +6,12 @@
   "scripts": {
     "optimize:images": "node scripts/optimize-images.js"
   },
-  "devDependencies": {
-    "sharp": "^0.33.5"
+  "dependencies": {
+    "@supabase/supabase-js": "^2.57.4",
+    "docxtemplater": "^3.67.5",
+    "formidable": "^3.5.2",
+    "pizzip": "^3.2.0",
+    "resend": "^6.0.1",
+    "sharp": "^0.35.5"
   }
 }

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Karier di PT. Ichikara. Lihat lowongan Japanese Interpreter dan kirim aplikasi Anda secara aman.">
+  <title>Career | PT. Ichikara</title>
+  <link rel="icon" type="image/png" href="images/favicon-32.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Serif+JP:wght@600;700&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script src="js/tailwind-config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="js/site-data.js"></script>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    body { overflow-x: clip; }
+    .career-hero { background: radial-gradient(circle at 75% 25%, rgba(192,57,43,.12), transparent 22%), linear-gradient(135deg, #fdfcfa 0%, #f6f0e8 100%); }
+    .career-grid { background-image: linear-gradient(rgba(192,57,43,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(192,57,43,.08) 1px,transparent 1px); background-size: 42px 42px; }
+    .career-hero-image { filter: drop-shadow(0 26px 28px rgba(32, 43, 55, .16)); mix-blend-mode: multiply; }
+    @media (max-width: 767px) { .career-hero-image { bottom: 3%; right: -38%; height: 46%; max-width: 90%; opacity: .22; } }
+    .career-job-image { filter: drop-shadow(0 24px 24px rgba(32, 43, 55, .16)); mix-blend-mode: multiply; }
+    .career-card { box-shadow: 0 24px 65px rgba(25,18,14,.08); }
+  </style>
+</head>
+<body data-site-root="" data-header-light="true" class="bg-surface text-on-surface font-inter">
+  <div id="site-header"></div>
+  <main>
+    <section id="career-hero" class="career-hero relative isolate overflow-hidden pt-48 pb-20 text-primary md:pb-28" aria-labelledby="career-title">
+      <div class="career-grid pointer-events-none absolute inset-0 opacity-30"></div>
+      <img id="career-hero-image" src="images/career-hero.jpeg" alt="Interpreter dalam rapat bisnis manufaktur" class="career-hero-image pointer-events-none absolute bottom-0 right-[-18%] z-[-1] h-[78%] w-auto max-w-[82%] object-contain md:right-[-4%] md:h-[94%] md:max-w-[64%]" fetchpriority="high">
+      <div class="relative mx-auto max-w-[1200px] px-6">
+        <p class="mb-5 text-xs font-bold uppercase tracking-label text-tertiary-fixed">Career at Ichikara</p>
+        <div class="max-w-3xl">
+          <h1 id="career-title" class="font-noto text-4xl font-bold leading-tight md:text-6xl">Bangun komunikasi yang membuat kerja lintas bahasa terasa dekat.</h1>
+          <p id="career-hero-copy" class="mt-6 max-w-2xl text-base leading-relaxed text-on-surface-variant md:text-lg">Bergabunglah dengan tim PT. Ichikara untuk membantu percakapan penting berlangsung dengan jelas, profesional, dan penuh kepercayaan.</p>
+        </div>
+        <div class="mt-10 flex flex-wrap gap-4 text-sm text-on-surface-variant">
+          <span class="inline-flex items-center gap-2"><span class="material-symbols-outlined text-secondary" aria-hidden="true">verified</span>Lowongan aktif</span>
+          <span class="inline-flex items-center gap-2"><span class="material-symbols-outlined text-secondary" aria-hidden="true">description</span>CV Word format Ichikara</span>
+          <span class="inline-flex items-center gap-2"><span class="material-symbols-outlined text-secondary" aria-hidden="true">lock</span>Data terlindungi</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="bg-surface-container-low py-16 md:py-24" aria-labelledby="opening-title">
+      <div class="mx-auto max-w-[1200px] px-6">
+        <div class="mb-10 flex flex-col justify-between gap-4 md:flex-row md:items-end">
+          <div>
+            <p class="mb-3 text-xs font-bold uppercase tracking-label text-secondary">Open position</p>
+            <h2 id="opening-title" class="font-noto text-3xl font-bold text-primary md:text-4xl">Posisi yang tersedia</h2>
+          </div>
+          <p class="max-w-md text-sm leading-relaxed text-on-surface-variant">Setiap lamaran menghasilkan CV terstruktur yang dapat Anda simpan untuk kebutuhan profesional berikutnya.</p>
+        </div>
+        <article class="career-card overflow-hidden rounded-2xl bg-white md:grid md:grid-cols-[1.1fr_.9fr]" aria-labelledby="job-title">
+          <div class="p-7 md:p-10">
+            <div class="mb-8 flex flex-wrap items-center gap-3">
+              <span class="rounded-full bg-secondary px-3 py-1 text-xs font-bold text-white">OPEN POSITION</span>
+              <span class="rounded-full bg-surface-container px-3 py-1 text-xs font-semibold text-on-surface-variant">Bahasa Jepang</span>
+            </div>
+            <h3 id="job-title" class="font-noto text-3xl font-bold text-primary md:text-4xl">Japanese Interpreter</h3>
+            <p id="career-job-summary" class="mt-5 max-w-xl text-base leading-relaxed text-on-surface-variant">Mendampingi komunikasi profesional antara klien Jepang dan Indonesia dalam rapat, kunjungan kerja, serta kegiatan operasional.</p>
+            <dl class="mt-8 grid gap-4 text-sm sm:grid-cols-2">
+              <div class="rounded-xl border border-border-light p-4"><dt class="text-xs font-bold uppercase tracking-label text-outline">Kualifikasi</dt><dd class="mt-2 font-semibold text-primary">Minimal JLPT N2</dd></div>
+              <div class="rounded-xl border border-border-light p-4"><dt class="text-xs font-bold uppercase tracking-label text-outline">Pengalaman</dt><dd class="mt-2 font-semibold text-primary">Pernah menjadi penerjemah Jepang</dd></div>
+            </dl>
+            <a href="career-apply.html" class="mt-9 inline-flex items-center gap-2 rounded-full bg-secondary px-6 py-3.5 text-sm font-bold text-white transition-colors hover:bg-red-hover">Lamar Posisi Ini <span class="material-symbols-outlined text-base" aria-hidden="true">arrow_forward</span></a>
+          </div>
+          <div class="relative min-h-[300px] overflow-hidden bg-surface-container">
+            <img id="career-job-image" src="images/career-interpreter-card.jpeg" alt="Interpreter profesional dalam kegiatan bisnis" class="career-job-image absolute inset-0 h-full w-full object-contain p-3" loading="lazy">
+            <div class="absolute bottom-7 left-7 right-7 text-primary"><span class="material-symbols-outlined text-4xl text-secondary" aria-hidden="true">record_voice_over</span><p class="mt-3 max-w-xs font-noto text-2xl font-bold">Makna yang tersampaikan dengan utuh.</p></div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="py-16 md:py-24" aria-labelledby="process-title">
+      <div class="mx-auto max-w-[1200px] px-6">
+        <div class="grid gap-12 lg:grid-cols-[.8fr_1.2fr] lg:items-start">
+          <div><p class="mb-3 text-xs font-bold uppercase tracking-label text-secondary">Simple process</p><h2 id="process-title" class="font-noto text-3xl font-bold text-primary md:text-4xl">Lamaran yang jelas dari awal.</h2><p class="mt-5 leading-relaxed text-on-surface-variant">Anda mengisi data, mengatur foto, mengecek preview, lalu menerima tautan privat CV melalui email tanpa menunggu tinjauan admin.</p></div>
+          <ol class="grid gap-4 sm:grid-cols-2">
+            <li class="rounded-2xl bg-surface-container p-6"><span class="text-3xl font-bold text-secondary">01</span><h3 class="mt-8 font-bold text-primary">Isi data</h3><p class="mt-2 text-sm leading-relaxed text-on-surface-variant">Identitas, pendidikan, riwayat kerja, dan kualifikasi.</p></li>
+            <li class="rounded-2xl bg-surface-container p-6"><span class="text-3xl font-bold text-secondary">02</span><h3 class="mt-8 font-bold text-primary">Atur foto</h3><p class="mt-2 text-sm leading-relaxed text-on-surface-variant">Crop dan sesuaikan posisi foto untuk format CV Ichikara.</p></li>
+            <li class="rounded-2xl bg-surface-container p-6"><span class="text-3xl font-bold text-secondary">03</span><h3 class="mt-8 font-bold text-primary">Periksa preview</h3><p class="mt-2 text-sm leading-relaxed text-on-surface-variant">Pastikan detail Anda tampil sesuai sebelum dikirim.</p></li>
+            <li class="rounded-2xl bg-surface-container p-6"><span class="text-3xl font-bold text-secondary">04</span><h3 class="mt-8 font-bold text-primary">Terima tautan CV</h3><p class="mt-2 text-sm leading-relaxed text-on-surface-variant">Tautan privat dikirim ke email yang Anda daftarkan.</p></li>
+          </ol>
+        </div>
+      </div>
+    </section>
+  </main>
+  <div id="site-footer"></div>
+  <script>
+    (function () {
+      if (!window.IchikaraSite) return;
+      window.IchikaraSite.onContent(function (content) {
+        var c = content.career || {};
+        var copy = document.getElementById('career-hero-copy');
+        var summary = document.getElementById('career-job-summary');
+        var image = document.getElementById('career-job-image');
+        if (c.heroCopy && copy) copy.textContent = c.heroCopy;
+        if (c.jobSummary && summary) summary.textContent = c.jobSummary;
+        if (c.jobImage && image) { image.src = c.jobImage; document.getElementById('career-hero-image').src = c.jobImage; }
+        if (c.heroImage) document.getElementById('career-hero-image').src = c.heroImage;
+      });
+    }());
+  </script>
+  <script src="js/header-loader.js"></script>
+</body>
+</html>
