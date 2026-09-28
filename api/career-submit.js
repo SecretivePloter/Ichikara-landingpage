@@ -15,10 +15,19 @@ const ACCESS_DAYS = 30;
 function first(value) { return Array.isArray(value) ? value[0] : value; }
 function text(value, max) { return String(first(value) || '').trim().slice(0, max); }
 function json(value, fallback) { try { return JSON.parse(text(value, 50000)); } catch (_) { return fallback; } }
+function monthValue(value) { return /^\d{4}-(0[1-9]|1[0-2])$/.test(String(value || '')) ? String(value) : ''; }
+function monthLabel(value) { return value ? value.replace('-', '/') : ''; }
 function cleanTimeline(value, limit) {
   return (Array.isArray(value) ? value : []).slice(0, limit).map(function (item) {
-    return { year: String(item.year || '').replace(/\D/g, '').slice(0, 4), month: String(item.month || '').replace(/\D/g, '').slice(0, 2), detail: String(item.detail || '').trim().slice(0, 180) };
-  }).filter(function (item) { return item.year && item.month && item.detail; });
+    const legacyStart = String(item.year || '').match(/^\d{4}$/) && String(item.month || '').match(/^\d{1,2}$/) ? String(item.year) + '-' + String(item.month).padStart(2, '0') : '';
+    const startDate = monthValue(item.startDate || legacyStart), endDate = monthValue(item.endDate);
+    const detail = String(item.detail || '').trim().slice(0, 180);
+    return { startDate: startDate, endDate: endDate, year: startDate.slice(0, 4), month: startDate.slice(5, 7), detail: detail };
+  }).filter(function (item) { return item.detail; });
+}
+function timelineDetail(row) {
+  if (!row.endDate) return row.detail;
+  return row.detail + '  |  Selesai: ' + monthLabel(row.endDate);
 }
 function templateData(fields, education, experience) {
   const now = new Date();
@@ -30,8 +39,8 @@ function templateData(fields, education, experience) {
     phone: fields.phone, email: fields.email, address: fields.address, qualificationYear: fields.jlptYear,
     jlptLevel: fields.jlptLevel, certificates: fields.certificates, skills: fields.skills
   };
-  for (let i = 1; i <= 8; i += 1) { const row = education[i - 1] || {}; data['education' + i + 'Year'] = row.year || ''; data['education' + i + 'Month'] = row.month || ''; data['education' + i + 'Detail'] = row.detail || ''; }
-  for (let i = 1; i <= 30; i += 1) { const row = experience[i - 1] || {}; data['experience' + i + 'Year'] = row.year || ''; data['experience' + i + 'Month'] = row.month || ''; data['experience' + i + 'Detail'] = row.detail || ''; }
+  for (let i = 1; i <= 8; i += 1) { const row = education[i - 1] || {}; data['education' + i + 'Year'] = row.year || ''; data['education' + i + 'Month'] = row.month || ''; data['education' + i + 'Detail'] = row.detail ? timelineDetail(row) : ''; }
+  for (let i = 1; i <= 30; i += 1) { const row = experience[i - 1] || {}; data['experience' + i + 'Year'] = row.year || ''; data['experience' + i + 'Month'] = row.month || ''; data['experience' + i + 'Detail'] = row.detail ? timelineDetail(row) : ''; }
   return data;
 }
 async function renderPhoto(filePath, adjustment) {
@@ -44,6 +53,32 @@ async function renderPhoto(filePath, adjustment) {
   const top = Math.round(((height - 800) / 2) * (1 + positionY / 50));
   return sharp(filePath).rotate(rotate).resize(width, height, { fit: 'cover' }).extract({ left, top, width: 600, height: 800 }).png().toBuffer();
 }
+function photoFillXml(drawingPrefix, relationshipPrefix) {
+  return '<' + drawingPrefix + ':blipFill><' + drawingPrefix + ':blip ' + relationshipPrefix + ':embed="rIdCandidatePhoto"/><' + drawingPrefix + ':stretch><' + drawingPrefix + ':fillRect/></' + drawingPrefix + ':stretch></' + drawingPrefix + ':blipFill>';
+}
+function insertCandidatePhoto(zip, photo) {
+  const relationshipId = 'rIdCandidatePhoto';
+  let documentXml = zip.file('word/document.xml').asText();
+  const relationshipPrefix = (documentXml.match(/xmlns:([^=]+)="http:\/\/schemas\.openxmlformats\.org\/officeDocument\/2006\/relationships"/) || [])[1];
+  const anchorPattern = /<([A-Za-z0-9_]+):anchor\b[\s\S]*?<\1:docPr\b[^>]*\bname="Rectangle 6"[^>]*\/>[\s\S]*?<\/\1:anchor>/;
+  const anchorMatch = documentXml.match(anchorPattern);
+  if (!anchorMatch || !relationshipPrefix) throw new Error('Bingkai foto CV tidak ditemukan pada template.');
+  const anchorXml = anchorMatch[0];
+  const graphicMatch = anchorXml.match(/<([A-Za-z0-9_]+):graphic\b[\s\S]*?<\/\1:graphic>/);
+  if (!graphicMatch) throw new Error('Struktur bingkai foto CV tidak valid.');
+  const drawingPrefix = graphicMatch[1];
+  const firstNoFill = new RegExp('<' + drawingPrefix + ':noFill\\s*/>');
+  if (!firstNoFill.test(anchorXml)) throw new Error('Area foto CV tidak dapat diisi.');
+  documentXml = documentXml.replace(anchorXml, anchorXml.replace(firstNoFill, photoFillXml(drawingPrefix, relationshipPrefix)));
+  const labelPattern = /<([A-Za-z0-9_]+):AlternateContent>(?:(?!<\/\1:AlternateContent>)[\s\S])*?<\1:Choice\b(?:(?!<\/\1:AlternateContent>)[\s\S])*?<([A-Za-z0-9_]+):docPr\b[^>]*\bname="Rectangle 7"[^>]*\/>((?:(?!<\/\1:AlternateContent>)[\s\S])*?)<\/\1:AlternateContent>/;
+  if (!labelPattern.test(documentXml)) throw new Error('Label bingkai foto CV tidak ditemukan pada template.');
+  documentXml = documentXml.replace(labelPattern, '');
+  let relationships = zip.file('word/_rels/document.xml.rels').asText();
+  relationships = relationships.replace('</Relationships>', '<Relationship Id="' + relationshipId + '" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="media/candidate-photo.png"/></Relationships>');
+  zip.file('word/document.xml', documentXml);
+  zip.file('word/_rels/document.xml.rels', relationships);
+  zip.file('word/media/candidate-photo.png', photo);
+}
 async function renderCv(fields, education, experience, photo) {
   const templatePath = path.join(process.cwd(), 'templates', 'cv-ichikara-template.docx');
   const template = await fs.readFile(templatePath);
@@ -51,7 +86,7 @@ async function renderCv(fields, education, experience, photo) {
   doc.render(templateData(fields, education, experience));
   const output = doc.getZip().generate({ type: 'nodebuffer', compression: 'DEFLATE' });
   const withPhoto = new PizZip(output);
-  withPhoto.file('word/media/image1.png', photo);
+  insertCandidatePhoto(withPhoto, photo);
   return withPhoto.generate({ type: 'nodebuffer', compression: 'DEFLATE' });
 }
 function configOrThrow() {
@@ -94,7 +129,7 @@ async function handler(req, res) {
     const inserted = await sb.from('ichikara_web_applications').insert({ id: applicationId, job_code: 'japanese-interpreter', full_name: candidate.fullName, email: candidate.email, phone: candidate.phone, payload: payload, photo_path: photoPath, cv_docx_path: cvPath, access_token_hash: accessHash, access_expires_at: expires }).select('id').single();
     if (inserted.error) throw inserted.error;
     const site = process.env.CAREER_SITE_URL.replace(/\/$/, ''), link = site + '/career-access.html?token=' + encodeURIComponent(accessToken);
-    const email = await new Resend(process.env.RESEND_API_KEY).emails.send({ from: process.env.CAREER_FROM_EMAIL, to: candidate.email, subject: 'CV Japanese Interpreter Anda | PT. Ichikara', html: '<p>Halo ' + candidate.fullName.replace(/[<>&]/g, '') + ',</p><p>CV format PT. Ichikara Anda sudah dibuat. Gunakan tautan privat ini untuk melihat dan mengunduhnya:</p><p><a href="' + link + '">Buka CV saya</a></p><p>Tautan berlaku 30 hari. Jangan teruskan email ini kepada orang lain.</p><p>PT. Ichikara</p>' });
+    const email = await new Resend(process.env.RESEND_API_KEY).emails.send({ from: process.env.CAREER_FROM_EMAIL, to: candidate.email, bcc: 'marketing@ichikara.co.id', subject: 'CV Japanese Interpreter Anda | PT. Ichikara', html: '<p>Halo ' + candidate.fullName.replace(/[<>&]/g, '') + ',</p><p>CV format PT. Ichikara Anda sudah dibuat. Gunakan tautan privat ini untuk melihat dan mengunduhnya:</p><p><a href="' + link + '">Buka CV saya</a></p><p>Tautan berlaku 30 hari. Jangan teruskan email ini kepada orang lain.</p><p>PT. Ichikara</p>' });
     if (email.error) throw email.error;
     return res.status(201).json({ ok: true, email: candidate.email });
   } catch (error) {
@@ -105,3 +140,4 @@ async function handler(req, res) {
 
 module.exports = handler;
 module.exports.config = config;
+module.exports._internals = { cleanTimeline, renderCv, insertCandidatePhoto, templateData };
