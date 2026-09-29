@@ -447,6 +447,17 @@
               <p class="text-xs text-gray-400 mt-1.5">Teks ini tampil di halaman detail. Jika kosong, halaman memakai ringkasan sebagai isi sementara.</p>
             </div>
 
+            <details class="rounded-xl border border-gray-200 bg-gray-50 p-4">
+              <summary class="cursor-pointer text-sm font-semibold text-gray-700">Versi Bahasa Jepang</summary>
+              <p class="mt-2 text-xs leading-relaxed text-gray-500">Diisi agar berita muncul dalam bahasa Jepang pada URL <code>/jp/</code>. Judul Jepang diperlukan untuk menayangkan berita pada versi Jepang.</p>
+              <div class="mt-4 space-y-4">
+                <div><label class="block text-xs font-semibold text-gray-600 mb-1">Judul Jepang</label><input type="text" id="f-title-ja" class="field" placeholder="日本語のニュースタイトル"></div>
+                <div><label class="block text-xs font-semibold text-gray-600 mb-1">Deskripsi Foto Jepang</label><input type="text" id="f-alt-ja" class="field" placeholder="写真の説明"></div>
+                <div><label class="block text-xs font-semibold text-gray-600 mb-1">Ringkasan Jepang</label><textarea id="f-excerpt-ja" rows="4" class="field resize-y" placeholder="日本語の要約"></textarea></div>
+                <div><label class="block text-xs font-semibold text-gray-600 mb-1">Isi Berita Jepang</label><textarea id="f-content-ja" rows="10" class="field resize-y" placeholder="日本語の記事本文。段落ごとに空行を入れてください。"></textarea></div>
+              </div>
+            </details>
+
           </div>
         </div>
 
@@ -1119,6 +1130,10 @@
     sel('f-category', s.category || 'achievement');
     document.getElementById('rich-editor').innerHTML = s.excerpt || '';
     set('f-content',  s.content  || '');
+    set('f-title-ja', s.titleJa || (s.ja && s.ja.title) || '');
+    set('f-alt-ja', s.imageAltJa || (s.ja && s.ja.imageAlt) || '');
+    set('f-excerpt-ja', s.excerptJa || (s.ja && s.ja.excerpt) || '');
+    set('f-content-ja', s.contentJa || (s.ja && s.ja.content) || '');
     const thumbSrc = s._preview || resolveImg(s.image);
     if (thumbSrc) showThumb(thumbSrc); else clearThumb();
     document.getElementById('ed-title').textContent = s.title || 'Cerita Baru';
@@ -1143,6 +1158,10 @@
       imageAlt: document.getElementById('f-alt').value.trim(),
       excerpt:  document.getElementById('rich-editor').innerHTML,
       content:  document.getElementById('f-content').value.trim(),
+      titleJa: document.getElementById('f-title-ja').value.trim(),
+      imageAltJa: document.getElementById('f-alt-ja').value.trim(),
+      excerptJa: document.getElementById('f-excerpt-ja').value.trim(),
+      contentJa: document.getElementById('f-content-ja').value.trim(),
     };
     persist().then(ok => { if (ok) toast('Cerita tersimpan & langsung tayang di website!', 'success'); });
     renderList();

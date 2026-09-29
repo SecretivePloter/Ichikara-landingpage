@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tentang Kami | PT. Ichikara</title>
+  <meta name="description" content="Mengenal PT. Ichikara, perusahaan penerjemahan dan pendidikan bahasa Jepang untuk individu maupun perusahaan.">
+  <link rel="canonical" href="https://www.ichikara.co.id/jp/tentang-kami.html">
+  <link rel="alternate" hreflang="id" href="https://www.ichikara.co.id/tentang-kami.html">
+  <link rel="alternate" hreflang="ja" href="https://www.ichikara.co.id/jp/tentang-kami.html">
+  <link rel="icon" type="image/png" sizes="32x32" href="../images/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../images/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="../images/apple-touch-icon.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Serif+JP:wght@600;700;900&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script src="../js/tailwind-config.js"></script>
+  <!-- Konten dinamis: Supabase + loader bersama (lihat js/site-data.js) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="../js/site-data.js"></script>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body class="bg-background text-on-background font-inter" data-site-root="../">
+
+  <div id="site-header"></div>
+
+  <main>
+
+    <!-- =========================================================
+         HERO  -  full-bleed office photo, centered bilingual title
+         Image: images/kantor-ichikara.jpg
+         ========================================================= -->
+    <section class="relative min-h-[85vh] flex items-center justify-center overflow-hidden bg-primary" aria-label="Tentang PT. Ichikara">
+      <img src="../images/kantor-ichikara.jpg"
+           alt="Kantor PT. Ichikara, ruang kerja tim penerjemah dan interpreter profesional"
+           class="absolute inset-0 w-full h-full object-cover">
+      <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/55 to-black/85"></div>
+      <div class="absolute inset-0 flex items-center justify-center" aria-hidden="true">
+        <span class="japanese-watermark text-white text-[26rem] lg:text-[36rem]">社</span>
+      </div>
+
+      <div class="relative z-10 max-w-3xl mx-auto px-6 text-center text-white pt-20">
+        <nav class="flex justify-center gap-2 text-xs text-white/60 mb-6" aria-label="Breadcrumb">
+          <a href="beranda.html" class="hover:text-white transition-colors">Beranda</a>
+          <span aria-hidden="true">/</span>
+          <span class="text-white" aria-current="page">Tentang Kami</span>
+        </nav>
+        <p class="label-kicker text-white/70 mb-6">会社概要 &middot; 一花株式会社</p>
+        <h1 class="font-noto font-bold text-5xl lg:text-7xl leading-[1.1] mb-6">Tentang Kami</h1>
+        <p class="text-lg lg:text-xl text-white/80 leading-relaxed max-w-2xl mx-auto">
+          Menjembatani Indonesia dan Jepang melalui bahasa, kepercayaan, dan kompetensi, dari ruang kelas hingga ruang rapat bisnis.
+        </p>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         COMPANY STORY  -  Indonesian + Japanese bilingual text
+         ========================================================= -->
+    <section class="py-xxl bg-white" aria-labelledby="cerita-heading">
+      <div class="container mx-auto max-w-[1200px] px-6 grid lg:grid-cols-2 gap-16">
+
+        <!-- Indonesian -->
+        <div>
+          <h2 id="cerita-heading" class="text-primary text-3xl font-noto font-bold mb-8 border-l-4 border-secondary pl-6">
+            Kisah PT. Ichikara
+          </h2>
+          <div class="space-y-5 text-on-surface-variant leading-relaxed">
+            <p>
+              PT. Ichikara bergerak di bidang penerjemahan dan pendidikan bahasa Jepang untuk individu maupun perusahaan.
+            </p>
+            <p>
+              Dari ruang kelas tempat siswa pertama kali mengenal huruf Hiragana, hingga meja negosiasi tempat kontrak bisnis diterjemahkan kata demi kata  -  kami hadir di setiap titik pertemuan antara dua bahasa dan dua budaya, memastikan tidak ada makna yang hilang dalam prosesnya.
+            </p>
+          </div>
+        </div>
+
+        <!-- Japanese (bilingual copy) -->
+        <div>
+          <h2 class="text-primary text-3xl font-noto font-bold mb-8 border-l-4 border-tertiary-container pl-6">
+            一花について
+          </h2>
+          <div class="space-y-5 text-on-surface-variant leading-relaxed font-noto">
+            <p>
+              一花株式会社は、日本語の翻訳と教育を専門とし、個人と企業の言語コミュニケーションを支えています。
+            </p>
+            <p>
+              初めてひらがなを学ぶ教室から、一語一句が重みを持つビジネスの商談の場まで。私たちは二つの言語と文化が出会うあらゆる瞬間に寄り添い、その意味が失われないよう努めています。
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =========================================================
+         VISI & MISI (sumber: brosur, ditulis ulang lebih naratif)
+         ========================================================= -->
+    <section class="py-xxl bg-primary relative overflow-hidden" aria-labelledby="visi-heading">
+      <div class="absolute inset-0 flex items-center justify-center pointer-events-none" aria-hidden="true">
+        <span class="japanese-watermark text-white text-[24rem] lg:text-[32rem]">志</span>
+      </div>
+      <div class="container mx-auto max-w-[1200px] px-6 relative z-10">
+
+        <div class="text-center max-w-2xl mx-auto mb-16 fade-in">
+          <p class="label-kicker text-white/50 mb-4">ビジョン &middot; Visi</p>
+          <h2 id="visi-heading" class="text-white text-3xl lg:text-4xl font-noto font-bold leading-snug">
+            Menjadi perusahaan penyedia jasa bahasa Jepang terbaik di Indonesia.
+          </h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 fade-in">
+          <div class="bg-white/5 border border-white/10 rounded-xl p-6 backdrop-blur-sm hover:bg-white/10 transition-colors">
+            <span class="material-symbols-outlined text-tertiary text-2xl mb-4 block" aria-hidden="true">workspace_premium</span>
+            <h3 class="font-noto font-bold text-white text-sm mb-2">Utamakan Kepuasan Klien</h3>
+            <p class="text-xs text-white/60 leading-relaxed">Melayani setiap kebutuhan secara profesional dan penuh tanggung jawab, di setiap bidang yang kami tangani.</p>
+          </div>
+          <div class="bg-white/5 border border-white/10 rounded-xl p-6 backdrop-blur-sm hover:bg-white/10 transition-colors">
+            <span class="material-symbols-outlined text-tertiary text-2xl mb-4 block" aria-hidden="true">diversity_3</span>
+            <h3 class="font-noto font-bold text-white text-sm mb-2">Jembatan Dua Budaya</h3>
+            <p class="text-xs text-white/60 leading-relaxed">Menjembatani pertukaran budaya, bahasa, teknologi, dan etos kerja antara Jepang dan Indonesia.</p>
+          </div>
+          <div class="bg-white/5 border border-white/10 rounded-xl p-6 backdrop-blur-sm hover:bg-white/10 transition-colors">
+            <span class="material-symbols-outlined text-tertiary text-2xl mb-4 block" aria-hidden="true">groups</span>
+            <h3 class="font-noto font-bold text-white text-sm mb-2">Jaringan Penerjemah Terbaik</h3>
+            <p class="text-xs text-white/60 leading-relaxed">Membangun jaringan para penerjemah terbaik dan menjunjung profesionalisme dalam setiap jasa terjemahan.</p>
+          </div>
+          <div class="bg-white/5 border border-white/10 rounded-xl p-6 backdrop-blur-sm hover:bg-white/10 transition-colors">
+            <span class="material-symbols-outlined text-tertiary text-2xl mb-4 block" aria-hidden="true">translate</span>
+            <h3 class="font-noto font-bold text-white text-sm mb-2">Solusi Penerjemahan Menyeluruh</h3>
+            <p class="text-xs text-white/60 leading-relaxed">Menjadi solusi terbaik dalam jasa penerjemahan, baik lisan (interpreter) maupun tulisan.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =========================================================
+         VALUES  -  4 cards with icons
+         ========================================================= -->
+    <section class="py-xxl bg-bg-gray" aria-labelledby="nilai-heading">
+      <div class="container mx-auto max-w-[1200px] px-6">
+        <div class="text-center mb-16 fade-in">
+          <h2 id="nilai-heading" class="text-primary text-4xl font-noto font-bold mb-4">Nilai-Nilai Kami</h2>
+          <p class="text-on-surface-variant max-w-xl mx-auto">Prinsip yang memandu setiap pekerjaan dan keputusan kami.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div class="bg-white p-8 rounded-xl border border-border-light service-card text-center">
+            <div class="w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-5">
+              <span class="material-symbols-outlined text-primary text-2xl" aria-hidden="true">verified</span>
+            </div>
+            <h3 class="font-noto font-bold text-primary mb-3">Akurasi</h3>
+            <p class="text-xs text-on-surface-variant leading-relaxed">Setiap kata dipilih dengan cermat. Tidak ada ruang untuk ketidakakuratan dalam dunia bisnis dan hukum.</p>
+          </div>
+          <div class="bg-white p-8 rounded-xl border border-border-light service-card text-center">
+            <div class="w-14 h-14 bg-secondary/10 rounded-full flex items-center justify-center mx-auto mb-5">
+              <span class="material-symbols-outlined text-secondary text-2xl" aria-hidden="true">handshake</span>
+            </div>
+            <h3 class="font-noto font-bold text-primary mb-3">Kepercayaan</h3>
+            <p class="text-xs text-on-surface-variant leading-relaxed">Klien mempercayakan dokumen sensitif kepada kami. Kepercayaan itu kami jaga dengan sepenuh hati.</p>
+          </div>
+          <div class="bg-white p-8 rounded-xl border border-border-light service-card text-center">
+            <div class="w-14 h-14 bg-tertiary/10 rounded-full flex items-center justify-center mx-auto mb-5">
+              <span class="material-symbols-outlined text-tertiary text-2xl" aria-hidden="true">psychology</span>
+            </div>
+            <h3 class="font-noto font-bold text-primary mb-3">Konteks Budaya</h3>
+            <p class="text-xs text-on-surface-variant leading-relaxed">Bahasa bukan sekadar kata-kata. Kami memahami nuansa budaya yang membuat komunikasi benar-benar efektif.</p>
+          </div>
+          <div class="bg-white p-8 rounded-xl border border-border-light service-card text-center">
+            <div class="w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-5">
+              <span class="material-symbols-outlined text-primary text-2xl" aria-hidden="true">trending_up</span>
+            </div>
+            <h3 class="font-noto font-bold text-primary mb-3">Pertumbuhan</h3>
+            <p class="text-xs text-on-surface-variant leading-relaxed">Sukses klien adalah sukses kami. Kami terus berkembang agar selalu relevan dengan kebutuhan industri.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         SERVICES OVERVIEW  -  3 image cards with hover
+         Images: images/tentang-layanan-*.jpg
+         ========================================================= -->
+    <section class="py-xxl bg-white" aria-labelledby="layanan-tentang-heading">
+      <div class="container mx-auto max-w-[1200px] px-6">
+        <div class="text-center mb-16 fade-in">
+          <h2 id="layanan-tentang-heading" class="text-primary text-4xl font-noto font-bold mb-4">Layanan Kami</h2>
+          <p class="text-on-surface-variant max-w-xl mx-auto">Tiga layanan utama yang menjadi keunggulan PT. Ichikara.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- TODO: Add → images/tentang-layanan-penerjemah.jpg, tentang-layanan-interpreter.jpg, tentang-layanan-kursus.jpg -->
+
+          <a href="jasa-penerjemah.html" class="group relative h-64 rounded-2xl overflow-hidden shadow-lg">
+            <img src="../images/tentang-layanan-penerjemah.jpg" alt="Layanan Jasa Penerjemah PT. Ichikara" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy">
+            <div class="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/30 to-transparent"></div>
+            <div class="relative h-full p-6 flex flex-col justify-end">
+              <h3 class="font-noto font-bold text-white text-lg">Jasa Penerjemah</h3>
+              <p class="text-white/70 text-xs mt-1 group-hover:text-white transition-colors">Dokumen &amp; Konten</p>
+            </div>
+          </a>
+
+          <a href="jasa-interpreter.html" class="group relative h-64 rounded-2xl overflow-hidden shadow-lg">
+            <img src="../images/tentang-layanan-interpreter.jpg" alt="Layanan Jasa Interpreter PT. Ichikara" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy">
+            <div class="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/30 to-transparent"></div>
+            <div class="relative h-full p-6 flex flex-col justify-end">
+              <h3 class="font-noto font-bold text-white text-lg">Jasa Interpreter</h3>
+              <p class="text-white/70 text-xs mt-1 group-hover:text-white transition-colors">Meeting &amp; Konferensi</p>
+            </div>
+          </a>
+
+          <a href="kursus-bahasa.html" class="group relative h-64 rounded-2xl overflow-hidden shadow-lg">
+            <img src="../images/tentang-layanan-kursus.jpg" alt="Layanan Kursus Bahasa Jepang PT. Ichikara" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy">
+            <div class="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/30 to-transparent"></div>
+            <div class="relative h-full p-6 flex flex-col justify-end">
+              <h3 class="font-noto font-bold text-white text-lg">Kursus Bahasa</h3>
+              <p class="text-white/70 text-xs mt-1 group-hover:text-white transition-colors">N5 – N1 JLPT</p>
+            </div>
+          </a>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         CTA BANNER
+         ========================================================= -->
+    <section class="py-xxl bg-primary" aria-label="Hubungi kami">
+      <div class="container mx-auto max-w-[1200px] px-6 text-center">
+        <h2 class="text-white text-4xl font-noto font-bold mb-6">Mari Berkolaborasi</h2>
+        <p class="text-surface-container-highest text-lg mb-10 max-w-xl mx-auto">
+          Hubungi kami untuk berdiskusi tentang kebutuhan layanan bahasa Jepang Anda.
+        </p>
+        <!-- TODO: Replace XXXXXXXXXX with real WhatsApp number -->
+        <a href="https://wa.me/6281318216260" class="inline-flex items-center gap-3 bg-secondary text-white px-10 py-5 rounded-full font-bold hover:bg-red-hover transition-all" rel="noopener noreferrer" target="_blank">
+          <span class="material-symbols-outlined" aria-hidden="true">chat</span>
+          Hubungi via WhatsApp
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script src="../js/jp-static-copy.js"></script>
+  <script src="../js/jp-header-loader.js?v=20260914-berita"></script>
+
+</body>
+</html>
