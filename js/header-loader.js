@@ -39,6 +39,19 @@
     //   Root pages (beranda.html, etc.): data-site-root=""
     //   Subdirectory pages (jasa-penerjemah/*.html): data-site-root="../"
     var BASE = document.body.dataset.siteRoot || '';
+    var currentPage = window.location.pathname.replace(/^\//, '') || 'beranda.html';
+    var japaneseUrl = '/jp/' + currentPage + window.location.search + window.location.hash;
+    var LANGUAGE_MENU_HTML = '\
+      <div class="relative group">\
+        <button type="button" class="hdr-link flex items-center gap-1.5 rounded-full border border-current/20 px-3 py-2 text-xs font-bold" aria-label="Pilih bahasa">\
+          <span aria-hidden="true">🇮🇩</span> ID\
+          <span class="material-symbols-outlined text-sm" aria-hidden="true">expand_more</span>\
+        </button>\
+        <div class="absolute right-0 top-full mt-2 hidden min-w-[110px] rounded-xl border border-border-light bg-white p-1 shadow-xl group-hover:block group-focus-within:block">\
+          <a href="' + window.location.pathname + window.location.search + window.location.hash + '" class="flex items-center gap-2 rounded-lg bg-surface-container px-3 py-2 text-sm font-semibold text-on-surface">🇮🇩 ID</a>\
+          <a href="' + japaneseUrl + '" class="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-on-surface hover:bg-surface-container">🇯🇵 日本</a>\
+        </div>\
+      </div>';
 
     // =========================================================================
     // HEADER TEMPLATE
@@ -108,6 +121,7 @@
 \
     <!-- Right side: language toggle + CTA button + mobile hamburger -->\
     <div class="flex items-center gap-3">\
+      ' + LANGUAGE_MENU_HTML + '\
 \
       <!-- Primary CTA  -  pill  -  update WhatsApp number below -->\
       <a href="https://wa.me/6281318216260"\
@@ -170,6 +184,10 @@
          class="text-sm font-medium text-on-surface py-3 hover:text-secondary transition-colors">Berita</a>\
       <a href="' + BASE + 'career.html"\
          class="text-sm font-medium text-on-surface py-3 hover:text-secondary transition-colors">Career</a>\
+      <div class="flex gap-2 pt-3 border-t border-border-light">\
+        <a href="' + window.location.pathname + window.location.search + window.location.hash + '" class="inline-flex items-center gap-2 rounded-lg bg-surface-container px-3 py-2 text-sm font-semibold text-on-surface">🇮🇩 ID</a>\
+        <a href="' + japaneseUrl + '" class="inline-flex items-center gap-2 rounded-lg border border-border-light px-3 py-2 text-sm font-semibold text-on-surface">🇯🇵 日本</a>\
+      </div>\
 \
     </nav>\
   </div>\
