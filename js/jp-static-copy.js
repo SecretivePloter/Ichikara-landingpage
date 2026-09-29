@@ -773,3 +773,18 @@ if (window.IchikaraJapanese) window.IchikaraJapanese.apply();
   });
   if (window.IchikaraJapanese) window.IchikaraJapanese.apply();
 }());
+
+
+/* Teacher specialties come from the admin data store, so keep their Japanese
+ * labels in the client-side catalog as well. */
+(function () {
+  'use strict';
+  var copy = window.ICHIKARA_JP_COPY;
+  Object.assign(copy['/kursus-bahasa.html'], {
+    'Sensei SSW': 'SSW講師',
+    'Koordinator Div Edukasi': '教育部コーディネーター',
+    'Sensei TG & Bimbel, JLPT N3': 'TG・補習講師、JLPT N3',
+    'Sensei GST': 'GST講師'
+  });
+  if (window.IchikaraJapanese) window.IchikaraJapanese.apply();
+}());
