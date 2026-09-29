@@ -36,9 +36,27 @@
   document.getElementById('site-header') && (document.getElementById('site-header').innerHTML = H);
   document.getElementById('site-footer') && (document.getElementById('site-footer').innerHTML = F());
   var year = document.getElementById('footer-year'); if (year) year.textContent = new Date().getFullYear();
+  initFadeIn();
   var header = document.getElementById('main-header'); var forceLight = document.body.dataset.headerLight === 'true'; function scroll() { if (header) header.classList.toggle('scrolled', forceLight || scrollY > 20); } scroll(); addEventListener('scroll', scroll, { passive: true });
   var btn = document.getElementById('hamburger-btn'), menu = document.getElementById('mobile-menu'); if (btn && menu) btn.addEventListener('click', function () { var open = !menu.classList.contains('hidden'); menu.classList.toggle('hidden', open); btn.setAttribute('aria-expanded', String(!open)); menu.setAttribute('aria-hidden', String(open)); btn.querySelector('span').textContent = open ? 'menu' : 'close'; });
   var serviceButton = document.getElementById('mobile-layanan-btn'), serviceMenu = document.getElementById('mobile-layanan-sub'); if (serviceButton && serviceMenu) serviceButton.addEventListener('click', function () { serviceMenu.classList.toggle('hidden'); });
   var names = { 'beranda.html':'nav-beranda','jasa-penerjemah.html':'nav-layanan','jasa-interpreter.html':'nav-layanan','sewa-alat-interpreter.html':'nav-layanan','kursus-bahasa.html':'nav-layanan','rental-mobil.html':'nav-layanan','tentang-kami.html':'nav-tentang','success-story.html':'nav-kisah','berita-detail.html':'nav-kisah','career.html':'nav-career' }; var active = names[currentFile.split('/').pop()]; var target = document.getElementById(active); if (target) (target.querySelector('button') || target).classList.add('nav-active');
   if (window.IchikaraSite && window.IchikaraSite.onContent) window.IchikaraSite.onContent(function (content) { window.IchikaraSite.applyMediaOverrides(content); });
+  function initFadeIn() {
+    var elements = document.querySelectorAll('.fade-in');
+    if (!elements.length) return;
+    if (!('IntersectionObserver' in window)) {
+      elements.forEach(function (element) { element.classList.add('visible'); });
+      return;
+    }
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    elements.forEach(function (element) { observer.observe(element); });
+  }
 }());
