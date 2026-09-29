@@ -42,15 +42,13 @@
     var currentPage = window.location.pathname.replace(/^\//, '') || 'beranda.html';
     var japaneseUrl = '/jp/' + currentPage + window.location.search + window.location.hash;
     var LANGUAGE_MENU_HTML = '\
-      <div class="relative group">\
-        <button type="button" class="hdr-link flex items-center gap-1.5 rounded-full border border-current/20 px-3 py-2 text-xs font-bold" aria-label="Pilih bahasa">\
-          <span aria-hidden="true">🇮🇩</span> ID\
-          <span class="material-symbols-outlined text-sm" aria-hidden="true">expand_more</span>\
-        </button>\
-        <div class="absolute right-0 top-full mt-2 hidden min-w-[110px] rounded-xl border border-border-light bg-white p-1 shadow-xl group-hover:block group-focus-within:block">\
-          <a href="' + window.location.pathname + window.location.search + window.location.hash + '" class="flex items-center gap-2 rounded-lg bg-surface-container px-3 py-2 text-sm font-semibold text-on-surface">🇮🇩 ID</a>\
-          <a href="' + japaneseUrl + '" class="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-on-surface hover:bg-surface-container">🇯🇵 日本</a>\
-        </div>\
+      <div class="inline-flex items-center overflow-hidden rounded-full border border-current/20 bg-white/10 text-xs font-bold shadow-sm" aria-label="Pilih bahasa">\
+        <a href="' + window.location.pathname + window.location.search + window.location.hash + '" class="hdr-link inline-flex items-center gap-1.5 px-3 py-2" aria-label="Bahasa Indonesia">\
+          <span class="inline-flex h-3 w-4 overflow-hidden rounded-[2px] border border-black/10 bg-[linear-gradient(to_bottom,_#e13b33_0_50%,_#ffffff_50%)]" aria-hidden="true"></span>ID\
+        </a>\
+        <a href="' + japaneseUrl + '" class="hdr-link inline-flex items-center gap-1.5 border-l border-current/15 bg-white/15 px-3 py-2 transition-colors hover:bg-white/25" aria-label="日本語">\
+          <span class="inline-flex h-3 w-4 items-center justify-center rounded-[2px] border border-black/10 bg-white" aria-hidden="true"><span class="h-1.5 w-1.5 rounded-full bg-[#c9362d]"></span></span>日本\
+        </a>\
       </div>';
 
     // =========================================================================
