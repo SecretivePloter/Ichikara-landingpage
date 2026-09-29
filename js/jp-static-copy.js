@@ -736,3 +736,40 @@ if (window.IchikaraJapanese) window.IchikaraJapanese.apply();
   });
   if (window.IchikaraJapanese) window.IchikaraJapanese.apply();
 }());
+
+
+/* Complete Japanese localization for interpreter and rental-car pricing tables. */
+(function () {
+  'use strict';
+  var copy = window.ICHIKARA_JP_COPY;
+  Object.assign(copy['/jasa-interpreter.html'], {
+    'Bahasa': '対応言語', 'Konteks': '対応場面', 'Biaya': '料金',
+    'Indonesia ⇄ Jepang': 'インドネシア語 ⇄ 日本語', 'Umum': '一般',
+    'Lapangan & Meeting, Audit': '現場・会議・監査', 'Meeting, Audit, Event': '会議・監査・イベント',
+    'Indonesia, Inggris, Jepang': 'インドネシア語・英語・日本語',
+    'Rp 1.400.000 / hari': 'IDR 1,400,000／日', 'Rp 1.850.000 / hari': 'IDR 1,850,000／日',
+    'Rp 2.500.000 / hari': 'IDR 2,500,000／日', 'Rp 4.500.000 / hari': 'IDR 4,500,000／日',
+    '(8 jam)': '（8時間）', 'Paket Reguler Bulanan': '月額常駐パッケージ',
+    'Indonesia ⇄ Jepang  -  Lapangan / Pabrik / Meeting Rutin (min. 6 bulan)': 'インドネシア語 ⇄ 日本語・現場／工場／定例会議（最低6か月）',
+    'Rp 18.000.000 / bulan': 'IDR 18,000,000／月',
+    'Ditambah': '別途', 'Biaya Transportasi / Kedatangan Rp 100.000': '交通・出張費 IDR 100,000',
+    'Toyota · Nissan · OMRON · Aisin · Showa · dan lainnya  -  lihat pencapaian lengkap di bawah': 'Toyota・Nissan・OMRON・Aisin・Showa ほか。実績は下記をご覧ください。',
+    'mengikuti lokasi customer.': 'お客様の所在地により異なります。',
+    'Penempatan jangka panjang (minimal 6 bulan) untuk pendampingan lapangan, pabrik, atau meeting rutin  -  tersedia paket bulanan.': '現場・工場・定例会議を支援する、最低6か月からの長期常駐通訳です。月額プランをご用意しています。',
+    'Disesuaikan dengan event tertentu customer  -  seminar, konferensi, atau acara korporat sekali jalan.': 'セミナー、カンファレンス、単発の企業イベントなど、目的に合わせて対応します。',
+    '-  mengikuti lokasi customer.': 'お客様の所在地により異なります。'
+  });
+  Object.assign(copy['/rental-mobil.html'], {
+    'Sewa Sekarang': '今すぐ予約する', 'Lihat Harga': '料金を見る',
+    'Sewa bulanan dan tahunan dihitung per bulan - makin panjang komitmen, makin hemat tarifnya.': '月額・年額のご利用は月単位で計算します。長期のご契約ほどお得な料金設定です。',
+    'Unit': '車種', 'Periode': '期間', 'Harga': '料金', 'Keterangan': '内容',
+    'Sewa Harian (12 Jam)': '日帰りレンタル（12時間）', 'Sewa Bulanan': '月額レンタル', 'Sewa Tahunan': '年額レンタル',
+    'Per Hari': '1日あたり', 'Per Bulan': '月額', '(kontrak 1 tahun)': '（年間契約）',
+    'Sewa Toyota Avanza atau Toyota Innova untuk kebutuhan harian, bulanan, hingga tahunan  -  dengan harga transparan dan armada terawat.': 'Toyota Avanza・Toyota Innovaを日単位から月額・年額までご利用いただけます。明確な料金と良好に整備された車両をご用意しています。',
+    'Dua pilihan unit sesuai kebutuhan  -  dari perjalanan keluarga hingga kebutuhan operasional perusahaan.': 'ご家族でのお出かけから法人の業務利用まで、用途に合わせて選べる2車種をご用意しています。',
+    'Kabin lebih lega dan nyaman  -  pilihan tepat untuk rombongan, tamu perusahaan, atau perjalanan jarak jauh.': 'ゆとりある快適な室内空間。グループ移動、来客対応、長距離移動に適しています。',
+    'Sewa bulanan dan tahunan dihitung per bulan  -  makin panjang komitmen, makin hemat tarifnya.': '月額・年額のご利用は月単位で計算します。長期のご契約ほどお得な料金設定です。',
+    'Hubungi via WhatsApp': 'WhatsAppで問い合わせ'
+  });
+  if (window.IchikaraJapanese) window.IchikaraJapanese.apply();
+}());
