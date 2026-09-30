@@ -16,6 +16,7 @@ Tambahkan variabel berikut di Vercel untuk Production dan Preview:
 | `SUPABASE_SERVICE_ROLE_KEY` | Service role key, hanya dipakai endpoint server |
 | `RESEND_API_KEY` | API key Resend |
 | `CAREER_FROM_EMAIL` | Pengirim terverifikasi, contoh `PT. Ichikara <marketing@ichikara.co.id>` |
+| `CAREER_ADMIN_EMAILS` | Penerima notifikasi lamaran. Pisahkan beberapa email dengan koma, contoh `marketing@ichikara.co.id,hr@ichikara.co.id` |
 | `CAREER_SITE_URL` | URL publik, `https://www.ichikara.co.id` |
 | `CAREER_TURNSTILE_SECRET` | Opsional, aktifkan setelah Cloudflare Turnstile dipasang |
 
@@ -26,6 +27,7 @@ Jangan pernah memasukkan service-role key atau Resend API key ke HTML atau JavaS
 1. Tambahkan domain `ichikara.co.id` di Resend.
 2. Tambahkan record DNS yang diminta Resend.
 3. Setelah status domain verified, gunakan pengirim `marketing@ichikara.co.id`.
+4. Periksa menu **Emails** di Resend setelah uji kirim. Endpoint menyimpan ID pesan kandidat dan admin pada Vercel Runtime Logs, sehingga status Delivered, Bounced, atau Failed bisa ditelusuri tanpa mengandalkan folder Inbox.
 
 ## 4. Template CV
 
