@@ -12,10 +12,19 @@ const { Resend } = require('resend');
 const config = { api: { bodyParser: false } };
 const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
 const ACCESS_DAYS = 30;
+const DEFAULT_ADMIN_RECIPIENT = 'marketing@ichikara.co.id';
 
 function first(value) { return Array.isArray(value) ? value[0] : value; }
 function text(value, max) { return String(first(value) || '').trim().slice(0, max); }
 function json(value, fallback) { try { return JSON.parse(text(value, 50000)); } catch (_) { return fallback; } }
+function escapeHtml(value) { return String(value || '').replace(/[<>&"]/g, function (character) { return ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;' })[character]; }); }
+function adminRecipients(value) {
+  const supplied = String(value || '').trim();
+  const recipients = (supplied ? supplied.split(',') : [DEFAULT_ADMIN_RECIPIENT]).map(function (item) { return item.trim().toLowerCase(); }).filter(Boolean);
+  const unique = Array.from(new Set(recipients));
+  if (!unique.length || unique.length > 10 || unique.some(function (email) { return !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email); })) throw new Error('CAREER_ADMIN_EMAILS tidak valid. Gunakan maksimal 10 email yang dipisahkan koma.');
+  return unique;
+}
 function monthValue(value) { return /^\d{4}-(0[1-9]|1[0-2])$/.test(String(value || '')) ? String(value) : ''; }
 function cleanTimeline(value, limit) {
   return (Array.isArray(value) ? value : []).slice(0, limit).map(function (item) {
@@ -150,6 +159,27 @@ function configOrThrow() {
   if (missing.length) throw new Error('Sistem Career belum dikonfigurasi.');
 }
 
+async function sendCareerEmails(resend, details) {
+  const candidateMessage = {
+    from: details.from,
+    to: details.candidate.email,
+    subject: 'CV Japanese Interpreter Anda | PT. Ichikara',
+    html: '<p>Halo ' + escapeHtml(details.candidate.fullName) + ',</p><p>CV format PT. Ichikara Anda sudah dibuat. Gunakan tautan privat ini untuk melihat dan mengunduhnya:</p><p><a href="' + details.link + '">Buka CV saya</a></p><p>Tautan berlaku 30 hari. Jangan teruskan email ini kepada orang lain.</p><p>PT. Ichikara</p>'
+  };
+  const adminMessage = {
+    from: details.from,
+    to: details.recipients,
+    replyTo: details.candidate.email,
+    subject: 'Lamaran baru Japanese Interpreter: ' + details.candidate.fullName,
+    html: '<p>Ada lamaran baru untuk posisi <strong>Japanese Interpreter</strong>.</p><table><tr><td>Nama</td><td>' + escapeHtml(details.candidate.fullName) + '</td></tr><tr><td>Email</td><td>' + escapeHtml(details.candidate.email) + '</td></tr><tr><td>Telepon</td><td>' + escapeHtml(details.candidate.phone) + '</td></tr><tr><td>JLPT</td><td>' + escapeHtml(details.candidate.jlptLevel) + '</td></tr></table><p><a href="' + details.link + '">Buka CV kandidat</a></p><p>Balas email ini untuk menghubungi kandidat.</p>'
+  };
+  const results = await Promise.all([resend.emails.send(candidateMessage), resend.emails.send(adminMessage)]);
+  const candidateResult = results[0], adminResult = results[1];
+  if (candidateResult.error) throw candidateResult.error;
+  if (adminResult.error) throw adminResult.error;
+  return { candidateEmailId: candidateResult.data && candidateResult.data.id, adminEmailId: adminResult.data && adminResult.data.id };
+}
+
 async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method tidak diizinkan.' });
   try {
@@ -185,8 +215,8 @@ async function handler(req, res) {
     const inserted = await sb.from('ichikara_web_applications').insert({ id: applicationId, job_code: 'japanese-interpreter', full_name: candidate.fullName, email: candidate.email, phone: candidate.phone, payload: payload, photo_path: photoPath, cv_docx_path: cvPath, access_token_hash: accessHash, access_expires_at: expires }).select('id').single();
     if (inserted.error) throw inserted.error;
     const site = process.env.CAREER_SITE_URL.replace(/\/$/, ''), link = site + '/career-access.html?token=' + encodeURIComponent(accessToken);
-    const email = await new Resend(process.env.RESEND_API_KEY).emails.send({ from: process.env.CAREER_FROM_EMAIL, to: candidate.email, bcc: 'marketing@ichikara.co.id', subject: 'CV Japanese Interpreter Anda | PT. Ichikara', html: '<p>Halo ' + candidate.fullName.replace(/[<>&]/g, '') + ',</p><p>CV format PT. Ichikara Anda sudah dibuat. Gunakan tautan privat ini untuk melihat dan mengunduhnya:</p><p><a href="' + link + '">Buka CV saya</a></p><p>Tautan berlaku 30 hari. Jangan teruskan email ini kepada orang lain.</p><p>PT. Ichikara</p>' });
-    if (email.error) throw email.error;
+    const sent = await sendCareerEmails(new Resend(process.env.RESEND_API_KEY), { from: process.env.CAREER_FROM_EMAIL, recipients: adminRecipients(process.env.CAREER_ADMIN_EMAILS), candidate: candidate, link: link });
+    console.info('career-submit emails accepted', { applicationId: applicationId, candidateEmailId: sent.candidateEmailId, adminEmailId: sent.adminEmailId });
     return res.status(201).json({ ok: true, email: candidate.email });
   } catch (error) {
     console.error('career-submit', error);
@@ -196,4 +226,4 @@ async function handler(req, res) {
 
 module.exports = handler;
 module.exports.config = config;
-module.exports._internals = { cleanTimeline, cleanQualifications, datedRows, qualificationRows, renderCv, insertCandidatePhoto, templateData, prepareTemplateForGenerator };
+module.exports._internals = { adminRecipients, cleanTimeline, cleanQualifications, datedRows, qualificationRows, renderCv, insertCandidatePhoto, sendCareerEmails, templateData, prepareTemplateForGenerator };
