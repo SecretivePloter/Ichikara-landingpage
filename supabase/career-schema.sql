@@ -26,7 +26,7 @@ create index if not exists ichikara_web_applications_status_idx
 
 alter table public.ichikara_web_applications enable row level security;
 
--- Kandidat tidak pernah mengakses tabel langsung. Endpoint Vercel memakai service-role key.
+-- Kandidat tidak pernah mengakses tabel langsung. Endpoint Vercel memakai service-role key. untuk alasan safety
 create policy "Authenticated admin can read career applications"
   on public.ichikara_web_applications
   for select to authenticated using (true);
@@ -35,7 +35,7 @@ create policy "Authenticated admin can update career applications"
   on public.ichikara_web_applications
   for update to authenticated using (true) with check (true);
 
--- Storage harus PRIVATE. Buat bucket ini dari Dashboard Supabase, lalu jalankan kebijakan berikut.
+-- pastikan tidak mengganggu existing database storage. Bucket ini dipakai untuk menyimpan file yang diupload kandidat.
 insert into storage.buckets (id, name, public)
 values ('ichikara-web-recruitment', 'ichikara-web-recruitment', false)
 on conflict (id) do update set public = false;
@@ -57,4 +57,45 @@ $$;
 drop trigger if exists ichikara_web_applications_updated_at on public.ichikara_web_applications;
 create trigger ichikara_web_applications_updated_at
 before update on public.ichikara_web_applications
+for each row execute function public.ichikara_web_set_updated_at();
+
+-- Pendaftaran kursus bahasa Jepang. Terpisah dari lamaran kerja agar status
+-- dan file administrasi siswa tidak tercampur dengan CV kandidat interpreter.
+create table if not exists public.ichikara_web_course_enrollments (
+  id uuid primary key default gen_random_uuid(),
+  status text not null default 'submitted' check (status in ('submitted', 'contacted', 'enrolled', 'cancelled')),
+  full_name text not null,
+  email text not null,
+  phone text not null,
+  place_of_birth text not null,
+  birth_date date not null,
+  address text not null,
+  school_or_company text not null,
+  aspiration text not null,
+  photo_path text not null,
+  card_xlsx_path text not null,
+  access_token_hash text not null unique,
+  access_expires_at timestamptz not null,
+  submitted_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create index if not exists ichikara_web_course_enrollments_email_idx
+  on public.ichikara_web_course_enrollments (lower(email));
+create index if not exists ichikara_web_course_enrollments_status_idx
+  on public.ichikara_web_course_enrollments (status, submitted_at desc);
+
+alter table public.ichikara_web_course_enrollments enable row level security;
+
+create policy "Authenticated admin can read course enrollments"
+  on public.ichikara_web_course_enrollments
+  for select to authenticated using (true);
+
+create policy "Authenticated admin can update course enrollments"
+  on public.ichikara_web_course_enrollments
+  for update to authenticated using (true) with check (true);
+
+drop trigger if exists ichikara_web_course_enrollments_updated_at on public.ichikara_web_course_enrollments;
+create trigger ichikara_web_course_enrollments_updated_at
+before update on public.ichikara_web_course_enrollments
 for each row execute function public.ichikara_web_set_updated_at();
