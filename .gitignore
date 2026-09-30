@@ -2,6 +2,7 @@
 node_modules
 _backup-images
 *.log
+.tmp-student-card.xlsx
 .DS_Store
 nul
 referensi web lama/

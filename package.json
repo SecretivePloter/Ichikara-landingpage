@@ -5,7 +5,8 @@
   "description": "Website PT. Ichikara  -  static site (Vercel) + Supabase-powered admin content",
   "scripts": {
     "optimize:images": "node scripts/optimize-images.js",
-    "test:career-email": "node scripts/test-career-emails.js"
+    "test:career-email": "node scripts/test-career-emails.js",
+    "test:student-card": "node scripts/test-student-card.js"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.57.4",

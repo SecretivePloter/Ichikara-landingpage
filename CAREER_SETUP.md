@@ -4,7 +4,9 @@ Fitur Career memakai halaman publik, endpoint Vercel, Supabase private storage, 
 
 ## 1. Database
 
-Jalankan `supabase/career-schema.sql` di Supabase SQL Editor. Script hanya membuat objek dengan prefix `ichikara_web_` dan bucket `ichikara-web-recruitment`.
+Untuk setup baru, jalankan `supabase/career-schema.sql` di Supabase SQL Editor. Script membuat objek dengan prefix `ichikara_web_` dan bucket `ichikara-web-recruitment`.
+
+Jika fitur Career sudah aktif sebelumnya, jalankan **hanya** `supabase/student-card-schema.sql`. File ini menambahkan tabel pendaftaran siswa kursus bahasa Jepang tanpa menyentuh tabel lamaran interpreter atau bucket yang sudah ada.
 
 ## 2. Vercel Environment Variables
 
@@ -29,9 +31,11 @@ Jangan pernah memasukkan service-role key atau Resend API key ke HTML atau JavaS
 3. Setelah status domain verified, gunakan pengirim `marketing@ichikara.co.id`.
 4. Periksa menu **Emails** di Resend setelah uji kirim. Endpoint menyimpan ID pesan kandidat dan admin pada Vercel Runtime Logs, sehingga status Delivered, Bounced, atau Failed bisa ditelusuri tanpa mengandalkan folder Inbox.
 
-## 4. Template CV
+## 4. Template CV dan kartu siswa
 
 `templates/cv-ichikara-template.docx` adalah turunan dari template CV perusahaan. File ini memakai slot tetap agar tata letak CV tidak bergeser. Jangan menghapus atau mengganti file tersebut tanpa menjalankan ulang `scripts/create-cv-template.py` dari template sumber yang disetujui.
+
+`templates/master-kartu-siswa.xlsx` adalah master kartu siswa. Foto contoh pada master otomatis diganti dengan foto siswa saat form dikirim, sementara kolom NIM dikosongkan sesuai alur pendaftaran kursus.
 
 ## 5. Uji aman
 
