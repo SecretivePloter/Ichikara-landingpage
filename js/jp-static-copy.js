@@ -18,7 +18,7 @@
       'Jasa Penerjemah': '翻訳サービス',
       'Jasa Interpreter': '通訳サービス',
       'Sewa Alat Interpreter': '同時通訳機材レンタル',
-      'Kursus Bahasa Jepang': '日本語研修',
+      'Kursus Bahasa Jepang': '日本語教育',
       'Rental Mobil': 'レンタカー',
       'Kontak Kami': 'お問い合わせ',
       'Perusahaan': '会社情報',
@@ -47,7 +47,7 @@
       'Jasa Penerjemahan': '翻訳サービス',
       'Dokumen bisnis, kontrak hukum, hingga manual teknis. Diterjemahkan dengan akurasi tinggi oleh penerjemah tersumpah berpengalaman di industri Jepang dan Indonesia.': 'ビジネス文書、契約書、技術マニュアルまで。日本とインドネシアの業務に精通した翻訳者が、正確に翻訳します。',
       'Komunikasi bisnis tanpa hambatan bahasa. Interpreter kami hadir di meeting room, lantai produksi, hingga ruang negosiasi Anda.': '言葉の壁を越えたビジネスコミュニケーションを支援します。会議室、製造現場、商談の場まで、通訳者が同行します。',
-      'Belajar bahasa Jepang dengan metode terstruktur, dari N5 hingga N3, untuk individu maupun perusahaan.': '個人・法人向けに、N5からN3まで段階的に学べる体系的な日本語研修をご提供します。',
+      'Belajar bahasa Jepang dengan metode terstruktur, dari N5 hingga N3, untuk individu maupun perusahaan.': '個人・法人向けに、N5からN3まで段階的に学べる体系的な日本語教育をご提供します。',
       '最新ニュース': '最新ニュース',
       'Berita Terbaru': '最新ニュース',
       'Kabar terbaru tentang kegiatan, pencapaian, dan kolaborasi PT. Ichikara.': 'PT. Ichikaraの活動、実績、お客様や地域との協働に関する最新情報をお届けします。',
@@ -88,7 +88,7 @@
       'Tiga layanan utama yang menjadi keunggulan PT. Ichikara.': 'PT. Ichikaraを支える三つの主要サービスです。',
       'Dokumen & Konten': '文書・コンテンツ',
       'Meeting & Konferensi': '会議・カンファレンス',
-      'Kursus Bahasa': '日本語研修',
+      'Kursus Bahasa': '日本語教育',
       'Mari Berkolaborasi': 'まずはご相談ください',
       'Hubungi kami untuk berdiskusi tentang kebutuhan layanan bahasa Jepang Anda.': '日本語サービスに関するご要望を、お気軽にご相談ください。'
     },
@@ -197,9 +197,9 @@
     },
 
     '/kursus-bahasa.html': {
-      'Kursus Bahasa Jepang': '日本語研修',
+      'Kursus Bahasa Jepang': '日本語教育',
       'Belajar bahasa Jepang bertahap 12 level dengan metode bimbel terstruktur - tersedia kelas privat, grup kecil, reguler, hingga program in-house untuk perusahaan.': '全12レベルの体系的なカリキュラムで日本語を段階的に学びます。個人レッスン、少人数クラス、通常クラス、法人向け社内研修に対応しています。',
-      'Language Course': '日本語研修',
+      'Language Course': '日本語教育',
       'Program Bimbel Bahasa Jepang': '日本語学習プログラム',
       'Metode bimbel ini adalah suatu cara yang digunakan untuk mencapai tujuan yang telah ditetapkan dalam metode pembelajaran dalam Bahasa Jepang.': '段階的に学べる、個別最適化型の学習メソッドです。',
       'Metode ini merupakan salah satu model pembelajaran dari Jepang.': '日本で培われた学習方法を取り入れています。',
@@ -229,7 +229,7 @@
       'Placement Test': 'レベルチェック', 'Orientasi Kelas': 'クラスオリエンテーション', 'Pembelajaran Aktif': '授業開始', 'Evaluasi Tengah': '中間評価', 'Tryout JLPT': 'JLPT模擬試験', 'Review Intensif': '集中復習', 'Ujian JLPT': 'JLPT受験', 'Kelulusan & Sertifikat': '修了・認定',
       'Tim Pengajar': '講師陣',
       'Pengajar kami adalah lulusan Jepang dengan sertifikasi JLPT N1 dan pengalaman mengajar lebih dari 5 tahun.': '日本留学経験者、JLPT N1取得者を含む、5年以上の指導経験を持つ講師が担当します。',
-      'Pencapaian Kursus Bahasa': '日本語研修の実績',
+      'Pencapaian Kursus Bahasa': '日本語教育の実績',
       'Sebagian program in-house dan pendampingan bahasa yang sudah kami jalankan bersama klien korporat.': '法人のお客様と実施してきた社内研修・語学支援の主な実績。',
       'Mulai Perjalanan Bahasa Jepang Anda': '日本語学習を始めませんか？',
       'Daftar sekarang dan dapatkan sesi percobaan gratis bersama pengajar kami.': '今すぐお申し込みいただくと、講師による無料体験レッスンをご案内します。'
@@ -598,7 +598,7 @@ window.ICHIKARA_JP_STORIES = {
     '/tentang-kami.html': ['会社案内 | PT. Ichikara', 'PT. Ichikaraの事業、価値観、そして日本とインドネシアをつなぐ取り組みをご紹介します。'],
     '/jasa-interpreter.html': ['日本語通訳サービス | PT. Ichikara', '商談、工場視察、会議、カンファレンスに対応する、インドネシアでの日本語通訳サービス。'],
     '/jasa-penerjemah.html': ['日本語翻訳サービス | PT. Ichikara', 'ビジネス、法務、技術文書に対応する日本語とインドネシア語の翻訳サービス。'],
-    '/kursus-bahasa.html': ['日本語研修 | PT. Ichikara', '個人・法人向けの体系的な日本語研修。初級からJLPT対策まで対応します。'],
+    '/kursus-bahasa.html': ['日本語教育 | PT. Ichikara', '個人・法人向けの体系的な日本語教育。初級からJLPT対策まで対応します。'],
     '/rental-mobil.html': ['レンタカー | PT. Ichikara', 'チカランを中心に、日本企業の業務移動を支えるレンタカーサービス。'],
     '/sewa-alat-interpreter.html': ['同時通訳機材レンタル | PT. Ichikara', '会議、セミナー、国際イベント向けの同時通訳機材レンタルサービス。'],
     '/success-story.html': ['ニュース | PT. Ichikara', 'PT. Ichikaraの活動、実績、お客様との協働に関するニュース。'],
@@ -624,7 +624,7 @@ Object.assign(window.ICHIKARA_JP_COPY.shared, {
   'Hubungi kami': 'お問い合わせ',
   'Tim penerjemah PT. Ichikara sedang mengerjakan dokumen profesional': '専門文書を扱うPT. Ichikaraの翻訳チーム',
   'Interpreter PT. Ichikara memfasilitasi rapat bisnis Indonesia dan Jepang': 'インドネシアと日本のビジネス会議を支援するPT. Ichikaraの通訳者',
-  'Kelas kursus bahasa Jepang PT. Ichikara': 'PT. Ichikaraの日本語研修クラス'
+  'Kelas kursus bahasa Jepang PT. Ichikara': 'PT. Ichikaraの日本語教育クラス'
 });
 if (window.IchikaraJapanese) window.IchikaraJapanese.apply();
 Object.assign(window.ICHIKARA_JP_COPY.shared, {
