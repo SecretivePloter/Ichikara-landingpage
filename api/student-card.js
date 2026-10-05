@@ -36,8 +36,28 @@ function formatBirth(placeOfBirth, birthDate) {
   return placeOfBirth + ', ' + dateLabel;
 }
 
-async function prepareStudentPhoto(filePath) {
-  return sharp(filePath).rotate().resize(1200, 1600, { fit: 'cover', position: 'attention' }).png().toBuffer();
+function numberInRange(value, fallback, minimum, maximum) {
+  const number = Number(value);
+  return Number.isFinite(number) ? Math.min(maximum, Math.max(minimum, number)) : fallback;
+}
+
+async function prepareStudentPhoto(filePath, adjustment) {
+  const normalized = await sharp(filePath).rotate().toBuffer();
+  const metadata = await sharp(normalized).metadata();
+  const width = metadata.width, height = metadata.height;
+  if (!width || !height) throw new Error('Ukuran foto tidak dapat dibaca.');
+  const targetRatio = 1200 / 1600;
+  const zoom = numberInRange(adjustment && adjustment.zoom, 1, 1, 3);
+  const focusX = numberInRange(adjustment && adjustment.x, 0.5, 0, 1);
+  const focusY = numberInRange(adjustment && adjustment.y, 0.5, 0, 1);
+  const sourceRatio = width / height;
+  const baseWidth = sourceRatio > targetRatio ? height * targetRatio : width;
+  const baseHeight = sourceRatio > targetRatio ? height : width / targetRatio;
+  const cropWidth = Math.max(1, Math.round(baseWidth / zoom));
+  const cropHeight = Math.max(1, Math.round(baseHeight / zoom));
+  const left = Math.round(Math.min(width - cropWidth, Math.max(0, focusX * width - cropWidth / 2)));
+  const top = Math.round(Math.min(height - cropHeight, Math.max(0, focusY * height - cropHeight / 2)));
+  return sharp(normalized).extract({ left: left, top: top, width: cropWidth, height: cropHeight }).resize(1200, 1600).png().toBuffer();
 }
 
 async function buildStudentCardWorkbook(fields, photo) {
@@ -61,4 +81,4 @@ async function buildStudentCardWorkbook(fields, photo) {
   return zip.generate({ type: 'nodebuffer', compression: 'DEFLATE' });
 }
 
-module.exports = { buildStudentCardWorkbook, formatBirth, prepareStudentPhoto, replaceCell };
+module.exports = { buildStudentCardWorkbook, formatBirth, prepareStudentPhoto, replaceCell, numberInRange };

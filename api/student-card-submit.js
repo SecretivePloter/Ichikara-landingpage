@@ -48,10 +48,10 @@ async function handler(req, res) {
     if (text(fields.website, 40)) return res.status(200).json({ ok: true, email: text(fields.email, 120) });
     const student = { fullName: text(fields.fullName, 100), placeOfBirth: text(fields.placeOfBirth, 80), birthDate: text(fields.birthDate, 10), address: text(fields.address, 500), phone: text(fields.phone, 30), email: text(fields.email, 120).toLowerCase(), schoolOrCompany: text(fields.schoolOrCompany, 160), aspiration: text(fields.aspiration, 300) };
     const photoFile = first(files.photo);
-    if (!student.fullName || !student.placeOfBirth || !student.birthDate || !student.address || !student.phone || !student.email || !student.schoolOrCompany || !student.aspiration || !photoFile) return res.status(400).json({ error: 'Lengkapi seluruh data wajib dan foto siswa.' });
+    if (!student.fullName || !student.placeOfBirth || !student.birthDate || !student.address || !student.phone || !student.email || !student.aspiration || !photoFile) return res.status(400).json({ error: 'Lengkapi seluruh data wajib dan foto siswa.' });
     if (!/^\d{4}-\d{2}-\d{2}$/.test(student.birthDate) || Number.isNaN(new Date(student.birthDate + 'T00:00:00').getTime())) return res.status(400).json({ error: 'Tanggal lahir belum valid.' });
     if (!validEmail(student.email)) return res.status(400).json({ error: 'Format email belum benar.' });
-    const photo = await prepareStudentPhoto(photoFile.filepath);
+    const photo = await prepareStudentPhoto(photoFile.filepath, { zoom: text(fields.photoZoom, 8), x: text(fields.photoPositionX, 8), y: text(fields.photoPositionY, 8) });
     const xlsx = await buildStudentCardWorkbook(student, photo);
     const id = crypto.randomUUID(), token = crypto.randomBytes(32).toString('base64url'), tokenHash = crypto.createHash('sha256').update(token).digest('hex');
     const photoPath = 'student-cards/' + id + '/photo.png', xlsxPath = 'student-cards/' + id + '/kartu-data-siswa.xlsx';
