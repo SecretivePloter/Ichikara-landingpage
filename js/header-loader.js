@@ -42,11 +42,11 @@
     var currentPage = window.location.pathname.replace(/^\//, '') || 'beranda.html';
     var japaneseUrl = '/jp/' + currentPage + window.location.search + window.location.hash;
     var LANGUAGE_MENU_HTML = '\
-      <div class="inline-flex items-center overflow-hidden rounded-full border border-current/20 bg-white/10 text-xs font-bold shadow-sm" aria-label="Pilih bahasa">\
-        <a href="' + window.location.pathname + window.location.search + window.location.hash + '" class="hdr-link inline-flex items-center gap-1.5 px-3 py-2" aria-label="Bahasa Indonesia">\
+      <div class="inline-flex shrink-0 items-center overflow-hidden rounded-full border border-current/20 bg-white/10 text-[11px] font-bold shadow-sm sm:text-xs" aria-label="Pilih bahasa">\
+        <a href="' + window.location.pathname + window.location.search + window.location.hash + '" class="hdr-link inline-flex items-center gap-1 px-2.5 py-2 whitespace-nowrap sm:gap-1.5 sm:px-3" aria-label="Bahasa Indonesia">\
           <span class="inline-flex h-3 w-4 overflow-hidden rounded-[2px] border border-black/10 bg-[linear-gradient(to_bottom,_#e13b33_0_50%,_#ffffff_50%)]" aria-hidden="true"></span>ID\
         </a>\
-        <a href="' + japaneseUrl + '" class="hdr-link inline-flex items-center gap-1.5 border-l border-current/15 bg-white/15 px-3 py-2 transition-colors hover:bg-white/25" aria-label="日本語">\
+        <a href="' + japaneseUrl + '" class="hdr-link inline-flex items-center gap-1 whitespace-nowrap border-l border-current/15 bg-white/15 px-2.5 py-2 transition-colors hover:bg-white/25 sm:gap-1.5 sm:px-3" aria-label="日本語">\
           <span class="inline-flex h-3 w-4 items-center justify-center rounded-[2px] border border-black/10 bg-white" aria-hidden="true"><span class="h-1.5 w-1.5 rounded-full bg-[#c9362d]"></span></span>日本\
         </a>\
       </div>';
@@ -57,13 +57,13 @@
     // =========================================================================
     var HEADER_HTML = '\
 <header id="main-header" class="fixed top-0 left-0 right-0 z-50" role="banner">\
-  <div class="max-w-[1200px] mx-auto px-6 flex items-center justify-between h-20">\
+  <div class="max-w-[1200px] mx-auto flex h-[72px] items-center justify-between px-4 sm:h-20 sm:px-6">\
 \
     <!-- Logo  -  .hdr-logo inverts to white over the hero, full color when scrolled -->\
     <a href="' + BASE + 'beranda.html" class="flex items-center gap-3 flex-shrink-0" aria-label="PT. Ichikara - Halaman Beranda">\
       <img src="' + BASE + 'images/logo.png"\
            alt="Logo PT. Ichikara"\
-           class="hdr-logo h-14 w-auto"\
+           class="hdr-logo h-11 w-auto sm:h-14"\
            onerror="this.style.display=\'none\'; document.getElementById(\'logo-fallback\').style.display=\'flex\';">\
       <span id="logo-fallback"\
             class="hidden hdr-link items-center font-noto font-bold text-xl"\
@@ -118,19 +118,19 @@
     </nav>\
 \
     <!-- Right side: language toggle + CTA button + mobile hamburger -->\
-    <div class="flex items-center gap-3">\
+    <div class="flex items-center gap-1.5 sm:gap-3">\
       ' + LANGUAGE_MENU_HTML + '\
 \
       <!-- Primary CTA  -  pill  -  update WhatsApp number below -->\
       <a href="https://wa.me/6281318216260"\
-         class="bg-secondary text-white px-5 py-2.5 rounded-full text-sm font-bold hover:bg-red-hover transition-colors"\
+         class="hidden rounded-full bg-secondary px-5 py-2.5 text-sm font-bold text-white transition-colors hover:bg-red-hover md:inline-flex"\
          aria-label="Hubungi kami via WhatsApp"\
          rel="noopener noreferrer"\
          target="_blank">Hubungi Kami</a>\
 \
       <!-- Hamburger button (mobile only) -->\
       <button id="hamburger-btn"\
-              class="hdr-icon md:hidden p-2 rounded-full"\
+              class="hdr-icon grid h-10 w-10 place-items-center rounded-full md:hidden"\
               aria-label="Buka menu navigasi"\
               aria-expanded="false"\
               aria-controls="mobile-menu">\
@@ -145,7 +145,7 @@
        role="dialog"\
        aria-label="Menu navigasi mobile"\
        aria-hidden="true">\
-    <nav class="flex flex-col px-6 py-4 gap-1" aria-label="Navigasi mobile">\
+    <nav class="flex flex-col gap-1 px-4 py-4 sm:px-6" aria-label="Navigasi mobile">\
 \
       <a href="' + BASE + 'beranda.html"\
          class="text-sm font-medium text-on-surface py-3 border-b border-border-light hover:text-secondary transition-colors">Beranda</a>\
@@ -186,6 +186,7 @@
         <a href="' + window.location.pathname + window.location.search + window.location.hash + '" class="inline-flex items-center gap-2 rounded-lg bg-surface-container px-3 py-2 text-sm font-semibold text-on-surface">🇮🇩 ID</a>\
         <a href="' + japaneseUrl + '" class="inline-flex items-center gap-2 rounded-lg border border-border-light px-3 py-2 text-sm font-semibold text-on-surface">🇯🇵 日本</a>\
       </div>\
+      <a href="https://wa.me/6281318216260" class="mt-3 inline-flex items-center justify-center gap-2 rounded-xl bg-secondary px-4 py-3 text-sm font-bold text-white transition-colors hover:bg-red-hover" aria-label="Hubungi kami via WhatsApp" rel="noopener noreferrer" target="_blank">Hubungi via WhatsApp <span class="material-symbols-outlined text-base" aria-hidden="true">arrow_outward</span></a>\
 \
     </nav>\
   </div>\
