@@ -26,12 +26,12 @@ function adminRecipients(value) {
   return unique;
 }
 function monthValue(value) { return /^\d{4}-(0[1-9]|1[0-2])$/.test(String(value || '')) ? String(value) : ''; }
-function cleanTimeline(value, limit) {
+function cleanTimeline(value, limit, allowCurrent) {
   return (Array.isArray(value) ? value : []).slice(0, limit).map(function (item) {
     const legacyStart = String(item.year || '').match(/^\d{4}$/) && String(item.month || '').match(/^\d{1,2}$/) ? String(item.year) + '-' + String(item.month).padStart(2, '0') : '';
-    const startDate = monthValue(item.startDate || legacyStart), endDate = monthValue(item.endDate);
+    const startDate = monthValue(item.startDate || legacyStart), endDate = allowCurrent && item.current === true ? '' : monthValue(item.endDate);
     const detail = String(item.detail || '').trim().slice(0, 180);
-    return { startDate: startDate, endDate: endDate, year: startDate.slice(0, 4), month: startDate.slice(5, 7), detail: detail };
+    return { current: allowCurrent === true && item.current === true, startDate: startDate, endDate: endDate, year: startDate.slice(0, 4), month: startDate.slice(5, 7), detail: detail };
   }).filter(function (item) { return item.detail; });
 }
 function cleanQualifications(value, limit) {
@@ -42,7 +42,7 @@ function cleanQualifications(value, limit) {
 function datedRows(rows, limit) {
   const entries = [];
   rows.forEach(function (row, index) {
-    if (row.startDate && row.endDate && row.startDate === row.endDate) {
+    if (row.current) { entries.push({ date: row.startDate, detail: row.detail + ' (' + (row.startDate ? row.startDate.replace('-', '/') + ' - ' : '') + 'present)', index: index }); } else if (row.startDate && row.endDate && row.startDate === row.endDate) {
       entries.push({ date: row.startDate, detail: row.detail + ' (Mulai dan selesai)', index: index });
     } else {
       if (row.endDate) entries.push({ date: row.endDate, detail: row.detail + ' (Selesai)', index: index });
@@ -160,6 +160,8 @@ function configOrThrow() {
 }
 
 async function sendCareerEmails(resend, details) {
+  const preference = { 'harian-reguler': 'Harian/reguler', 'bulanan-project': 'Bulanan/project' }[details.candidate.workPreference] || 'Belum diisi';
+  const questionnaire = '<h3>Kuesioner kandidat</h3><p>Preferensi kerja: ' + escapeHtml(preference) + '</p><p>Harapan: ' + escapeHtml(details.candidate.expectations || 'Belum diisi').replace(/\n/g, '<br>') + '</p>';
   const candidateMessage = {
     from: details.from,
     to: details.candidate.email,
@@ -173,6 +175,8 @@ async function sendCareerEmails(resend, details) {
     subject: 'Lamaran baru Japanese Interpreter: ' + details.candidate.fullName,
     html: '<p>Ada lamaran baru untuk posisi <strong>Japanese Interpreter</strong>.</p><table><tr><td>Nama</td><td>' + escapeHtml(details.candidate.fullName) + '</td></tr><tr><td>Email</td><td>' + escapeHtml(details.candidate.email) + '</td></tr><tr><td>Telepon</td><td>' + escapeHtml(details.candidate.phone) + '</td></tr><tr><td>JLPT</td><td>' + escapeHtml(details.candidate.jlptLevel) + '</td></tr></table><p><a href="' + details.link + '">Buka CV kandidat</a></p><p>Balas email ini untuk menghubungi kandidat.</p>'
   };
+  candidateMessage.html += questionnaire;
+  adminMessage.html += questionnaire;
   const results = await Promise.all([resend.emails.send(candidateMessage), resend.emails.send(adminMessage)]);
   const candidateResult = results[0], adminResult = results[1];
   if (candidateResult.error) throw candidateResult.error;
@@ -191,14 +195,14 @@ async function handler(req, res) {
     const candidate = {
       fullName: text(fields.fullName, 80), nameKatakana: text(fields.nameKatakana, 80), birthDate: text(fields.birthDate, 10), gender: text(fields.gender, 40),
       phone: text(fields.phone, 30), email: text(fields.email, 120).toLowerCase(), address: text(fields.address, 400),
-      jlptLevel: text(fields.jlptLevel, 4), jlptDate: monthValue(text(fields.jlptDate, 7)), skills: text(fields.skills, 600)
+      jlptLevel: text(fields.jlptLevel, 4), jlptDate: monthValue(text(fields.jlptDate, 7)), skills: text(fields.skills, 600), workPreference: text(fields.workPreference, 40), expectations: text(fields.expectations, 1000)
     };
     if (!candidate.jlptDate && /^\d{4}$/.test(text(fields.jlptYear, 4))) candidate.jlptDate = text(fields.jlptYear, 4) + '-01';
     const photoFile = first(files.photo);
     if (!candidate.fullName || !candidate.email || !candidate.phone || !candidate.birthDate || !candidate.address || !photoFile) return res.status(400).json({ error: 'Lengkapi seluruh data wajib dan foto kandidat.' });
     if (!['N1', 'N2'].includes(candidate.jlptLevel)) return res.status(400).json({ error: 'Minimal kualifikasi untuk posisi ini adalah JLPT N2.' });
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(candidate.email)) return res.status(400).json({ error: 'Format email belum benar.' });
-    const education = cleanTimeline(json(fields.education, []), 4), experience = cleanTimeline(json(fields.experience, []), 15), certificates = cleanQualifications(json(fields.certificates, []), 7);
+    const education = cleanTimeline(json(fields.education, []), 4), experience = cleanTimeline(json(fields.experience, []), 15, true), certificates = cleanQualifications(json(fields.certificates, []), 7);
     if (!education.length || !experience.length) return res.status(400).json({ error: 'Isi minimal satu riwayat pendidikan dan pengalaman kerja.' });
     const adjustment = json(fields.photoAdjustment, {});
     const processedPhoto = await renderPhoto(photoFile.filepath, adjustment);
