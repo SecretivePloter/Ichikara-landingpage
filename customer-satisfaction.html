@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Form Feedback Customer | PT. Ichikara</title>
+    <meta
+      name="description"
+      content="Terima kasih telah menggunakan layanan PT. Ichikara."
+    />
+    <link
+      rel="canonical"
+      href="https://www.ichikara.co.id/customer-satisfaction"
+    />
+    <link
+      rel="alternate"
+      hreflang="id"
+      href="https://www.ichikara.co.id/customer-satisfaction"
+    />
+    <link
+      rel="alternate"
+      hreflang="ja"
+      href="https://www.ichikara.co.id/jp/customer-satisfaction"
+    />
+    <link
+      rel="alternate"
+      hreflang="en"
+      href="https://www.ichikara.co.id/en/customer-satisfaction"
+    />
+    <link rel="stylesheet" href="css/customer-satisfaction.css" />
+    <link rel="icon" href="images/favicon-32.png" />
+  </head>
+  <body>
+    <header>
+      <div>
+        <a href="beranda.html"
+          ><img src="images/logo.png" alt="PT. Ichikara"
+        /></a>
+        <nav aria-label="Language">
+          <a href="/customer-satisfaction" aria-current="page" lang="id">ID</a
+          ><a href="/jp/customer-satisfaction" lang="ja">日本</a
+          ><a href="/en/customer-satisfaction" lang="en">EN</a>
+        </nav>
+      </div>
+    </header>
+    <main>
+      <span class="eyebrow">PT. ICHIKARA</span>
+      <h1>Form Feedback Customer</h1>
+      <p class="intro"></p>
+      <form id="survey">
+        <p class="note"></p>
+        <div id="survey-fields"></div>
+        <div class="trap" aria-hidden="true">
+          <label
+            >Website<input name="website" tabindex="-1" autocomplete="off"
+          /></label>
+        </div>
+        <button id="send" type="submit"></button>
+        <p id="message" role="status" hidden></p>
+      </form>
+    </main>
+    <footer>© PT. Ichikara</footer>
+    <script src="js/customer-satisfaction-copy.js"></script>
+    <script src="js/customer-satisfaction.js"></script>
+  </body>
+</html>

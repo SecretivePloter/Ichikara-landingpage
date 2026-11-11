@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="robots" content="noindex,nofollow" />
+    <title>Feedback Customer | Admin Ichikara</title>
+    <link rel="stylesheet" href="../css/customer-satisfaction.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  </head>
+  <body>
+    <header>
+      <div>
+        <a href="index.html">← Dashboard admin</a
+        ><button id="logout" hidden>Keluar</button>
+      </div>
+    </header>
+    <main>
+      <h1>Feedback Customer</h1>
+      <form id="login">
+        <label
+          >Email admin<input
+            type="email"
+            name="email"
+            required
+            autocomplete="username" /></label
+        ><label
+          >Kata sandi<input
+            type="password"
+            name="password"
+            required
+            autocomplete="current-password"
+        /></label>
+        <p><button>Masuk</button></p>
+      </form>
+      <p id="notice" role="status"></p>
+      <section id="dashboard" hidden>
+        <button id="refresh">Muat ulang</button>
+        <p>
+          100 hasil terbaru. Buka setiap respons untuk melihat penilaian dan
+          status email.
+        </p>
+        <div id="results"></div>
+        <button id="more" hidden>Muat lebih banyak</button>
+      </section>
+    </main>
+    <script src="../js/customer-satisfaction-copy.js"></script>
+    <script src="../js/admin-customer-satisfaction.js"></script>
+  </body>
+</html>
